@@ -1,0 +1,28 @@
+{
+    "version": "2.0.0",
+    "windows": {
+      "options": {
+        "shell": {
+          "executable": "main",
+          "args": ["-d", "in.txt",]
+        }
+      }
+    },
+    "tasks": [
+      {
+        "label": "build hello world on WSL",
+        "type": "shell",
+        "command": "g++",
+        "args": [
+          "-g",
+          "-o",
+          "main",
+          "main.cpp"
+        ],
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        }
+      }
+    ]
+  }
