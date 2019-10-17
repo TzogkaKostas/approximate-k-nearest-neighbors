@@ -65,9 +65,8 @@ void Grid_Projection::insert_curve(Curve *curve) {
 
 	for (size_t i = 0; i < L; i++) {
 		convert_2d_curve_to_vector(curve, grids[i], delta, &grid_curve, &item);
-			g_value = g_hash_function(*(item->get_coordinates()), dimension,
-				w, k, bits_of_each_hash, M, hash_tables[i]->get_s_array(), m_powers);
-		//hash_tables[i]->insert(item, curve, dimension, w, k, bits_of_each_hash, M);
+		g_value = g_hash_function(*(item->get_coordinates()), dimension,
+			w, k, bits_of_each_hash, M, hash_tables[i]->get_s_array(), m_powers);
 		hash_tables[i]->insert(curve, g_value);
 		delete item;
 	}
@@ -170,8 +169,6 @@ void Grid_Projection::fill_curve(Curve *curve, int pad_length) {
 }
 
 void Grid_Projection::zip_points(Curve *grid_curve, Item **item) {
-	unsigned coordinate = 0;
-
 	vector<Type> *coordinates = new vector<Type>;
 	for(Point *point : grid_curve->get_points() ) {
 		coordinates->push_back(point->get_x());
@@ -188,41 +185,32 @@ void Grid_Projection::ANN(Curve *query_curve, unsigned threshhold, Query_Result&
 	Curve *query_grid_curve;
 	Item *query_item;
 	string best = "";
-
+	unordered_multimap<unsigned, Curve*> *map;
+	pair <unordered_multimap<unsigned, Curve*>::iterator, unordered_multimap<unsigned,Curve*>::iterator> ret;
+	unordered_multimap<unsigned, Curve*>::iterator it;
 
 	time_t time;
 	time = clock();
 	for (size_t i = 0; i < L; i++) {
 		convert_2d_curve_to_vector(query_curve, grids[i], delta, &query_grid_curve, &query_item);
-		/*
-		g_value = hash_tables[i]->g_hash_function(*(query_item->get_coordinates()),
-				dimension, hash_tables[i]->get_table_size(), w, k, bits_of_each_hash, M);
-		position = g_value%hash_tables[i]->get_table_size();
+		g_value = g_hash_function(*(query_item->get_coordinates()),
+				dimension, w, k, bits_of_each_hash, M, hash_tables[i]->get_s_array(), m_powers);
 
-		bucket_node = hash_tables[i]->get_bucket_node_with_g_value(position, g_value);
-		if (bucket_node == NULL) {
-			continue;
-		}
-	 	searched_items = 0;
-		for (Curve *curve : bucket_node->get_items() ) {
+		map = hash_tables[i]->get_map();
+		ret = map->equal_range(g_value);
+		searched_items = 0;
+		for (it = ret.first; it != ret.second; ++it) {
 			if (searched_items >= threshhold) {
 				goto exit;
 			}
 
-			if (check_for_identical_grid_flag == true) {
-				if (curve->identical(query_curve)) {
-					continue;
-				}
-			}
-
-			unsigned cur_distance = Grid_Projection_distance(query_curve, curve);
+			unsigned cur_distance = Grid_Projection_distance(query_curve, it->second);
 			if (cur_distance < best_distance) {
-				best = curve->get_name();
+				best = it->second->get_name();
 				best_distance = cur_distance;
 			}
 			searched_items++;
 		}
-		*/
 	}
 	exit:
 	time = clock() - time;

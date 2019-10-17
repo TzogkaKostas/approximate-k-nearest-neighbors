@@ -69,6 +69,8 @@ int main(int argc, char *argv[]) {
 	time = clock() - time;
 	cout <<"Data insertion time: "<< ((double)time) / CLOCKS_PER_SEC <<endl<<endl;
 	
+	delete_curves(input_curves);
+	return 0;
 
 	//READ QUERY CURVES FROM THE INPUT FILE
 	list<Curve*> queries;
