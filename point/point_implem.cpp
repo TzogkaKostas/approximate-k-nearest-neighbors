@@ -5,29 +5,23 @@ using namespace std;
 
 #include "point.hpp"
 
-Point::Point(vector<Type> *coordinates) {
-	this->coordinates = coordinates;
-}
+
 Point::Point(Type x, Type y) {
-	this->coordinates = new vector<Type>;
-	this->coordinates->push_back(x);
-	this->coordinates->push_back(y);
+	this->coordinates.push_back(x);
+	this->coordinates.push_back(y);
 }
 
-Point::Point(const Point &p) {
-	this->coordinates = p.get_coordinates();
-}
+//Point::Point(const Point &p) {
+//	this->coordinates = p.get_coordinates();
+//}
 
-Point::~Point() {
-	delete coordinates;
-}
-
-vector<Type>* Point::get_coordinates() const {
+vector<Type>& Point::get_coordinates()  {
 	return coordinates;
 }
 
-void Point::set_coordinates(vector<Type> *coordinates) {
-	this->coordinates = coordinates;
+void Point::insert_coordinate(Type coordinate) {
+	this->coordinates.push_back(coordinate);
+
 }
 
 bool Point::equals(Point *p) {
@@ -35,7 +29,7 @@ bool Point::equals(Point *p) {
 }
 
 void Point::print_coordinates() {
-	for (size_t i = 0; i < coordinates->size(); i++) {
-		cout <<(*coordinates)[i]<<", ";
+	for (size_t i = 0; i < coordinates.size(); i++) {
+		cout <<coordinates[i]<<", ";
 	}
 }

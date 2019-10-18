@@ -53,9 +53,29 @@ void read_command_line_arguments(char *argv[], int& argc, string& input_file, st
 
 void read_command_line_arguments(char *argv[], int& argc, string& input_file, string& query_file,
 	string& output_file, int& k, int& L, int& w, int& st) {
-	bool x;
-	//read_command_line_arguments(argv, argc, input_file, query_file, output_file,
-	//		k, L, w, st, &x);
+	for (int i = 1; i < argc; i++) {
+		if (strcmp(argv[i], "-d") == 0) {
+			input_file = argv[i + 1];
+		}
+		else if (strcmp(argv[i], "-q") == 0) {
+			query_file = argv[i + 1];
+		}
+		else if (strcmp(argv[i], "-o") == 0) {
+			output_file = argv[i + 1];
+		}
+		else if (strcmp(argv[i], "-k") == 0) {
+			k = atoi(argv[i + 1]);
+		}
+		else if (strcmp(argv[i], "-L") == 0) {
+			L = atoi(argv[i + 1]);
+		}
+		else if (strcmp(argv[i], "-w") == 0) {
+			w = atoi(argv[i + 1]);
+		}
+		else if (strcmp(argv[i], "-st") == 0) {
+			st = atoi(argv[i + 1]);
+		}
+	}
 }
 
 void delete_curves(list<Curve*> curves) {
@@ -68,7 +88,6 @@ int read_2d_curves_from_file(string file_name, list<Curve*>& curves, int& max_le
 	string line, coordinate, name, tuple, part1, part2;
 	int length;
 	Type x, y;
-	vector<Type> *coordinates;
 	Point *point;
 	Curve *curve;
 	vector<Point*> *points;
@@ -90,10 +109,9 @@ int read_2d_curves_from_file(string file_name, list<Curve*>& curves, int& max_le
 			while ( iss >> part1 >> part2) {
 				tuple = part1 + part2;
 				sscanf(tuple.c_str(), "(%f, %f)", &x, &y);
-				coordinates = new vector<Type>;
-				coordinates->push_back(x);
-				coordinates->push_back(y);
-				point = new Point(coordinates);
+				point = new Point();
+				point->insert_coordinate(x);
+				point->insert_coordinate(y);
 				points->push_back(point);
 			}
 			curve = new Curve(name, points);
@@ -106,7 +124,7 @@ int read_2d_curves_from_file(string file_name, list<Curve*>& curves, int& max_le
 
 void print_curves(list<Curve*> curves)  {
 	for (Curve *curve : curves) {
-		curve->print_curve();
+		curve->print();
 		cout <<endl;
 	}
 }

@@ -4,6 +4,7 @@
 using namespace std;
 
 #include "../item/item.hpp"
+#include "../helping_functions/helping_functions.hpp"
 
 Item::Item(string name, vector<Type>* coordinates) {
 	this->name = name;
@@ -18,6 +19,6 @@ Item::~Item() {
 	delete coordinates;
 }
 
-void Item::print_coordinates() { 
-	//print_list(*coordinates);
+void Item::print() { 
+	print_vector(*coordinates);
 }

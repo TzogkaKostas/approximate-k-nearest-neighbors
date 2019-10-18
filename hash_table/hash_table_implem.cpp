@@ -22,15 +22,6 @@ Hash_Table::~Hash_Table() {
 	}
 }
 
-//void Hash_Table::insert_curve(Item *item, Curve *curve, int dimension, int w, int k,
-//			int bits_of_each_hash, unsigned M, vector<unsigned> m_powers) {
-//	unsigned g_value, position;
-//	g_value = g_hash_function(*(item->get_coordinates()), dimension,
-//			w, k, bits_of_each_hash, M, s_array, m_powers);
-//
-//	map.insert({g_value, curve});
-//}
-
 void Hash_Table::insert(Content *content, unsigned g_value) {
 	map.insert({g_value, content});
 }
@@ -43,10 +34,7 @@ vector<vector<float>*>& Hash_Table::get_s_array() {
 }
 
 void Hash_Table::print() {
-	//for (size_t i = 0; i < get_table_size(); i++) {
-	//	if (buckets[i].empty() == false) {
-	//		cout <<"Bucket:" << i <<endl;
-	//		print_list(buckets[i]);
-	//	}
-	//}   
+	for (auto it : map) {
+		it.second->print();
+	}
 }

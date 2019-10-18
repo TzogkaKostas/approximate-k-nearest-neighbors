@@ -17,7 +17,7 @@ public:
 	vector<Type>* get_coordinates() {return coordinates;}
 	void set_coordinates(vector<Type>* coordinates) {this->coordinates = coordinates;}
 
-	void print_coordinates();
+	void print();
 private:
 	string name;
 	vector<Type> *coordinates;

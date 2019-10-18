@@ -9,12 +9,12 @@ using namespace std;
 Curve::Curve(string name, vector<Point*>* points) {
 	this->name = name;
 	this->points = points;
-	this->grid_curve = NULL;
+	this->corresponding_curve = NULL;
 }
 
 Curve::Curve(vector<Point*>* points) {
 	this->points = points;
-	this->grid_curve = NULL;
+	this->corresponding_curve = NULL;
 }
 
 Curve::~Curve() {
@@ -22,7 +22,6 @@ Curve::~Curve() {
 		delete (*points)[i];
 	}
 	delete points;
-	delete grid_curve;
 }
 
 void Curve::insert_point(Point *point) {
@@ -43,17 +42,17 @@ bool Curve::identical(Curve *curve) {
 	return true;
 }
 
-void Curve::print_curve() {
+void Curve::print() {
 	cout <<name<<" ";
 	cout <<"(";
 	print_points();
 	cout <<")"<<endl;
 }
 
-void Curve::print_grid_curve() {
+void Curve::print_corresponding_curve() {
 	cout <<name<<" ";
 	cout <<"(";
-	grid_curve->print_points();
+	corresponding_curve->print_points();
 	cout <<")"<<endl;
 }
 

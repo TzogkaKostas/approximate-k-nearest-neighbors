@@ -52,8 +52,8 @@ int main(int argc, char *argv[]) {
 
 	//INITIALIZE PARAMETERS
 	int table_size = max( (int)floor(input_curves.size()) / table_size_divived_by, table_size_divived_by );
-	int hash_table_dimension = CURVE_DIMENSION_DEFAULT*max_curve_length;
-	int delta = 4*CURVE_DIMENSION_DEFAULT*hash_table_dimension;
+	int hash_table_dimension = curve_dimension*max_curve_length;
+	int delta = 4*curve_dimension*hash_table_dimension;
 	unsigned m = numeric_limits<unsigned>::max() - 5;
 	search_threshold = max(3*L, search_threshold);
 	print_parameters(L, k, w, search_threshold, hash_table_dimension);
@@ -62,13 +62,17 @@ int main(int argc, char *argv[]) {
 	Grid_Projection grid_projection(L, hash_table_dimension, w, k, delta, curve_dimension, m);
 
 	//INSERT INPUT DATA
+	list<Curve*> grid_curves;
 	time_t time = clock();
 	for(Curve *curve : input_curves) {
-		grid_projection.insert_curve(curve);
+		grid_projection.insert_curve(curve, &grid_curves);
 	}
 	time = clock() - time;
 	cout <<"Data insertion time: "<< ((double)time) / CLOCKS_PER_SEC <<endl<<endl;
-	
+
+	grid_projection.print_hash_tables();
+
+	delete_curves(grid_curves);
 	delete_curves(input_curves);
 	return 0;
 
@@ -89,7 +93,7 @@ int main(int argc, char *argv[]) {
 		cout <<"Query:"<<query->get_name()<<endl;
 
 		//approximate nearest neighbor
-		grid_projection.ANN(query, search_threshold, ann_query_result, check_for_identical_grid_flag);
+		//grid_projection.ANN(query, search_threshold, ann_query_result, check_for_identical_grid_flag);
 		print_ann_results(ann_query_result);
 
 		//Exact nearest neighbor
@@ -123,6 +127,7 @@ int main(int argc, char *argv[]) {
 	cout << "Found "<<found_nearest<<"/"<<queries.size()<<" exact nearest neighbors"<<endl;
 	cout << "Average distance: "<<total_distances/queries.size()<<endl;
 	
+	delete_curves(grid_curves);
 	delete_curves(input_curves);
 	delete_curves(queries);
 	return 0;

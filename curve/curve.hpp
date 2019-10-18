@@ -12,11 +12,11 @@ public:
 	string get_name(){return name;}
 	vector<Point*> get_points() {return *points;}
 	void set_points(vector<Point*> *points) {this->points = points;}
-	Curve* get_grid_curve() {return grid_curve;}
-	void set_grid_curve(Curve *grid_curve) {this->grid_curve = grid_curve;}
+	Curve* get_corresponding_curve() {return corresponding_curve;}
+	void set_corresponding_curve(Curve *corresponding_curve) {this->corresponding_curve = corresponding_curve;}
 	int get_length() {return points->size();}
-	void print_curve();
-	void print_grid_curve();
+	void print();
+	void print_corresponding_curve();
 	void print_points();
 	void insert_point(Point *point);
 	bool identical(Curve *curve);
@@ -24,7 +24,7 @@ public:
 private:
 	string name;
 	vector<Point*> *points;
-	Curve *grid_curve;
+	Curve *corresponding_curve;
 };
 
 #endif

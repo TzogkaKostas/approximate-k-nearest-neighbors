@@ -10,7 +10,7 @@ public:
 			int curve_dimension, unsigned m);
 	~Grid_Projection();
 
-	void insert_curve(Curve *curve);
+	void insert_curve(Curve *curve, list<Curve*> *grid_curves);
 	void ANN(Curve *query_curve, unsigned threshhold, Query_Result& query_result,
 		bool check_for_identical_grid_flag);
 	void print_hash_tables();

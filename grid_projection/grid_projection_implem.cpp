@@ -15,8 +15,8 @@ using namespace std;
 #include "grid_projection.hpp"
 
 
-Grid_Projection::Grid_Projection(int L, int dimension,
-		int w, int k, int delta, int curve_dimension, unsigned m) {
+Grid_Projection::Grid_Projection(int L, int dimension, int w, int k, int delta,
+		int curve_dimension, unsigned m) {
 
 	for (size_t i = 0; i < L; i++) {
 		Hash_Table *hash_table = new Hash_Table(dimension, w, k);
@@ -30,8 +30,13 @@ Grid_Projection::Grid_Projection(int L, int dimension,
 	for (size_t i = 0; i < L; i++) {
 		random_vector = new vector<float>;
 		random_float_vector(0, curve_dimension, *random_vector, curve_dimension);
-		grid = new Point(random_vector);
+
+		grid = new Point();
+		for (float rand_coord: *random_vector) {
+			grid->insert_coordinate(rand_coord);
+		}
 		grids.push_back(grid);
+		delete random_vector;
 	}
 
 	this->L = L;
@@ -58,16 +63,17 @@ Grid_Projection::~Grid_Projection() {
 	}
 }
 
-void Grid_Projection::insert_curve(Curve *curve) {
+void Grid_Projection::insert_curve(Curve *curve, list<Curve*> *grid_curves) {
 	Curve *grid_curve = NULL;
-	Item *item;
+	Item *item = NULL;
 	unsigned g_value;
 
 	for (size_t i = 0; i < L; i++) {
 		convert_2d_curve_to_vector(curve, grids[i], delta, &grid_curve, &item);
+		grid_curves->push_back(grid_curve);
 		g_value = g_hash_function(*(item->get_coordinates()), dimension,
 			w, k, bits_of_each_hash, M, hash_tables[i]->get_s_array(), m_powers);
-		hash_tables[i]->insert(curve, g_value);
+		hash_tables[i]->insert(grid_curve, g_value);
 		delete item;
 	}
 }
@@ -76,7 +82,7 @@ void Grid_Projection::convert_2d_curve_to_vector(Curve *curve, Point *t, int del
 		Curve **grid_curve, Item **item) {
 	snap_curve(curve, t, grid_curve, delta);
 	fill_curve(*grid_curve, dimension - (*grid_curve)->get_length()); //padding
-	curve->set_grid_curve(*grid_curve);
+	(*grid_curve)->set_corresponding_curve(curve);
 	zip_points(*grid_curve, item);
 }
 
@@ -157,7 +163,6 @@ void Grid_Projection::get_snapped_point(Point *point, int delta, Point *t, Point
 		best_x = down_right_x;
 		best_y = down_right_y;
 	}
-
 	*snapped_point = new Point(best_x, best_y);
 }
 
@@ -185,7 +190,6 @@ void Grid_Projection::ANN(Curve *query_curve, unsigned threshhold, Query_Result&
 	Curve *query_grid_curve;
 	Item *query_item;
 	string best = "";
-	unordered_multimap<unsigned, Curve*> *map;
 	pair <unordered_multimap<unsigned, Curve*>::iterator, unordered_multimap<unsigned,Curve*>::iterator> ret;
 	unordered_multimap<unsigned, Curve*>::iterator it;
 
@@ -196,12 +200,16 @@ void Grid_Projection::ANN(Curve *query_curve, unsigned threshhold, Query_Result&
 		g_value = g_hash_function(*(query_item->get_coordinates()),
 				dimension, w, k, bits_of_each_hash, M, hash_tables[i]->get_s_array(), m_powers);
 
-		map = hash_tables[i]->get_map();
-		ret = map->equal_range(g_value);
+		ret = hash_tables[i]->get_map()->equal_range(g_value);
 		searched_items = 0;
 		for (it = ret.first; it != ret.second; ++it) {
 			if (searched_items >= threshhold) {
 				goto exit;
+			}
+			if (check_for_identical_grid_flag == true) {
+				if (it->second->get_corresponding_curve()->identical(query_curve) == false) {
+					continue;
+				}
 			}
 
 			unsigned cur_distance = Grid_Projection_distance(query_curve, it->second);
@@ -211,6 +219,8 @@ void Grid_Projection::ANN(Curve *query_curve, unsigned threshhold, Query_Result&
 			}
 			searched_items++;
 		}
+		delete query_grid_curve;
+		delete query_item;
 	}
 	exit:
 	time = clock() - time;
