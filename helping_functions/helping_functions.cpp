@@ -22,7 +22,7 @@ using namespace std;
 #include "../helping_functions/helping_functions.hpp"
 
 void read_command_line_arguments(char *argv[], int& argc, string& input_file, string& query_file,
-	string& output_file, int& k, int& L, int& w, int& st, bool& check_for_identical_grid_flag) {
+	string& output_file, int& k, int& L, int& w, int& st, bool& check_for_identical_grid_flag, int& delta) {
 	for (int i = 1; i < argc; i++) {
 		if (strcmp(argv[i], "-d") == 0) {
 			input_file = argv[i + 1];
@@ -47,6 +47,9 @@ void read_command_line_arguments(char *argv[], int& argc, string& input_file, st
 		}
 		else if (strcmp(argv[i], "--identical") == 0) {
 			check_for_identical_grid_flag = atoi(argv[i + 1]);
+		}
+		else if (strcmp(argv[i], "--delta") == 0) {
+			delta = atoi(argv[i + 1]);
 		}
 	}
 }
@@ -217,6 +220,11 @@ void print_parameters(int L, int k, int w, int search_threshold, int dimension) 
 	cout <<"w: "<<w<<endl;
 	cout <<"search_threshold: "<<search_threshold<<endl;
 	cout <<"dimension: "<<dimension<<endl<<endl;;
+}
+
+void print_parameters(int L, int k, int w, int search_threshold, int dimension, int delta) {
+	cout <<"delta: "<<delta<<endl;
+	print_parameters(L, k, w, search_threshold, dimension);
 }
 
 void get_vector_from_line(string line, Item& item) {

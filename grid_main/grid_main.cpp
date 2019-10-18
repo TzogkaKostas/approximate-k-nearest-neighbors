@@ -34,6 +34,7 @@ int main(int argc, char *argv[]) {
 	int table_size_divived_by = TABLE_SIZE_DIVIDED_BY;
 	int curve_dimension = CURVE_DIMENSION_DEFAULT;
 	bool check_for_identical_grid_flag = CHECK_FOR_IDENTICAL_GRID_FLAG_DEFAULT;
+	int delta = -1;
 
 	//if (argc < 7 ) {
 	//	cout <<"usage: ./lsh –d <input file> –q <query file> –k <int> -L <int> -ο <output file>"<<endl;
@@ -43,7 +44,7 @@ int main(int argc, char *argv[]) {
 	//READ COMMAND LINE ARGUMENTS
 	string input_file, query_file, output_file;
 	read_command_line_arguments(argv, argc, input_file, query_file, output_file,
-			k, L, w, search_threshold, check_for_identical_grid_flag);
+			k, L, w, search_threshold, check_for_identical_grid_flag, delta);
 
 	//READ CURVES FROM THE INPUT FILE
 	list<Curve*> input_curves;
@@ -53,10 +54,12 @@ int main(int argc, char *argv[]) {
 	//INITIALIZE PARAMETERS
 	int table_size = max( (int)floor(input_curves.size()) / table_size_divived_by, table_size_divived_by );
 	int hash_table_dimension = curve_dimension*max_curve_length;
-	int delta = 4*curve_dimension*hash_table_dimension;
+	if (delta == - 1) {
+		delta = 4*curve_dimension*hash_table_dimension;
+	}
 	unsigned m = numeric_limits<unsigned>::max() - 5;
 	search_threshold = max(3*L, search_threshold);
-	print_parameters(L, k, w, search_threshold, hash_table_dimension);
+	print_parameters(L, k, w, search_threshold, hash_table_dimension, delta);
 
 	//CREATE THE GRID STRUCTURE FOR CURVES WITH LSH 
 	Grid_Projection grid_projection(L, hash_table_dimension, w, k, delta, curve_dimension, m);
