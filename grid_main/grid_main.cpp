@@ -73,11 +73,7 @@ int main(int argc, char *argv[]) {
 	time = clock() - time;
 	cout <<"Data insertion time: "<< ((double)time) / CLOCKS_PER_SEC <<endl<<endl;
 
-	grid_projection.print_hash_tables();
-
-	delete_curves(grid_curves);
-	delete_curves(input_curves);
-	return 0;
+	//grid_projection.print_hash_tables();
 
 	//READ QUERY CURVES FROM THE INPUT FILE
 	list<Curve*> queries;
@@ -96,7 +92,7 @@ int main(int argc, char *argv[]) {
 		cout <<"Query:"<<query->get_name()<<endl;
 
 		//approximate nearest neighbor
-		//grid_projection.ANN(query, search_threshold, ann_query_result, check_for_identical_grid_flag);
+		grid_projection.ANN(query, search_threshold, ann_query_result, check_for_identical_grid_flag);
 		print_ann_results(ann_query_result);
 
 		//Exact nearest neighbor
@@ -113,7 +109,7 @@ int main(int argc, char *argv[]) {
 						(double)ann_query_result.get_best_distance()/exhaustive_query_result.get_best_distance());
 				sum_rate += ann_query_result.get_best_distance()/exhaustive_query_result.get_best_distance();
 			}
-			if (ann_query_result.get_name() == exhaustive_query_result.get_name()) { //division by zero
+			if (ann_query_result.get_name() == exhaustive_query_result.get_name()) {
 				found_nearest++;
 			}
 			total_distances += ann_query_result.get_best_distance();

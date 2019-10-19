@@ -139,22 +139,22 @@ Type DTW(vector<Point*> p, vector<Point*> q) {
 	Type dtw_array[m1][m2];
 
 	//initialize (0,0) point of the array
-	dtw_array[0][0] = manhattan_distance_2d(p[0], q[0]);
+	dtw_array[0][0] = euclidean_distance_2d(p[0], q[0]);
 
 	//initialize first row of the array
 	for (size_t j = 1; j < m2; j++) {
-		dtw_array[0][j] = manhattan_distance_2d( p[0], q[j] ) + dtw_array[0][j - 1];
+		dtw_array[0][j] = euclidean_distance_2d( p[0], q[j] ) + dtw_array[0][j - 1];
 	}
 
 	//initialize first column of the array
 	for (size_t i = 1; i < m1; i++) {
-		dtw_array[i][0] = manhattan_distance_2d( p[i], q[0] ) + dtw_array[i - 1][0];
+		dtw_array[i][0] = euclidean_distance_2d( p[i], q[0] ) + dtw_array[i - 1][0];
 	}
 
 	//calculate the rest cells of the array( (1,1) is calculated twice, but that's ok )
 	for (size_t i = 1; i < m1; i++) {
 		for (size_t j = 1; j < m2; j++) {
-			dtw_array[i][j] = manhattan_distance_2d( p[i], q[j] ) +
+			dtw_array[i][j] = euclidean_distance_2d( p[i], q[j] ) +
 				min({dtw_array[i - 1][j - 1], dtw_array[i][j - 1], dtw_array[i - 1][j]});
 		}
 	}
@@ -163,6 +163,11 @@ Type DTW(vector<Point*> p, vector<Point*> q) {
 
 float manhattan_distance_2d(Point *p, Point *q) {
 	return abs(p->get_x() - q->get_x()) + abs(p->get_y() - q->get_y());
+}
+
+float euclidean_distance_2d(Point *p, Point *q) {
+	return (p->get_x() - q->get_x())*(p->get_x() - q->get_x() ) +  
+	(p->get_y() - q->get_y())*(p->get_y() - q->get_y());
 }
 
 unsigned g_hash_function(vector<Type> x , int dimension, int w, int k, 

@@ -41,9 +41,11 @@ Grid_Projection::Grid_Projection(int L, int dimension, int w, int k, int delta,
 
 	this->L = L;
 	this->dimension = dimension;
+	this->curve_dimension = curve_dimension;
 	this->w = w;    
 	this->k = k;
 	this->bits_of_each_hash = 32/k;
+	this->delta = delta;
 	if (k == 1) {
 		this->M = numeric_limits<unsigned>::max();
 	}
@@ -80,13 +82,15 @@ void Grid_Projection::insert_curve(Curve *curve, list<Curve*> *grid_curves) {
 
 void Grid_Projection::convert_2d_curve_to_vector(Curve *curve, Point *t, int delta,
 		Curve **grid_curve, Item **item) {
+	
 	snap_curve(curve, t, grid_curve, delta);
-	fill_curve(*grid_curve, dimension - (*grid_curve)->get_length()); //padding
+	fill_curve(*grid_curve, dimension/curve_dimension - (*grid_curve)->get_length()); //padding
 	(*grid_curve)->set_corresponding_curve(curve);
 	zip_points(*grid_curve, item);
 }
 
 void Grid_Projection::snap_curve(Curve *curve, Point *t, Curve **grid_curve, int delta) {
+
 	Point *snapped_point = NULL;
 
 	vector<Point*> *snapped_points = new vector<Point*>;
@@ -102,6 +106,7 @@ void Grid_Projection::snap_curve(Curve *curve, Point *t, Curve **grid_curve, int
 		snapped_points->push_back(snapped_point);
 	}
 	*grid_curve = new Curve(snapped_points);
+
 }
 
 void Grid_Projection::get_snapped_point(Point *point, int delta, Point *t, Point **snapped_point) {
@@ -114,6 +119,13 @@ void Grid_Projection::get_snapped_point(Point *point, int delta, Point *t, Point
 				|  / d3	  \d4|
 		down_left ------------- down_left
 	*/
+	//cout <<"t_x: "<<t->get_x()<<endl;
+	//cout <<"t_y: "<<t->get_y()<<endl;
+	//cout <<"point_x: "<<point->get_x()/delta<<endl;
+	//cout <<"point_y: "<<point->get_y()/delta<<endl;
+	//cout <<"delta: "<<delta<<endl;
+
+
 	float up_left_x = floor( point->get_x()/delta )*delta + t->get_x();
 	float up_left_y = ceil( point->get_y()/delta )*delta + t->get_y();
 	//cout <<"up_left_x: "<<up_left_x<<endl;
@@ -196,9 +208,18 @@ void Grid_Projection::ANN(Curve *query_curve, unsigned threshhold, Query_Result&
 	time_t time;
 	time = clock();
 	for (size_t i = 0; i < L; i++) {
+		//cout <<"curve: "<<endl;
+		//query_curve->print();
+
 		convert_2d_curve_to_vector(query_curve, grids[i], delta, &query_grid_curve, &query_item);
+		//cout <<"grid curve: "<<endl;
+		//query_grid_curve->print();
+		//cout <<"item: "<<endl;
+		//query_item->print();
 		g_value = g_hash_function(*(query_item->get_coordinates()),
 				dimension, w, k, bits_of_each_hash, M, hash_tables[i]->get_s_array(), m_powers);
+		
+		//cout <<"g_value: "<< g_value<<endl;
 
 		ret = hash_tables[i]->get_map()->equal_range(g_value);
 		searched_items = 0;
@@ -237,13 +258,13 @@ void Grid_Projection::ANN(Curve *query_curve, unsigned threshhold, Query_Result&
 	}
 }
 
+unsigned long long int Grid_Projection::Grid_Projection_distance(Curve *curve1, Curve *curve2) {
+	return DTW(curve1->get_points(), curve2->get_points());
+}
+
 void Grid_Projection::print_hash_tables() {
 	for (size_t i = 0; i < L; i++) {
 		cout <<"Hash table: "<<i<<endl;
 		hash_tables[i]->print();
 	}
-}
-
-unsigned long long int Grid_Projection::Grid_Projection_distance(Curve *curve1, Curve *curve2) {
-	return DTW(curve1->get_points(), curve2->get_points());
 }

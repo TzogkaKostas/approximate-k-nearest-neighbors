@@ -46,6 +46,7 @@ void exhaustive_curve_search(list<Curve*> *curves, Curve *query, Query_Result& q
 
 Type DTW(vector<Point*> p, vector<Point*> q);
 float manhattan_distance_2d(Point *p, Point *q);
+float euclidean_distance_2d(Point *p, Point *q);
 
 /*
 // count coordinates on "file_name"'s first line(except vector's name)
