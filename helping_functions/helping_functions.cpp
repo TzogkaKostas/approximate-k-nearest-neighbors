@@ -21,6 +21,119 @@ using namespace std;
 #include "../query_result/query_result.hpp"
 #include "../helping_functions/helping_functions.hpp"
 
+void convert_2d_curve_to_vector(Curve *curve, Point *t, int delta, int dimension,
+		int curve_dimension, Curve **grid_curve, Item **item) {
+	snap_curve(curve, t, grid_curve, delta);
+	fill_curve(*grid_curve, dimension/curve_dimension - (*grid_curve)->get_length()); //padding
+	(*grid_curve)->set_corresponding_curve(curve);
+	zip_points(*grid_curve, item);
+}
+
+void snap_curve(Curve *curve, Point *t, Curve **grid_curve, int delta) {
+
+	Point *snapped_point = NULL;
+
+	vector<Point*> *snapped_points = new vector<Point*>;
+	for(Point *point : curve->get_points() ) {
+		get_snapped_point(point, delta, t, &snapped_point);
+		//consecutive duplicate
+		if (snapped_points->size() > 0) {
+			if (snapped_points->back()->equals(snapped_point) == true) {
+				delete snapped_point;
+				continue;
+			}
+		}
+		snapped_points->push_back(snapped_point);
+	}
+	*grid_curve = new Curve(snapped_points);
+
+}
+
+void get_snapped_point(Point *point, int delta, Point *t, Point **snapped_point) {
+	/*
+			one cell, shifted by t, of the big Grid
+		up_left -------------- up_right
+				|\ d1	 d2 /|
+				| \		   / |
+				|	 point   |
+				|  / d3	  \d4|
+		down_left ------------- down_left
+	*/
+	//cout <<"t_x: "<<t->get_x()<<endl;
+	//cout <<"t_y: "<<t->get_y()<<endl;
+	//cout <<"point_x: "<<point->get_x()/delta<<endl;
+	//cout <<"point_y: "<<point->get_y()/delta<<endl;
+	//cout <<"delta: "<<delta<<endl;
+
+
+	float up_left_x = floor( point->get_x()/delta )*delta + t->get_x();
+	float up_left_y = ceil( point->get_y()/delta )*delta + t->get_y();
+	//cout <<"up_left_x: "<<up_left_x<<endl;
+	//cout <<"up_left_y: "<<up_left_y<<endl;
+
+	float up_right_x = ceil( point->get_x()/delta)*delta + t->get_x();
+	float up_right_y = ceil( point->get_y()/delta)*delta + t->get_y();
+	//cout <<"up_right_x: "<<up_right_x<<endl;
+	//cout <<"up_right_y: "<<up_right_y<<endl;
+
+	float down_left_x = floor( point->get_x()/delta)*delta + t->get_x();
+	float down_left_y = floor( point->get_y()/delta)*delta + t->get_y();
+
+	//cout <<"down_left_x: "<<down_left_x<<endl;
+	//cout <<"down_left_y: "<<down_left_y<<endl;
+
+	float down_right_x = ceil( point->get_x()/delta)*delta + t->get_x();
+	float down_right_y = floor( point->get_y()/delta)*delta + t->get_y();
+
+	//cout <<"down_right_x: "<<down_right_x<<endl;
+	//cout <<"down_right_y: "<<down_right_y<<endl;
+
+	//maxhattan distances 
+	float d1 = abs(up_left_x - point->get_x()) + abs(up_left_y - point->get_y());
+	float d2 = abs(up_right_x - point->get_x()) + abs(up_right_y - point->get_y());
+	float d3 = abs(down_left_x - point->get_x()) + abs(down_left_y - point->get_y());
+	float d4 = abs(down_right_x - point->get_x()) + abs(down_right_y - point->get_y());
+
+	float min_d = d1;
+	float best_x = up_left_x;
+	float best_y = up_left_y;
+
+	if (d2 < min_d) {
+		min_d = d2;
+		best_x = up_right_x;
+		best_y = up_right_y;
+	}
+
+	if (d3 < min_d) {
+		min_d = d3;
+		best_x = down_left_x;
+		best_y = down_left_y;
+	}
+	
+	if (d4 < min_d) {
+		min_d = d4;
+		best_x = down_right_x;
+		best_y = down_right_y;
+	}
+	*snapped_point = new Point(best_x, best_y);
+}
+
+void fill_curve(Curve *curve, int pad_length) {
+	for (size_t i = 0; i < pad_length; i++) {
+		Point *point = new Point(0, 0);
+		curve->insert_point(point);
+	}
+}
+
+void zip_points(Curve *grid_curve, Item **item) {
+	vector<Type> *coordinates = new vector<Type>;
+	for(Point *point : grid_curve->get_points() ) {
+		coordinates->push_back(point->get_x());
+		coordinates->push_back(point->get_y());
+	}
+	*item = new Item(coordinates);
+}
+
 void read_command_line_arguments(char *argv[], int& argc, string& input_file, string& query_file,
 	string& output_file, int& k, int& L, int& w, int& st, bool& check_for_identical_grid_flag, int& delta) {
 	for (int i = 1; i < argc; i++) {

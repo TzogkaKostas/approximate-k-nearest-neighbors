@@ -47,6 +47,12 @@ void exhaustive_curve_search(list<Curve*> *curves, Curve *query, Query_Result& q
 Type DTW(vector<Point*> p, vector<Point*> q);
 float manhattan_distance_2d(Point *p, Point *q);
 float euclidean_distance_2d(Point *p, Point *q);
+void snap_curve(Curve *curve, Point *t, Curve **snapped_curve, int delta);
+void get_snapped_point(Point *point, int delta, Point *t, Point **snapped_point);
+void zip_points(Curve *snapped_curve, Item **item);
+void fill_curve(Curve *curve, int pad_length);
+void convert_2d_curve_to_vector(Curve *curve, Point *t, int delta, int hash_table_dimesion,
+	int curve_dimension, Curve **snapped_curve, Item **item);
 
 /*
 // count coordinates on "file_name"'s first line(except vector's name)
