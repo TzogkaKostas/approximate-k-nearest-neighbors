@@ -290,8 +290,11 @@ unsigned g_hash_function(vector<Type> x , int dimension, int w, int k,
 	for (int i = 0; i < k; ++i) {
 		hash_value = 0;
 		hash_value = hash_function(x, dimension, w, M, *(s_array[i]), m_powers);
+		//cout <<"hash: "<<hash_value<<endl;
 		total_hash_value |= hash_value << (32 - (i + 1)*bits_of_each_hash);
 	}
+	//cout <<"total_hash: "<<total_hash_value<<endl;
+
 	return total_hash_value;
 }
 
@@ -302,11 +305,28 @@ unsigned hash_function(vector<Type> x, int dimension, int w, unsigned M,
 	for (size_t i = 0; i < dimension; i++) {
 		a.push_back( floor( (x[i] - s[i]) / w) );
 	}
+	//cout <<"a: ";
+	//for (int ai : a) {
+	//	cout <<ai<<" ";
+	//}
+	//cout <<endl;
+	//	cout <<"s: ";
+	//for (float si : s) {
+	//	cout <<si<<" ";
+	//}
+	//cout <<endl;
+	//cout <<"x: ";
+	//for (float xi : x) {
+	//	cout <<xi<<" ";
+	//}
+	//cout <<endl;
 
 	sum = mod( mul_mod(a[0], m_powers[dimension - 1 - 0], M), M);
 	for (size_t i = 1; i < a.size(); i++) {
+		//cout <<"sum: "<<sum<<endl;
 		sum = add_mod( mul_mod(a[i], m_powers[dimension - 1 - i], M), sum, M);
 	}
+	//cout <<"sum: "<<sum<<endl;
 
 	return sum;
 }
