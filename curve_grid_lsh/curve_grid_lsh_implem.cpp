@@ -29,7 +29,7 @@ Curve_Grid_LSH::Curve_Grid_LSH(int L, int hash_table_dimension, int w, int k, in
 	//create a uniformly random vector t in [0,d)^d for each hash table
 	for (size_t i = 0; i < L; i++) {
 		random_vector = new vector<float>;
-		random_float_vector(0, curve_dimension, *random_vector, curve_dimension);
+		random_float_vector(0, delta, *random_vector, delta);
 
 		grid = new Point();
 		for (float rand_coord: *random_vector) {
@@ -47,14 +47,21 @@ Curve_Grid_LSH::Curve_Grid_LSH(int L, int hash_table_dimension, int w, int k, in
 	this->bits_of_each_hash = 32/k;
 	this->delta = delta;
 	if (k == 1) {
-		this->M = numeric_limits<unsigned>::max();
+		this->M = numeric_limits<unsigned>::max() + 1;
 	}
 	else {
 		this->M = pow(2, bits_of_each_hash);
 	}
 	this->m = m;
 	for (size_t i = 0; i < hash_table_dimension; i++) {
+		//cout <<"m: "<<m<<endl;
+		//cout <<"i: "<<i<<endl;
+		//cout <<"M: "<<M<<endl;
+
 		m_powers.push_back( pow_mod(m, i, M) );
+		//cout << pow(m, i)<<endl;
+		//cout << m_powers[i]<<endl;
+		//getchar();
 	}
 }
 
@@ -77,6 +84,7 @@ void Curve_Grid_LSH::insert_curve(Curve *curve, list<Curve*> *grid_curves) {
 		g_value = g_hash_function(*(item->get_coordinates()), hash_table_dimension,
 			w, k, bits_of_each_hash, M, hash_tables[i]->get_s_array(), m_powers);
 		hash_tables[i]->insert(grid_curve, g_value);
+		//cout <<"g_value: "<<g_value<<endl;
 		delete item;
 	}
 }
@@ -154,5 +162,16 @@ void Curve_Grid_LSH::print_hash_tables() {
 	for (size_t i = 0; i < L; i++) {
 		cout <<"Hash table: "<<i<<endl;
 		hash_tables[i]->print();
+	}
+}
+
+void Curve_Grid_LSH::print_hash_tables_names() {
+	pair <unordered_multimap<unsigned, Curve*>::iterator, unordered_multimap<unsigned,Curve*>::iterator> ret;
+	for (size_t i = 0; i < L; i++) {
+		cout <<"Hash table: "<<i<<endl;
+		for (auto it : *(hash_tables[i]->get_map())) {
+			cout << "("<<it.first<<", ";
+			cout << it.second->get_name() <<") "<<endl;
+		}
 	}
 }

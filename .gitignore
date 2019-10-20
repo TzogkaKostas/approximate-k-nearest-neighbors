@@ -1,4 +1,4 @@
-/grid_main/*.o
-/grid_main/grid_lsh_main
-/grid_main/in.txt
-/grid_main/q.txt
+/grid_lsh_main/*.o
+/grid_lsh_main/grid_lsh_main
+/grid_lsh_main/in.txt
+/grid_lsh_main/q.txt

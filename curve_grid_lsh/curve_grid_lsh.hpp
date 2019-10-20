@@ -14,6 +14,7 @@ public:
 	void ANN(Curve *query_curve, unsigned threshhold, Query_Result& query_result,
 		bool check_for_identical_grid_flag);
 	void print_hash_tables();
+	void print_hash_tables_names();
 	int get_w() {return w;}
 	int get_k() {return k;}
 	int get_dimension() {return hash_table_dimension;}

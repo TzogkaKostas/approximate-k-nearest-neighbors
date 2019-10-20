@@ -17,7 +17,7 @@ for i in range(0, number_of_curves):
 		points.append(tuple(point))
 	curves.append(points)
 
-outfile = open('../grid_main/in.txt', 'w+')
+outfile = open('../grid_lsh_main/in.txt', 'w+')
 
 i = 0
 max_input_length = - 1
@@ -44,7 +44,7 @@ for i in range(0, number_of_curves):
 		points.append(tuple(point))
 	curves.append(points)
 
-outfile = open('../grid_main/q.txt', 'w+')
+outfile = open('../grid_lsh_main/q.txt', 'w+')
 i = 0
 max_input_length = - 1
 for c in curves:

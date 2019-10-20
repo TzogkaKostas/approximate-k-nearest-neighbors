@@ -36,6 +36,14 @@ void snap_curve(Curve *curve, Point *t, Curve **grid_curve, int delta) {
 	vector<Point*> *snapped_points = new vector<Point*>;
 	for(Point *point : curve->get_points() ) {
 		get_snapped_point(point, delta, t, &snapped_point);
+		//cout <<"point:"<<endl;
+		//point->print_coordinates();
+		//cout <<endl;
+		//cout <<"snapped point:"<<endl;
+		//snapped_point->print_coordinates();
+		//cout <<endl;
+		//getchar();
+
 		//consecutive duplicate
 		if (snapped_points->size() > 0) {
 			if (snapped_points->back()->equals(snapped_point) == true) {
@@ -45,7 +53,7 @@ void snap_curve(Curve *curve, Point *t, Curve **grid_curve, int delta) {
 		}
 		snapped_points->push_back(snapped_point);
 	}
-	*grid_curve = new Curve(snapped_points);
+	*grid_curve = new Curve(curve->get_name(), snapped_points);
 
 }
 
@@ -132,6 +140,59 @@ void zip_points(Curve *grid_curve, Item **item) {
 		coordinates->push_back(point->get_y());
 	}
 	*item = new Item(coordinates);
+}
+
+void random_matrix(int K, int d, float **G, float from, float to) {
+ 	random_device rd{};
+    mt19937 gen{rd()};
+	normal_distribution<float> dis(0.5, 1);
+
+	float U, V, S;
+	for (size_t i = 0; i < K; i++) {
+		for (size_t j = 0; j < d;) {
+			double x = dis(gen);
+			if (x >0 && x < 1) {
+				G[i][j] = x;
+			}
+		}
+	}
+}
+
+void read_command_line_arguments(char *argv[], int& argc, string& input_file, string& query_file,
+	string& output_file, int& k, int& L, int& w, int& st, bool& check_for_identical_grid_flag,
+	int& delta, int& eps) {
+	for (int i = 1; i < argc; i++) {
+		if (strcmp(argv[i], "-d") == 0) {
+			input_file = argv[i + 1];
+		}
+		else if (strcmp(argv[i], "-q") == 0) {
+			query_file = argv[i + 1];
+		}
+		else if (strcmp(argv[i], "-o") == 0) {
+			output_file = argv[i + 1];
+		}
+		else if (strcmp(argv[i], "-–k_vec") == 0) {
+			k = atoi(argv[i + 1]);
+		}
+		else if (strcmp(argv[i], "-L_grid") == 0) {
+			L = atoi(argv[i + 1]);
+		}
+		else if (strcmp(argv[i], "-w") == 0) {
+			w = atoi(argv[i + 1]);
+		}
+		else if (strcmp(argv[i], "-st") == 0) {
+			st = atoi(argv[i + 1]);
+		}
+		else if (strcmp(argv[i], "--identical") == 0) {
+			check_for_identical_grid_flag = atoi(argv[i + 1]);
+		}
+		else if (strcmp(argv[i], "--delta") == 0) {
+			delta = atoi(argv[i + 1]);
+		}
+		else if (strcmp(argv[i], "--eps") == 0) {
+			eps = atoi(argv[i + 1]);
+		}
+	}
 }
 
 void read_command_line_arguments(char *argv[], int& argc, string& input_file, string& query_file,
@@ -305,28 +366,34 @@ unsigned hash_function(vector<Type> x, int dimension, int w, unsigned M,
 	for (size_t i = 0; i < dimension; i++) {
 		a.push_back( floor( (x[i] - s[i]) / w) );
 	}
-	//cout <<"a: ";
-	//for (int ai : a) {
-	//	cout <<ai<<" ";
-	//}
-	//cout <<endl;
-	//	cout <<"s: ";
-	//for (float si : s) {
-	//	cout <<si<<" ";
-	//}
-	//cout <<endl;
-	//cout <<"x: ";
-	//for (float xi : x) {
-	//	cout <<xi<<" ";
-	//}
-	//cout <<endl;
+	/*
+	cout <<"x: ";
+	for (float xi : x) {
+		cout <<xi<<" ";
+	}
+	cout <<endl<<endl;
+	cout <<"s: ";
+	for (float si : s) {
+		cout <<si<<" ";
+	}
+	cout <<endl<<endl;
+	cout <<"a: ";
+	for (int ai : a) {
+		cout <<ai<<" ";
+	}
+	cout <<endl<<endl;
+
+	cout <<"m_p: "<<endl;
+	for (float mi : m_powers) {
+		cout << mi<<" ";
+	}
+	cout <<endl<<endl;
+	*/
 
 	sum = mod( mul_mod(a[0], m_powers[dimension - 1 - 0], M), M);
 	for (size_t i = 1; i < a.size(); i++) {
-		//cout <<"sum: "<<sum<<endl;
 		sum = add_mod( mul_mod(a[i], m_powers[dimension - 1 - i], M), sum, M);
 	}
-	//cout <<"sum: "<<sum<<endl;
 
 	return sum;
 }
@@ -362,6 +429,12 @@ void print_parameters(int L, int k, int w, int search_threshold, int dimension) 
 
 void print_parameters(int L, int k, int w, int search_threshold, int dimension, int delta) {
 	cout <<"delta: "<<delta<<endl;
+	print_parameters(L, k, w, search_threshold, dimension);
+}
+
+void print_parameters(int L, int k, int w, int search_threshold, int dimension, int delta, int K_matrix) {
+	cout <<"delta: "<<delta<<endl;
+	cout <<"K_matrix: "<<K_matrix<<endl;
 	print_parameters(L, k, w, search_threshold, dimension);
 }
 
@@ -507,10 +580,10 @@ uint32_t mul_mod(long long a, long long b, long long m) {
 	return r < 0 ? r + m : r;
 }
 
-uint32_t mul_mod2(uint32_t a, uint32_t b, uint32_t m) { 
+uint64_t  mul_mod2(uint64_t  a, uint64_t  b, uint64_t  m) { 
 	long double x;
-	uint32_t c;
-	int32_t r;
+	uint64_t c;
+	int64_t  r;
 	if (a >= m) a %= m;
 	if (b >= m) b %= m;
 	x = a;
@@ -519,8 +592,8 @@ uint32_t mul_mod2(uint32_t a, uint32_t b, uint32_t m) {
 	return r < 0 ? r + m : r;
 }
 
-uint32_t pow_mod(uint32_t a, uint32_t b, uint32_t m) { 
-	uint32_t r = m==1?0:1;
+uint64_t pow_mod(uint64_t  a, uint64_t  b, uint64_t  m) { 
+	uint64_t r = m==1?0:1;
 	while (b > 0) {
 		if (b & 1)
 			r = mul_mod2(r, a, m);

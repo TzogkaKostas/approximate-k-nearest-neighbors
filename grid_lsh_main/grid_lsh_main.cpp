@@ -57,7 +57,7 @@ int main(int argc, char *argv[]) {
 	if (delta == - 1) {
 		delta = 4*curve_dimension*hash_table_dimension;
 	}
-	unsigned m = numeric_limits<unsigned>::max() - 5;
+	unsigned m = numeric_limits<unsigned>::max() + 1 - 5;
 	search_threshold = max(10*L, search_threshold);
 	print_parameters(L, k, w, search_threshold, hash_table_dimension, delta);
 
@@ -73,8 +73,7 @@ int main(int argc, char *argv[]) {
 	time = clock() - time;
 	cout <<"Data insertion time: "<< ((double)time) / CLOCKS_PER_SEC <<endl<<endl;
 
-	//grid_projection.print_hash_tables();
-	return 0;
+	//grid_projection.print_hash_tables_names();
 
 	//READ QUERY CURVES FROM THE INPUT FILE
 	list<Curve*> queries;
@@ -103,7 +102,7 @@ int main(int argc, char *argv[]) {
 		cout<<endl;
 
 		//statistics info for searches that succeeded
-		if (ann_query_result.get_time() != -1 && 0) {
+		if (ann_query_result.get_time() != -1) {
 			sum_query_time += ann_query_result.get_time();
 			if (exhaustive_query_result.get_best_distance() != 0) { //division by zero
 				max_rate = max(max_rate,

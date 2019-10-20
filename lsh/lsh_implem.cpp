@@ -24,7 +24,7 @@ LSH::LSH(int L, int dimension, int w, int k, unsigned m) {
 	this->k = k;
 	this->bits_of_each_hash = 32/k;
 	if (k == 1) {
-		this->M = numeric_limits<unsigned>::max();
+		this->M = numeric_limits<unsigned>::max() + 1;
 	}
 	else {
 		this->M = pow(2, bits_of_each_hash);

@@ -9,8 +9,8 @@
 unsigned mod(long long a, long long b);
 unsigned add_mod(long long a, long long b, long long m);
 uint32_t mul_mod(long long a, long long b, long long m);
-uint32_t mul_mod2(uint32_t a, uint32_t b, uint32_t m) ;
-uint32_t pow_mod(uint32_t a, uint32_t b, uint32_t m);
+uint64_t mul_mod2(uint64_t a, uint64_t b, uint64_t m) ;
+uint64_t pow_mod(uint64_t a, uint64_t b, uint64_t m);
 void random_float_list(double from, double to, list<float>& random_list, int size);
 void random_float_vector(double from, double to, vector<float>& random_vector, int size);
 int max_from_list(list<int> my_list);
@@ -28,11 +28,15 @@ void read_command_line_arguments(char *argv[], int& argc, string& input_file, st
 	string& output_file, int& k, int& L, int& w, int& st);
 void read_command_line_arguments(char *argv[], int& argc, string& input_file, string& query_file,
 	string& output_file, int& k, int& L, int& w, int& st, bool& check_for_identical_grid_flag, int& delta);
+void read_command_line_arguments(char *argv[], int& argc, string& input_file, string& query_file,
+	string& output_file, int& k, int& L, int& w, int& st, bool& check_for_identical_grid_flag,
+	int& delta, int& eps);
 unsigned long long int manhattan_distance(vector<Type> x1, vector<Type> x2);
 void print_ann_results(Query_Result ann_result);
 void print_exhaustive_search_results(Query_Result exhaustive_result);
 void print_parameters(int L, int k, int w, int search_threshold, int dimension);
 void print_parameters(int L, int k, int w, int search_threshold, int dimension, int delta);
+void print_parameters(int L, int k, int w, int search_threshold, int dimension, int delta, int K_matrix);
 void get_vector_from_line(string line, Item& item);
 void read_vectors_from_file(string file_name, list<Item*>& items);
 unsigned long long int manhattan_distance(vector<Type> x1, vector<Type> x2);
@@ -53,6 +57,7 @@ void zip_points(Curve *snapped_curve, Item **item);
 void fill_curve(Curve *curve, int pad_length);
 void convert_2d_curve_to_vector(Curve *curve, Point *t, int delta, int hash_table_dimesion,
 	int curve_dimension, Curve **snapped_curve, Item **item);
+void random_matrix(int K, int d, float **G, float from, float to);
 
 /*
 // count coordinates on "file_name"'s first line(except vector's name)
