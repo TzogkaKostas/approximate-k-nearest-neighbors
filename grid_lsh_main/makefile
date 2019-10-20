@@ -34,4 +34,4 @@ point_implem.o: ../point/point_implem.cpp $(HEADERS)
 	$(CC) -c ../point/point_implem.cpp -o point_implem.o
 
 clean :
-	rm *.o curve_grid_lsh
+	rm *.o grid_lsh_main
