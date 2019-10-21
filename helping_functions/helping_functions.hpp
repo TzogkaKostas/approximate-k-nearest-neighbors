@@ -5,6 +5,9 @@
 #include "../query_result/query_result.hpp"
 #include "../curve/curve.hpp"
 #include "../point/point.hpp"
+#include "../tuple/tuple.hpp"
+
+using namespace std;
 
 unsigned mod(long long a, long long b);
 unsigned add_mod(long long a, long long b, long long m);
@@ -52,6 +55,12 @@ void exhaustive_curve_search(list<Curve*> *curves, Curve *query, Query_Result& q
 
 Type DTW(vector<Point*> p, vector<Point*> q);
 float manhattan_distance_2d(Point *p, Point *q);
+void read_command_line_arguments_hypercube(char *argv[], int& argc,string& input_file, string& query_file,
+	string& output_file, int& k, int& M,int& probes,int &flag);
+unsigned f_hash_function(vector<Type> x , int dimension,int w, int k,
+		int bits_of_each_hash, unsigned M, vector<unsigned>& m_powers,vector<vector<float>*>& s_array,vector< unordered_map<unsigned,int> *>&g_value,int f);
+int hammingDistance(unsigned n1, unsigned n2);
+
 float euclidean_distance_2d(Point *p, Point *q);
 void snap_curve(Curve *curve, Point *t, Curve **snapped_curve, int delta);
 void get_snapped_point(Point *point, int delta, Point *t, Point **snapped_point);
@@ -61,6 +70,8 @@ void convert_2d_curve_to_vector(Curve *curve, Point *t, int delta, int hash_tabl
 	int curve_dimension, Curve **snapped_curve, Item **item);
 void random_matrix(int K, int d, float **G, float from, float to);
 void print_range_results(list<Item*> items, float range);
+void get_relative_traversals(int m, int n,
+	list<vector<Tuple*>*>& relative_traverals);
 /*
 // count coordinates on "file_name"'s first line(except vector's name)
 int find_dimension_from_file(string file_name);

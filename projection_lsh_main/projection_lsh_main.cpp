@@ -15,6 +15,7 @@ using namespace std;
 #include "../hash_table/hash_table.hpp"
 #include "../helping_functions/helping_functions.hpp"
 #include "../query_result/query_result.hpp"
+#include "../tuple/tuple.hpp"
 #include "../lsh/lsh.hpp"
 
 #define L_DEFAULT 5
@@ -36,14 +37,11 @@ int main(int argc, char *argv[]) {
 		{31, 32, 33, 34, 35},
 		{41, 42, 43, 44, 45},
 		{51, 52, 53, 54, 55} };
-	*/
-	/*
 	int mat[3][3] = {
 		{11, 12, 13},
 		{21, 22, 23},
 		{31, 32, 33}
 	};
-	*/
 	int mat[2][2] = {
 		{11, 12},
 		{21, 22}
@@ -51,8 +49,14 @@ int main(int argc, char *argv[]) {
 
 	list<vector<Tuple*>*> rel_list;
     printAllPaths(*mat, 2, 2, rel_list);
+	*/
+	list<vector<Tuple*>*> relevant_traversals;
+	get_relative_traversals(8, 8, relevant_traversals);
 
-	for (auto it : rel_list) {
+	cout << relevant_traversals.size();
+
+	return 0;
+	for (auto it : relevant_traversals) {
 		for (Tuple *tuple : *it) {
 			cout <<"("<<tuple->get_x()<<", "<<tuple->get_y()<<") ";
 		}
@@ -62,7 +66,7 @@ int main(int argc, char *argv[]) {
 
 
 	return 0;
-
+	/*
 	int L = L_DEFAULT;
 	int k = K_DEFAULT;
 	int w = W_DEFAULT;
@@ -169,4 +173,5 @@ int main(int argc, char *argv[]) {
 	delete_curves(input_curves);
 	delete_curves(queries);
 	return 0;
+	*/
 }

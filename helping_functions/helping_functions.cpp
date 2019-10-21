@@ -144,25 +144,24 @@ void zip_points(Curve *grid_curve, Item **item) {
 }
 
 
-void _get_relative_traversals(int *mat, int i, int j, int m, int n, int *path, int pi, Tuple *pa, list<vector<Tuple*>*>& rel_list) {
+void _get_relative_traversals(int i, int j, int m, int n, int pi, Tuple *path,
+		list<vector<Tuple*>*>& relative_traversals) { 
+
     // Reached the bottom of the matrix so we are left with 
     // only option to move right 
     if (i == m - 1) { 
         for (int k = j; k < n; k++) {
-            //path[pi + k - j] = *((mat + i*n) + k);
-		    path[pi + k - j] = mat[i*n + k];
-			pa[pi + k - j].set_x(i);
-			pa[pi + k - j].set_y(k);
+		    //path[pi + k - j] = mat[i*n + k];
+			path[pi + k - j].set_x(i);
+			path[pi + k - j].set_y(k);
 		}
 
 		vector<Tuple*> *relative_path = new vector<Tuple*>;
         for (int l = 0; l < pi + n - j; l++) {
-			Tuple *tuple = new Tuple(pa[l].get_x(), pa[l].get_y());
+			Tuple *tuple = new Tuple(path[l].get_x(), path[l].get_y());
 			relative_path->push_back(tuple);
-            cout << path[l] << " "; 
 		}
-        cout << endl; 
-		rel_list.push_back(relative_path);
+		relative_traversals.push_back(relative_path);
         return; 
     } 
   
@@ -170,53 +169,48 @@ void _get_relative_traversals(int *mat, int i, int j, int m, int n, int *path, i
     // only the downward movement. 
     if (j == n - 1) { 
         for (int k = i; k < m; k++) {
-            //path[pi + k - i] = *((mat + k*n) + j);
-            path[pi + k - i] = mat[k*n + j];
-			pa[pi + k - i].set_x(k);
-			pa[pi + k - i].set_y(j);
+            //path[pi + k - i] = mat[k*n + j];
+			path[pi + k - i].set_x(k);
+			path[pi + k - i].set_y(j);
 		}
 
 		vector<Tuple*> *relative_path = new vector<Tuple*>;
         for (int l = 0; l < pi + m - i; l++) {
-			Tuple *tuple = new Tuple(pa[l].get_x(), pa[l].get_y());
+			Tuple *tuple = new Tuple(path[l].get_x(), path[l].get_y());
 			relative_path->push_back(tuple);
-            cout << path[l] << " "; 
 		}
-        cout << endl;
-		rel_list.push_back(relative_path);
+		relative_traversals.push_back(relative_path);
         return; 
     }
   
     // Add the current cell to the path being generated 
-    //path[pi] = *((mat + i*n) + j);
-    path[pi] = mat[i*n + j];
-	pa[pi].set_x(i);
-	pa[pi].set_y(j);
+    //path[pi] = mat[i*n + j];
+	path[pi].set_x(i);
+	path[pi].set_y(j);
   
-    // Print all the paths that are possible after moving down
+    //get all the paths that are possible after moving down
 	if ( abs(i+1 - j) <= 1) {
-    	_get_relative_traversals(mat, i+1, j, m, n, path, pi + 1, pa, rel_list); 
+    	_get_relative_traversals(i+1, j, m, n, pi + 1, path, relative_traversals); 
 	}
   
-    // Print all the paths that are possible after moving right 
+    //get all the paths that are possible after moving right 
 	if ( abs(j+1 - i) <= 1) {
-    	_get_relative_traversals(mat, i, j+1, m, n, path, pi + 1, pa, rel_list); 
+    	_get_relative_traversals(i, j+1, m, n, pi + 1, path, relative_traversals); 
 	}
   
-    // Print all the paths that are possible after moving diagonal 
+    //get all the paths that are possible after moving diagonal 
 	if ( abs((j+1) - (i+1)) <= 1) {
-    	_get_relative_traversals(mat, i+1, j+1, m, n, path, pi + 1, pa, rel_list); 
+    	_get_relative_traversals(i+1, j+1, m, n, pi + 1, path, relative_traversals); 
 	}
 } 
   
-// The main function that prints all paths from top left to bottom right 
-// in a matrix 'mat' of size mXn
-void get_relative_traversals(int *mat, int m, int n,
+// The main function that gets all paths from top left to bottom right 
+// in a matrix of size mXn
+void get_relative_traversals(int m, int n,
 	list<vector<Tuple*>*>& relative_traverals) {
 
-    int *path = new int[m+n];
-	Tuple *pa = new Tuple[m+n];
-    _get_relative_traversals(mat, 0, 0, m, n, path, 0, pa, relative_traverals); 
+	Tuple *path = new Tuple[m + n];
+    _get_relative_traversals(0, 0, m, n, 0, path, relative_traverals); 
 } 
 
 void random_matrix(int K, int d, float **G, float from, float to) {
@@ -231,6 +225,43 @@ void random_matrix(int K, int d, float **G, float from, float to) {
 			if (x >0 && x < 1) {
 				G[i][j] = x;
 			}
+		}
+	}
+}
+
+void read_command_line_arguments(char *argv[], int& argc, string& input_file, string& query_file,
+	string& output_file, int& k, int& L, int& w, int& st, bool& check_for_identical_grid_flag,
+	int& delta, int& eps) {
+	for (int i = 1; i < argc; i++) {
+		if (strcmp(argv[i], "-d") == 0) {
+			input_file = argv[i + 1];
+		}
+		else if (strcmp(argv[i], "-q") == 0) {
+			query_file = argv[i + 1];
+		}
+		else if (strcmp(argv[i], "-o") == 0) {
+			output_file = argv[i + 1];
+		}
+		else if (strcmp(argv[i], "-–k_vec") == 0) {
+			k = atoi(argv[i + 1]);
+		}
+		else if (strcmp(argv[i], "-L_grid") == 0) {
+			L = atoi(argv[i + 1]);
+		}
+		else if (strcmp(argv[i], "-w") == 0) {
+			w = atoi(argv[i + 1]);
+		}
+		else if (strcmp(argv[i], "-st") == 0) {
+			st = atoi(argv[i + 1]);
+		}
+		else if (strcmp(argv[i], "--identical") == 0) {
+			check_for_identical_grid_flag = atoi(argv[i + 1]);
+		}
+		else if (strcmp(argv[i], "--delta") == 0) {
+			delta = atoi(argv[i + 1]);
+		}
+		else if (strcmp(argv[i], "--eps") == 0) {
+			eps = atoi(argv[i + 1]);
 		}
 	}
 }
