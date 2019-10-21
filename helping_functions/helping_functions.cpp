@@ -22,6 +22,10 @@ using namespace std;
 #include "../helping_functions/helping_functions.hpp"
 #include "../Tuple/tuple.hpp"
 
+std::random_device rd;  //Will be used to obtain a seed for the random number engine
+std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
+std::uniform_int_distribution<> dis(0, 1);
+
 void convert_2d_curve_to_vector(Curve *curve, Point *t, int delta, int dimension,
 		int curve_dimension, Curve **grid_curve, Item **item) {
 	snap_curve(curve, t, grid_curve, delta);
@@ -68,10 +72,9 @@ unsigned f_hash_function(vector<Type> x , int dimension,int w, int k,
 	unsigned g;
 	g=0;
 	g=g_hash_function(x , dimension, w,  k,bits_of_each_hash,  M,s_array,m_powers);
-
 	//cout << g_value[f]->find(g)->first<<endl;
 	if(g_value[f]->find(g) == g_value[f]->end()){// not found
-		y=rand() %2;
+		y=dis(gen);
 		g_value[f]->insert(make_pair(g,y));
 		return y;
 	}
@@ -79,7 +82,7 @@ unsigned f_hash_function(vector<Type> x , int dimension,int w, int k,
 		return g_value[f]->find(g)->second;
 	}
 
-	return f;
+
 }
 
 
@@ -492,7 +495,8 @@ unsigned g_hash_function(vector<Type> x , int dimension, int w, int k,
 		//cout <<"hash: "<<hash_value<<endl;
 		total_hash_value |= hash_value << (32 - (i + 1)*bits_of_each_hash);
 	}
-	//cout <<"total_hash: "<<total_hash_value<<endl;
+
+	//cout <<"total_hash_value: "<<total_hash_value<<endl;
 
 	return total_hash_value;
 }

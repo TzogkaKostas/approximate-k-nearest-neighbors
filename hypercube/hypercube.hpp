@@ -47,6 +47,8 @@ public:
 	int get_k() {return k;}
 	int get_dimension() {return dimension;}
 	unsigned long long Hypercube_distance(Item *item1, Item *item2);
+	void range_search(Item *query, unsigned threshhold, float radious,
+		list<Item*>& range_items, Query_Result& query_result);
 	void print_hash_tables();
 	void ANN(Item *query, unsigned threshhold, Query_Result& query_result);
 	Hash_Table* hash_table;
