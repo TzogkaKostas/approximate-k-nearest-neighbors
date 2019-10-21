@@ -65,7 +65,6 @@ void LSH::ANN(Item *query, unsigned threshhold, Query_Result& query_result) {
 		g_value = g_hash_function(*(query->get_coordinates()),
 				dimension, w, k, bits_of_each_hash, M, hash_tables[i]->get_s_array(), m_powers);
 		
-		//cout <<"g_value: "<<g_value<<endl;
 		map = hash_tables[i]->get_map();
 		ret = map->equal_range(g_value);
 		searched_items = 0;

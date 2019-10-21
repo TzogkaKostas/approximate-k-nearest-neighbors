@@ -51,7 +51,7 @@ int main(int argc, char *argv[]) {
     printAllPaths(*mat, 2, 2, rel_list);
 	*/
 	list<vector<Tuple*>*> relevant_traversals;
-	get_relative_traversals(8, 8, relevant_traversals);
+	get_relative_traversals(25, 25, relevant_traversals);
 
 	cout << relevant_traversals.size();
 

@@ -27,9 +27,9 @@ int find_dimension_from_file(string file_name);
 void print_vector(vector<int> my_list);
 void print_vector(vector<float> my_list);
 unsigned g_hash_function(vector<Type> x , int dimension, int w, int k,
-		int bits_of_each_hash, unsigned M, vector<vector<float>*>& s_array, vector<unsigned>& m_powers);
+	int bits_of_each_hash, unsigned M, vector<vector<float>*>& s_array, vector<unsigned>& m_powers);
 unsigned hash_function(vector<Type> x, int dimension, int w, unsigned M,
-		vector<float>& s, vector<unsigned>& m_powers);
+	vector<float>& s, vector<unsigned>& m_powers);
 void read_command_line_arguments(char *argv[], int& argc, string& input_file, string& query_file,
 	string& output_file, int& k, int& L, int& w, int& st);
 void read_command_line_arguments(char *argv[], int& argc, string& input_file, string& query_file,
@@ -50,12 +50,10 @@ void read_vectors_from_file(string file_name, list<Item*>& items, float& range);
 unsigned long long int manhattan_distance(vector<Type> x1, vector<Type> x2);
 void exhaustive_search(list<Item*> *items, Item *query, Query_Result& query_result);
 void delete_items(list<Item*> items);
-
 int read_2d_curves_from_file(string file_name, list<Curve*>& curves, int& max_length);
 void print_curves(list<Curve*> curves);
 void delete_curves(list<Curve*> curves);
 void exhaustive_curve_search(list<Curve*> *curves, Curve *query, Query_Result& query_result);
-
 Type DTW(vector<Point*> p, vector<Point*> q);
 float manhattan_distance_2d(Point *p, Point *q);
 float euclidean_distance_2d(Point *p, Point *q);
@@ -67,6 +65,9 @@ void convert_2d_curve_to_vector(Curve *curve, Point *t, int delta, int hash_tabl
 	int curve_dimension, Curve **snapped_curve, Item **item);
 void random_matrix(int K, int d, float **G, float from, float to);
 void print_range_results(list<Item*> items, float range);
+void get_relative_traversals(int m, int n,
+	list<vector<Tuple*>*>& relative_traverals);
+
 void read_command_line_arguments_hypercube(char *argv[], int& argc,string& input_file, string& query_file,
 	string& output_file, int& k, int& M,int& probes,int &flag);
 unsigned f_hash_function(vector<Type> x , int dimension,int w, int k,
@@ -112,6 +113,7 @@ uint64_t mul_mod(uint64_t a, uint64_t b, uint64_t m);
 // a^b mod m
 uint64_t pow_mod(uint64_t a, uint64_t b, uint64_t m);
 
-*/
+
+// Vaggelis--------------------------------------------------------
 
 #endif
