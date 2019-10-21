@@ -30,6 +30,59 @@ void convert_2d_curve_to_vector(Curve *curve, Point *t, int delta, int dimension
 	zip_points(*grid_curve, item);
 }
 
+void read_command_line_arguments_hypercube(char *argv[], int& argc,string& input_file, string& query_file,
+	string& output_file, int& k, int& M,int& probes,int &flag){
+	int opt;
+	while((opt = getopt(argc, argv, "d:q:o:k:M:p:")) != -1)
+    {
+      switch(opt){
+          case 'd':
+            	input_file= optarg;
+          break;
+          case 'q':
+            	query_file=optarg;
+          break;
+		  case 'o':
+		  			output_file=optarg;
+		  break;
+          case 'k':
+               	k=atoi(optarg);
+				flag=1;
+          break;
+          case 'M':{
+		  		M=atoi(optarg);
+		  }
+          break;
+          case 'p':
+		  		probes=atoi(optarg);
+          break;
+      }
+  }
+
+}
+
+unsigned f_hash_function(vector<Type> x , int dimension,int w, int k,
+	int bits_of_each_hash, unsigned M, vector<unsigned>& m_powers,vector<vector<float>*>& s_array,vector< unordered_map<unsigned,int> *>&g_value,int f){
+	int y;
+	srand(time(0));
+	unsigned g;
+	g=0;
+	g=g_hash_function(x , dimension, w,  k,bits_of_each_hash,  M,s_array,m_powers);
+
+	//cout << g_value[f]->find(g)->first<<endl;
+	if(g_value[f]->find(g) == g_value[f]->end()){// not found
+		y=rand() %2;
+		g_value[f]->insert(make_pair(g,y));
+		return y;
+	}
+	else{
+		return g_value[f]->find(g)->second;
+	}
+
+	return f;
+}
+
+
 void snap_curve(Curve *curve, Point *t, Curve **grid_curve, int delta) {
 
 	Point *snapped_point = NULL;
@@ -97,7 +150,7 @@ void get_snapped_point(Point *point, int delta, Point *t, Point **snapped_point)
 	//cout <<"down_right_x: "<<down_right_x<<endl;
 	//cout <<"down_right_y: "<<down_right_y<<endl;
 
-	//maxhattan distances 
+	//maxhattan distances
 	float d1 = abs(up_left_x - point->get_x()) + abs(up_left_y - point->get_y());
 	float d2 = abs(up_right_x - point->get_x()) + abs(up_right_y - point->get_y());
 	float d3 = abs(down_left_x - point->get_x()) + abs(down_left_y - point->get_y());
@@ -118,7 +171,7 @@ void get_snapped_point(Point *point, int delta, Point *t, Point **snapped_point)
 		best_x = down_left_x;
 		best_y = down_left_y;
 	}
-	
+
 	if (d4 < min_d) {
 		min_d = d4;
 		best_x = down_right_x;
@@ -144,74 +197,80 @@ void zip_points(Curve *grid_curve, Item **item) {
 }
 
 
-void _get_relative_traversals(int i, int j, int m, int n, int pi, Tuple *path,
-		list<vector<Tuple*>*>& relative_traversals) { 
-
-    // Reached the bottom of the matrix so we are left with 
-    // only option to move right 
-    if (i == m - 1) { 
+void _get_relative_traversals(int *mat, int i, int j, int m, int n, int *path, int pi, Tuple *pa, list<vector<Tuple*>*>& rel_list) {
+    // Reached the bottom of the matrix so we are left with
+    // only option to move right
+    if (i == m - 1) {
         for (int k = j; k < n; k++) {
-		    //path[pi + k - j] = mat[i*n + k];
-			path[pi + k - j].set_x(i);
-			path[pi + k - j].set_y(k);
+            //path[pi + k - j] = *((mat + i*n) + k);
+		    path[pi + k - j] = mat[i*n + k];
+			pa[pi + k - j].set_x(i);
+			pa[pi + k - j].set_y(k);
 		}
 
 		vector<Tuple*> *relative_path = new vector<Tuple*>;
         for (int l = 0; l < pi + n - j; l++) {
-			Tuple *tuple = new Tuple(path[l].get_x(), path[l].get_y());
+			Tuple *tuple = new Tuple(pa[l].get_x(), pa[l].get_y());
 			relative_path->push_back(tuple);
+            cout << path[l] << " ";
 		}
-		relative_traversals.push_back(relative_path);
-        return; 
-    } 
-  
-    // Reached the right corner of the matrix we are left with 
-    // only the downward movement. 
-    if (j == n - 1) { 
+        cout << endl;
+		rel_list.push_back(relative_path);
+        return;
+    }
+
+    // Reached the right corner of the matrix we are left with
+    // only the downward movement.
+    if (j == n - 1) {
         for (int k = i; k < m; k++) {
-            //path[pi + k - i] = mat[k*n + j];
-			path[pi + k - i].set_x(k);
-			path[pi + k - i].set_y(j);
+            //path[pi + k - i] = *((mat + k*n) + j);
+            path[pi + k - i] = mat[k*n + j];
+			pa[pi + k - i].set_x(k);
+			pa[pi + k - i].set_y(j);
 		}
 
 		vector<Tuple*> *relative_path = new vector<Tuple*>;
         for (int l = 0; l < pi + m - i; l++) {
-			Tuple *tuple = new Tuple(path[l].get_x(), path[l].get_y());
+			Tuple *tuple = new Tuple(pa[l].get_x(), pa[l].get_y());
 			relative_path->push_back(tuple);
+            cout << path[l] << " ";
 		}
-		relative_traversals.push_back(relative_path);
-        return; 
+        cout << endl;
+		rel_list.push_back(relative_path);
+        return;
     }
-  
-    // Add the current cell to the path being generated 
-    //path[pi] = mat[i*n + j];
-	path[pi].set_x(i);
-	path[pi].set_y(j);
-  
-    //get all the paths that are possible after moving down
+
+    // Add the current cell to the path being generated
+    //path[pi] = *((mat + i*n) + j);
+    path[pi] = mat[i*n + j];
+	pa[pi].set_x(i);
+	pa[pi].set_y(j);
+
+    // Print all the paths that are possible after moving down
 	if ( abs(i+1 - j) <= 1) {
-    	_get_relative_traversals(i+1, j, m, n, pi + 1, path, relative_traversals); 
+    	_get_relative_traversals(mat, i+1, j, m, n, path, pi + 1, pa, rel_list);
 	}
-  
-    //get all the paths that are possible after moving right 
+
+    // Print all the paths that are possible after moving right
 	if ( abs(j+1 - i) <= 1) {
-    	_get_relative_traversals(i, j+1, m, n, pi + 1, path, relative_traversals); 
+    	_get_relative_traversals(mat, i, j+1, m, n, path, pi + 1, pa, rel_list);
 	}
-  
-    //get all the paths that are possible after moving diagonal 
+
+    // Print all the paths that are possible after moving diagonal
 	if ( abs((j+1) - (i+1)) <= 1) {
-    	_get_relative_traversals(i+1, j+1, m, n, pi + 1, path, relative_traversals); 
+    	_get_relative_traversals(mat, i+1, j+1, m, n, path, pi + 1, pa, rel_list);
 	}
-} 
-  
-// The main function that gets all paths from top left to bottom right 
-// in a matrix of size mXn
-void get_relative_traversals(int m, int n,
+}
+
+// The main function that prints all paths from top left to bottom right
+// in a matrix 'mat' of size mXn
+void get_relative_traversals(int *mat, int m, int n,
 	list<vector<Tuple*>*>& relative_traverals) {
 
-	Tuple *path = new Tuple[m + n];
-    _get_relative_traversals(0, 0, m, n, 0, path, relative_traverals); 
-} 
+    int *path = new int[m+n];
+	Tuple *pa = new Tuple[m+n];
+    _get_relative_traversals(mat, 0, 0, m, n, path, 0, pa, relative_traverals);
+}
 
 void random_matrix(int K, int d, float **G, float from, float to) {
  	random_device rd{};
@@ -225,43 +284,6 @@ void random_matrix(int K, int d, float **G, float from, float to) {
 			if (x >0 && x < 1) {
 				G[i][j] = x;
 			}
-		}
-	}
-}
-
-void read_command_line_arguments(char *argv[], int& argc, string& input_file, string& query_file,
-	string& output_file, int& k, int& L, int& w, int& st, bool& check_for_identical_grid_flag,
-	int& delta, int& eps) {
-	for (int i = 1; i < argc; i++) {
-		if (strcmp(argv[i], "-d") == 0) {
-			input_file = argv[i + 1];
-		}
-		else if (strcmp(argv[i], "-q") == 0) {
-			query_file = argv[i + 1];
-		}
-		else if (strcmp(argv[i], "-o") == 0) {
-			output_file = argv[i + 1];
-		}
-		else if (strcmp(argv[i], "-–k_vec") == 0) {
-			k = atoi(argv[i + 1]);
-		}
-		else if (strcmp(argv[i], "-L_grid") == 0) {
-			L = atoi(argv[i + 1]);
-		}
-		else if (strcmp(argv[i], "-w") == 0) {
-			w = atoi(argv[i + 1]);
-		}
-		else if (strcmp(argv[i], "-st") == 0) {
-			st = atoi(argv[i + 1]);
-		}
-		else if (strcmp(argv[i], "--identical") == 0) {
-			check_for_identical_grid_flag = atoi(argv[i + 1]);
-		}
-		else if (strcmp(argv[i], "--delta") == 0) {
-			delta = atoi(argv[i + 1]);
-		}
-		else if (strcmp(argv[i], "--eps") == 0) {
-			eps = atoi(argv[i + 1]);
 		}
 	}
 }
@@ -456,12 +478,12 @@ float manhattan_distance_2d(Point *p, Point *q) {
 }
 
 float euclidean_distance_2d(Point *p, Point *q) {
-	return (p->get_x() - q->get_x())*(p->get_x() - q->get_x() ) +  
+	return (p->get_x() - q->get_x())*(p->get_x() - q->get_x() ) +
 	(p->get_y() - q->get_y())*(p->get_y() - q->get_y());
 }
 
-unsigned g_hash_function(vector<Type> x , int dimension, int w, int k, 
-	int bits_of_each_hash, unsigned M, vector<vector<float>*>& s_array, vector<unsigned>& m_powers) {		
+unsigned g_hash_function(vector<Type> x , int dimension, int w, int k,
+	int bits_of_each_hash, unsigned M, vector<vector<float>*>& s_array, vector<unsigned>& m_powers) {
 
 	unsigned hash_value, total_hash_value = 0;
 	for (int i = 0; i < k; ++i) {
@@ -633,7 +655,7 @@ unsigned long long int manhattan_distance(vector<Type> x1, vector<Type> x2) {
 	for (size_t i = 0; i < x1.size(); i++) {
 		sum += abs(x1[i] - x2[i]);
 	}
-	
+
 	return sum;
 }
 
@@ -652,7 +674,7 @@ void exhaustive_curve_search(list<Curve*> *curves, Curve *query, Query_Result& q
 		}
 	}
 	time = clock() - time;
-	
+
 	if (best != "") {
 		query_result.set_best_distance(best_distance);
 		query_result.set_time( ((double)time) / CLOCKS_PER_SEC );
@@ -681,7 +703,7 @@ void exhaustive_search(list<Item*> *items, Item *query, Query_Result& query_resu
 		}
 	}
 	time = clock() - time;
-	
+
 	if (best != "-") {
 		query_result.set_best_distance(best_distance);
 		query_result.set_time( ((double)time) / CLOCKS_PER_SEC );
@@ -717,7 +739,7 @@ unsigned add_mod(long long a, long long b, long long m) {
 	}
 }
 
-uint32_t mul_mod(long long a, long long b, long long m) { 
+uint32_t mul_mod(long long a, long long b, long long m) {
 	long double x;
 	uint32_t c;
 	int32_t r;
@@ -730,7 +752,7 @@ uint32_t mul_mod(long long a, long long b, long long m) {
 	return r < 0 ? r + m : r;
 }
 
-uint64_t  mul_mod2(uint64_t  a, uint64_t  b, uint64_t  m) { 
+uint64_t  mul_mod2(uint64_t  a, uint64_t  b, uint64_t  m) {
 	long double x;
 	uint64_t c;
 	int64_t  r;
@@ -742,7 +764,7 @@ uint64_t  mul_mod2(uint64_t  a, uint64_t  b, uint64_t  m) {
 	return r < 0 ? r + m : r;
 }
 
-uint64_t pow_mod(uint64_t  a, uint64_t  b, uint64_t  m) { 
+uint64_t pow_mod(uint64_t  a, uint64_t  b, uint64_t  m) {
 	uint64_t r = m==1?0:1;
 	while (b > 0) {
 		if (b & 1)
@@ -811,7 +833,7 @@ int find_dimension_from_file(string file_name) {
 }
 
 int get_lines_of_file(string file_name) {
-	ifstream inFile(file_name); 
+	ifstream inFile(file_name);
  	return count(istreambuf_iterator<char>(inFile), istreambuf_iterator<char>(), '\n');
 }
 
@@ -979,4 +1001,16 @@ void print_array(int array[], int size) {
 		cout << array[i] << " ";
 	}
 	cout <<endl;
+}
+
+int hammingDistance(unsigned n1, unsigned n2) {
+    unsigned x = n1 ^ n2;
+    int setBits = 0;
+
+    while (x > 0) {
+        setBits += x & 1;
+        x >>= 1;
+    }
+
+    return setBits;
 }
