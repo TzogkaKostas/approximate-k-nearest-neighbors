@@ -5,7 +5,7 @@
 
 #include "../curve/curve.hpp"
 
-typedef Curve Content;
+typedef Item Content;
 
 class Hash_Table {
 public:

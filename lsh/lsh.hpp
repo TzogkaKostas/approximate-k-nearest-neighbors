@@ -10,7 +10,9 @@ public:
 	~LSH();
 
 	void insert_item(Item *item);
-	void ANN(Item *query, unsigned threshhold, Query_Result& query_result);
+	void ANN(Item *query, unsigned threshhold, Query_Result& query_result);	
+	void range_search(Item *query, unsigned threshhold, float radious,
+		list<Item*>& range_items, Query_Result& query_result);
 	void print_hash_tables();
 	int get_w() {return w;}
 	int get_k() {return k;}

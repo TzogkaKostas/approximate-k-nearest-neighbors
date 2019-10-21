@@ -27,6 +27,7 @@ int main(int argc, char *argv[]) {
 	int k = K_DEFAULT;
 	int w = W_DEFAULT;
 	int search_threshold = SEARCH_THRESHOLD;
+	float radious = -1.0;
 
 	if (argc < 3 ) {
 		cout <<"usage: ./lsh –d <input file> –q <query file> –k <int> -L <int> -ο <output file>"<<endl;
@@ -60,9 +61,11 @@ int main(int argc, char *argv[]) {
 
 	//HANDLE QUERIES
 	list<Item*> queries;
-	read_vectors_from_file(query_file, queries);
+	read_vectors_from_file(query_file, queries, radious);
+	cout <<"Radious: "<<radious<<endl;
 
 	Query_Result ann_query_result, exhaustive_query_result;
+	Query_Result range_query_result;
 	time = clock();
 	double sum_query_time = 0;
 	double max_rate = -1;
@@ -70,17 +73,25 @@ int main(int argc, char *argv[]) {
 	int found_nearest = 0;
 	int total_distances = 0;
 	int not_null = 0;
+	list<Item*> range_items;
 	for(Item *query: queries) {
-		//cout <<"Query:"<<query->get_name()<<endl;
+		cout <<"Query:"<<query->get_name()<<endl;
 
 		//approximate nearest neighbor
 		lsh.ANN(query, search_threshold, ann_query_result);
-		//print_ann_results(ann_query_result);
+		print_ann_results(ann_query_result);
 
 		//Exact nearest neighbor
 		exhaustive_search(&input_items, query, exhaustive_query_result);
-		//print_exhaustive_search_results(exhaustive_query_result);
-		//cout<<endl;
+		print_exhaustive_search_results(exhaustive_query_result);
+
+		//range search (Bonus)
+		if (radious > 0) {
+			lsh.range_search(query, search_threshold, radious, range_items, range_query_result);
+			print_range_results(range_items, radious);
+			range_items.clear();
+		}
+		cout <<"--------------------------------------------------------"<<endl;
 
 		//statistics info
 		if (ann_query_result.get_time() != -1) {

@@ -306,6 +306,14 @@ void print_curves(list<Curve*> curves)  {
 	}
 }
 
+void print_range_results(list<Item*> items, float radious)  {
+	cout <<radious<<"-near neighbors:"<<endl;
+	for (Item *item : items) {
+		cout << item->get_name();
+		cout <<endl;
+	}
+}
+
 Type DTW(vector<Point*> p, vector<Point*> q) {
 	int m1 = p.size();
 	int m2 = q.size();
@@ -432,6 +440,11 @@ void print_parameters(int L, int k, int w, int search_threshold, int dimension, 
 	print_parameters(L, k, w, search_threshold, dimension);
 }
 
+void print_parameters(int L, int k, int w, int search_threshold, int dimension, float range) {
+	cout <<"range: "<<range<<endl;
+	print_parameters(L, k, w, search_threshold, dimension);
+}
+
 void print_parameters(int L, int k, int w, int search_threshold, int dimension, int delta, int K_matrix) {
 	cout <<"delta: "<<delta<<endl;
 	cout <<"K_matrix: "<<K_matrix<<endl;
@@ -465,6 +478,35 @@ void read_vectors_from_file(string file_name, list<Item*>& items) {
 		while(getline(inputfile, line)) {
 			istringstream iss (line);
 			iss >> name;
+			vector<Type> *coordinates = new vector<Type>;
+			while ( iss >> coordinate ) {
+				coordinates->push_back(coordinate);
+			}
+			Item *item = new Item(name, coordinates);
+			items.push_back(item);
+		}
+		inputfile.close();
+	}
+	return;
+}
+
+void read_vectors_from_file(string file_name, list<Item*>& items, float& radious) {
+	string line, name;
+	Type coordinate;
+
+	ifstream inputfile(file_name.c_str());
+	if (inputfile.is_open() == false) {
+		cout <<"File opening error: "<<file_name<<endl;
+		return;
+	}
+	else {
+		while(getline(inputfile, line)) {
+			istringstream iss (line);
+			iss >> name;
+			if (name == "Radius:") {
+				iss >> radious;
+				continue;
+			}
 			vector<Type> *coordinates = new vector<Type>;
 			while ( iss >> coordinate ) {
 				coordinates->push_back(coordinate);

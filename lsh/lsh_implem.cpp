@@ -65,6 +65,7 @@ void LSH::ANN(Item *query, unsigned threshhold, Query_Result& query_result) {
 		g_value = g_hash_function(*(query->get_coordinates()),
 				dimension, w, k, bits_of_each_hash, M, hash_tables[i]->get_s_array(), m_powers);
 		
+		//cout <<"g_value: "<<g_value<<endl;
 		map = hash_tables[i]->get_map();
 		ret = map->equal_range(g_value);
 		searched_items = 0;
@@ -105,4 +106,48 @@ void LSH::print_hash_tables() {
 
 unsigned long long int LSH::lsh_distance(Item *item1, Item *item2) {
 	return manhattan_distance(*(item1->get_coordinates()), *(item2->get_coordinates()));
+}
+
+void LSH::range_search(Item *query, unsigned threshhold, float radious,
+		list<Item*>& range_items, Query_Result& query_result) {
+	unsigned searched_items;
+	unsigned best_distance = numeric_limits<unsigned>::max();
+	unsigned position, g_value;
+	string best = "";
+	pair <unordered_multimap<unsigned, Item*>::iterator, unordered_multimap<unsigned,Item*>::iterator> ret;
+	unordered_multimap<unsigned, Item*>::iterator it;
+
+	time_t time;
+	time = clock();
+	for (size_t i = 0; i < L; i++) {
+		g_value = g_hash_function(*(query->get_coordinates()),
+				dimension, w, k, bits_of_each_hash, M, hash_tables[i]->get_s_array(), m_powers);
+		
+		ret = hash_tables[i]->get_map()->equal_range(g_value);
+		searched_items = 0;
+		for (it = ret.first; it != ret.second; ++it) {
+			//if (searched_items >= threshhold) {
+			//	goto exit;
+			//}
+
+			unsigned cur_distance = lsh_distance(query, it->second);
+			if (cur_distance < radious) {
+				range_items.push_back(it->second);
+			}
+			searched_items++;
+		}
+	}
+	exit:
+	time = clock() - time;
+
+	if (best != "") {
+		query_result.set_best_distance(best_distance);
+		query_result.set_time( ((double)time) / CLOCKS_PER_SEC );
+		query_result.set_best_item(best);
+	}
+	else {
+		query_result.set_best_distance(-1);
+		query_result.set_time(-1);
+		query_result.set_best_item("NULL");
+	}
 }

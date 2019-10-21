@@ -36,9 +36,11 @@ void print_ann_results(Query_Result ann_result);
 void print_exhaustive_search_results(Query_Result exhaustive_result);
 void print_parameters(int L, int k, int w, int search_threshold, int dimension);
 void print_parameters(int L, int k, int w, int search_threshold, int dimension, int delta);
+void print_parameters(int L, int k, int w, int search_threshold, int dimension, float range);
 void print_parameters(int L, int k, int w, int search_threshold, int dimension, int delta, int K_matrix);
 void get_vector_from_line(string line, Item& item);
 void read_vectors_from_file(string file_name, list<Item*>& items);
+void read_vectors_from_file(string file_name, list<Item*>& items, float& range);
 unsigned long long int manhattan_distance(vector<Type> x1, vector<Type> x2);
 void exhaustive_search(list<Item*> *items, Item *query, Query_Result& query_result);
 void delete_items(list<Item*> items);
@@ -58,7 +60,7 @@ void fill_curve(Curve *curve, int pad_length);
 void convert_2d_curve_to_vector(Curve *curve, Point *t, int delta, int hash_table_dimesion,
 	int curve_dimension, Curve **snapped_curve, Item **item);
 void random_matrix(int K, int d, float **G, float from, float to);
-
+void print_range_results(list<Item*> items, float range);
 /*
 // count coordinates on "file_name"'s first line(except vector's name)
 int find_dimension_from_file(string file_name);
