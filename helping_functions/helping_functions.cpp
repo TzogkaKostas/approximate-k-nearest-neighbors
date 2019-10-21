@@ -20,6 +20,7 @@ using namespace std;
 #include "../hash_table/hash_table.hpp"
 #include "../query_result/query_result.hpp"
 #include "../helping_functions/helping_functions.hpp"
+#include "../Tuple/tuple.hpp"
 
 void convert_2d_curve_to_vector(Curve *curve, Point *t, int delta, int dimension,
 		int curve_dimension, Curve **grid_curve, Item **item) {
@@ -141,6 +142,82 @@ void zip_points(Curve *grid_curve, Item **item) {
 	}
 	*item = new Item(coordinates);
 }
+
+
+void _get_relative_traversals(int *mat, int i, int j, int m, int n, int *path, int pi, Tuple *pa, list<vector<Tuple*>*>& rel_list) {
+    // Reached the bottom of the matrix so we are left with 
+    // only option to move right 
+    if (i == m - 1) { 
+        for (int k = j; k < n; k++) {
+            //path[pi + k - j] = *((mat + i*n) + k);
+		    path[pi + k - j] = mat[i*n + k];
+			pa[pi + k - j].set_x(i);
+			pa[pi + k - j].set_y(k);
+		}
+
+		vector<Tuple*> *relative_path = new vector<Tuple*>;
+        for (int l = 0; l < pi + n - j; l++) {
+			Tuple *tuple = new Tuple(pa[l].get_x(), pa[l].get_y());
+			relative_path->push_back(tuple);
+            cout << path[l] << " "; 
+		}
+        cout << endl; 
+		rel_list.push_back(relative_path);
+        return; 
+    } 
+  
+    // Reached the right corner of the matrix we are left with 
+    // only the downward movement. 
+    if (j == n - 1) { 
+        for (int k = i; k < m; k++) {
+            //path[pi + k - i] = *((mat + k*n) + j);
+            path[pi + k - i] = mat[k*n + j];
+			pa[pi + k - i].set_x(k);
+			pa[pi + k - i].set_y(j);
+		}
+
+		vector<Tuple*> *relative_path = new vector<Tuple*>;
+        for (int l = 0; l < pi + m - i; l++) {
+			Tuple *tuple = new Tuple(pa[l].get_x(), pa[l].get_y());
+			relative_path->push_back(tuple);
+            cout << path[l] << " "; 
+		}
+        cout << endl;
+		rel_list.push_back(relative_path);
+        return; 
+    }
+  
+    // Add the current cell to the path being generated 
+    //path[pi] = *((mat + i*n) + j);
+    path[pi] = mat[i*n + j];
+	pa[pi].set_x(i);
+	pa[pi].set_y(j);
+  
+    // Print all the paths that are possible after moving down
+	if ( abs(i+1 - j) <= 1) {
+    	_get_relative_traversals(mat, i+1, j, m, n, path, pi + 1, pa, rel_list); 
+	}
+  
+    // Print all the paths that are possible after moving right 
+	if ( abs(j+1 - i) <= 1) {
+    	_get_relative_traversals(mat, i, j+1, m, n, path, pi + 1, pa, rel_list); 
+	}
+  
+    // Print all the paths that are possible after moving diagonal 
+	if ( abs((j+1) - (i+1)) <= 1) {
+    	_get_relative_traversals(mat, i+1, j+1, m, n, path, pi + 1, pa, rel_list); 
+	}
+} 
+  
+// The main function that prints all paths from top left to bottom right 
+// in a matrix 'mat' of size mXn
+void get_relative_traversals(int *mat, int m, int n,
+	list<vector<Tuple*>*>& relative_traverals) {
+
+    int *path = new int[m+n];
+	Tuple *pa = new Tuple[m+n];
+    _get_relative_traversals(mat, 0, 0, m, n, path, 0, pa, relative_traverals); 
+} 
 
 void random_matrix(int K, int d, float **G, float from, float to) {
  	random_device rd{};

@@ -28,6 +28,41 @@ using namespace std;
 
 
 int main(int argc, char *argv[]) {
+
+	/*
+	int mat[5][5] = {
+		{11, 12, 13, 14, 15},
+		{21, 22, 23, 24, 25},
+		{31, 32, 33, 34, 35},
+		{41, 42, 43, 44, 45},
+		{51, 52, 53, 54, 55} };
+	*/
+	/*
+	int mat[3][3] = {
+		{11, 12, 13},
+		{21, 22, 23},
+		{31, 32, 33}
+	};
+	*/
+	int mat[2][2] = {
+		{11, 12},
+		{21, 22}
+	};
+
+	list<vector<Tuple*>*> rel_list;
+    printAllPaths(*mat, 2, 2, rel_list);
+
+	for (auto it : rel_list) {
+		for (Tuple *tuple : *it) {
+			cout <<"("<<tuple->get_x()<<", "<<tuple->get_y()<<") ";
+		}
+		cout <<endl;
+	}
+
+
+
+	return 0;
+
 	int L = L_DEFAULT;
 	int k = K_DEFAULT;
 	int w = W_DEFAULT;

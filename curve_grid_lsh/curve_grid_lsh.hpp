@@ -29,7 +29,7 @@ private:
 	int hash_table_dimension;
 	int L;
 	int bits_of_each_hash;
-	unsigned M;
+	unsigned long M;
 	int delta;
 	int curve_dimension; //2D in our case
 	unsigned m;

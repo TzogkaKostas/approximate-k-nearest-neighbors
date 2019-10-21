@@ -12,12 +12,22 @@ using namespace std;
 #include "../point/point.hpp"
 #include "../hash_table/hash_table.hpp"
 #include "../helping_functions/helping_functions.hpp"
+#include "../relevant_traversals/relevant_traversals.hpp"
 #include "curve_projection_lsh.hpp"
 
 
 Curve_Projection_LSH::Curve_Projection_LSH(int L, int hash_table_dimension, int w, int k, int delta,
-		int curve_dimension, unsigned m) {
+		int curve_dimension, unsigned m, int max_curve_length) {
 
+	//ALLOCATE M*M TABLE
+	Relevant_Traversals **table = new Relevant_Traversals*[max_curve_length];
+	for (size_t i = 0; i < max_curve_length; i++) {
+		table[i] = new Relevant_Traversals[max_curve_length];
+	}
+	
+
+
+	/*
 	for (size_t i = 0; i < L; i++) {
 		Hash_Table *hash_table = new Hash_Table(hash_table_dimension, w, k);
 		hash_tables.push_back(hash_table);
@@ -56,6 +66,7 @@ Curve_Projection_LSH::Curve_Projection_LSH(int L, int hash_table_dimension, int 
 	for (size_t i = 0; i < hash_table_dimension; i++) {
 		m_powers.push_back( pow_mod(m, i, M) );
 	}
+	*/
 }
 
 Curve_Projection_LSH::~Curve_Projection_LSH() {

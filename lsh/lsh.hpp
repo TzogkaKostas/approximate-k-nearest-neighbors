@@ -25,7 +25,7 @@ private:
 	int dimension;
 	int L;
 	int bits_of_each_hash;
-	unsigned M;
+	unsigned long M;
 	unsigned m;
 	vector<unsigned> m_powers;
 };
