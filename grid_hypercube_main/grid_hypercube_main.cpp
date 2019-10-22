@@ -82,16 +82,15 @@ int main(int argc, char *argv[]) {
 	int total_distances = 0;
 	int not_null = 0;
 	for(Curve *query: queries) {
-		cout <<"Query:"<<query->get_name()<<endl;
+		//cout <<"Query:"<<query->get_name()<<endl;
 
 		//approximate nearest neighbor
-        cout << "\n YO \n";
 		h_curve_grid.ANN(query, probes, ann_query_result, check_for_identical_grid_flag);
 		print_ann_results(ann_query_result);
 
 		//Exact nearest neighbor
 		exhaustive_curve_search(&input_curves, query, exhaustive_query_result);
-		//print_exhaustive_search_results(exhaustive_query_result);
+		print_exhaustive_search_results(exhaustive_query_result);
 		cout <<"-------------------------------------------------------"<<endl;
 		cout<<endl;
 
