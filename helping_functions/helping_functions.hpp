@@ -9,6 +9,7 @@
 #include "../query_result/query_result.hpp"
 #include "../curve/curve.hpp"
 #include "../point/point.hpp"
+#include "../tuple/tuple.hpp"
 
 using namespace std;
 
@@ -35,15 +36,13 @@ void read_command_line_arguments(char *argv[], int& argc, string& input_file, st
 void read_command_line_arguments(char *argv[], int& argc, string& input_file, string& query_file,
 	string& output_file, int& k, int& L, int& w, int& st, bool& check_for_identical_grid_flag, int& delta);
 void read_command_line_arguments(char *argv[], int& argc, string& input_file, string& query_file,
-	string& output_file, int& k, int& L, int& w, int& st, bool& check_for_identical_grid_flag,
-	int& delta, int& eps);
+	string& output_file, int& k, int& L, int& w, int& st, int& eps);
 unsigned long long int manhattan_distance(vector<Type> x1, vector<Type> x2);
 void print_ann_results(Query_Result ann_result);
 void print_exhaustive_search_results(Query_Result exhaustive_result);
 void print_parameters(int L, int k, int w, int search_threshold, int dimension);
 void print_parameters(int L, int k, int w, int search_threshold, int dimension, int delta);
 void print_parameters(int L, int k, int w, int search_threshold, int dimension, float range);
-void print_parameters(int L, int k, int w, int search_threshold, int dimension, int delta, int K_matrix);
 void get_vector_from_line(string line, Item& item);
 void read_vectors_from_file(string file_name, list<Item*>& items);
 void read_vectors_from_file(string file_name, list<Item*>& items, float& range);
@@ -65,55 +64,16 @@ void convert_2d_curve_to_vector(Curve *curve, Point *t, int delta, int hash_tabl
 	int curve_dimension, Curve **snapped_curve, Item **item);
 void random_matrix(int K, int d, float **G, float from, float to);
 void print_range_results(list<Item*> items, float range);
-void get_relative_traversals(int m, int n,
+void find_relevant_traversals(int m, int n,
 	list<vector<Tuple*>*>& relative_traverals);
+void convert_2d_curve_to_vector_by_projection(vector<Tuple*>& U, float **G_matrix, Curve *curve,
+		int G_rows, int G_cols, Item *item);
+void matrix_multiplication(vector<Tuple*>& U, float **G_matrix, Curve *curve,
+		int G_rows, int G_cols, Item *item);
 
 void read_command_line_arguments_hypercube(char *argv[], int& argc,string& input_file, string& query_file,
 	string& output_file, int& k, int& M,int& probes,int &flag);
 unsigned f_hash_function(vector<Type> x , int dimension,int w, int k,
 		int bits_of_each_hash, unsigned M, vector<unsigned>& m_powers,vector<vector<float>*>& s_array,vector< unordered_map<unsigned,int> *>&g_value,int f);
 int hammingDistance(unsigned n1, unsigned n2);
-
-/*
-// count coordinates on "file_name"'s first line(except vector's name)
-int find_dimension_from_file(string file_name);
-
-// count lines of the "file_name"
-int get_lines_of_file(string file_name);
-
-int print_input_file(string file_name);
-
-//fill "random_array" of size "size" with uniformly distributed doubles in range ["from", to)
-void random_double_array(double from, double to, double *random_array, int size); //[from, to)
-
-//fill "random_array" of size "size" with uniformly distributed floats in range ["from", to)
-void random_float_array(double from, double to, float *random_array, int size); //[from, to)
-
-//fill "random_list" with "size" uniformly distributed floats/ints in range ["from", "to")
-void random_int_list(double from, double to, list<int>& random_list, int size);
-
-//get a uniformly distributed double in range ["from", to)
-double random_double(double from, double to);
-
-//get a uniformly distributed float/int in range ["from", to]
-float random_float(double from, double to);
-int random_int(int from, int to);
-
-void print_array(double array[], int size);
-void print_array(float array[], int size);
-void print_array(int array[], int size);
-
-int max_from_array(int array[], int size);
-float max_from_array(float array[], int size);
-double max_from_array(double array[], int size);
-
-// a*b mod m
-uint64_t mul_mod(uint64_t a, uint64_t b, uint64_t m);
-
-// a^b mod m
-uint64_t pow_mod(uint64_t a, uint64_t b, uint64_t m);
-
-
-// Vaggelis--------------------------------------------------------
-
 #endif

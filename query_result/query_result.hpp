@@ -1,6 +1,9 @@
 #ifndef RES_H
 #define RES_H
 
+#include <string>
+using namespace std;
+
 class Query_Result {
 public:
 	Query_Result() :best_item("-"){}

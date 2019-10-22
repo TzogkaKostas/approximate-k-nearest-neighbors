@@ -32,7 +32,6 @@ private:
 	vector< unordered_map<unsigned,int> *> g_value;
 	vector < vector <float>* > s_array;
 	int table_size;//k comnd line
-
 };
 
 

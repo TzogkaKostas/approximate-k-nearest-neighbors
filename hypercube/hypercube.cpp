@@ -35,7 +35,7 @@ void Hash_Table::insert(Item*item,int dimension, int w, int k,int bits_of_each_h
 }
 
 unsigned Hash_Table::p(vector<Type> x , int dimension, int table_size, int w, int k,
-	int bits_of_each_hash, unsigned M, vector<unsigned>& m_powers){
+	int bits_of_each_hash, unsigned M, vector<unsigned>& m_powers) {
 	int result=0;
 	int p=0;
 	for (int i = 0; i < table_size; i++) {

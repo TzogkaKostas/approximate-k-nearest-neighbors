@@ -11,12 +11,12 @@ using namespace std;
 
 #include "../point/point.hpp"
 #include "../curve/curve.hpp"
-#include "../curve_projection_lsh/curve_projection_lsh.hpp"
 #include "../hash_table/hash_table.hpp"
 #include "../helping_functions/helping_functions.hpp"
 #include "../query_result/query_result.hpp"
 #include "../tuple/tuple.hpp"
 #include "../lsh/lsh.hpp"
+#include "../curve_projection_lsh/curve_projection_lsh.hpp"
 
 #define L_DEFAULT 5
 #define K_DEFAULT 4
@@ -29,7 +29,6 @@ using namespace std;
 
 
 int main(int argc, char *argv[]) {
-
 	/*
 	int mat[5][5] = {
 		{11, 12, 13, 14, 15},
@@ -46,15 +45,11 @@ int main(int argc, char *argv[]) {
 		{11, 12},
 		{21, 22}
 	};
-
 	list<vector<Tuple*>*> rel_list;
     printAllPaths(*mat, 2, 2, rel_list);
-	*/
 	list<vector<Tuple*>*> relevant_traversals;
-	get_relative_traversals(25, 25, relevant_traversals);
-
+	get_relative_traversals(3, 3, relevant_traversals);
 	cout << relevant_traversals.size();
-
 	return 0;
 	for (auto it : relevant_traversals) {
 		for (Tuple *tuple : *it) {
@@ -62,19 +57,15 @@ int main(int argc, char *argv[]) {
 		}
 		cout <<endl;
 	}
-
-
-
 	return 0;
-	/*
+	*/
+
 	int L = L_DEFAULT;
 	int k = K_DEFAULT;
 	int w = W_DEFAULT;
 	int search_threshold = SEARCH_THRESHOLD;
 	int table_size_divived_by = TABLE_SIZE_DIVIDED_BY;
 	int curve_dimension = CURVE_DIMENSION_DEFAULT;
-	bool check_for_identical_grid_flag = CHECK_FOR_IDENTICAL_GRID_FLAG_DEFAULT;
-	int delta = -1;
     int eps = EPS_DEFAULT;
 
 	//if (argc < 7 ) {
@@ -85,7 +76,7 @@ int main(int argc, char *argv[]) {
 	//READ COMMAND LINE ARGUMENTS
 	string input_file, query_file, output_file;
 	read_command_line_arguments(argv, argc, input_file, query_file, output_file,
-			k, L, w, search_threshold, check_for_identical_grid_flag, delta, eps);
+			k, L, w, search_threshold, eps);
 
 	//READ CURVES FROM THE INPUT FILE
 	list<Curve*> input_curves;
@@ -93,30 +84,31 @@ int main(int argc, char *argv[]) {
 	read_2d_curves_from_file(input_file, input_curves, max_curve_length);
 
 	//INITIALIZE PARAMETERS
-	int table_size = max( (int)floor(input_curves.size()) / table_size_divived_by, table_size_divived_by );
-	int hash_table_dimension = curve_dimension*max_curve_length;
-	if (delta == - 1) {
-		delta = 4*curve_dimension*hash_table_dimension;
-	}
+	int table_size = max( (int)floor(input_curves.size()) /
+		table_size_divived_by, table_size_divived_by );
+	int hash_table_dimension = curve_dimension*max_curve_length; //<---------------------------------
 	unsigned m = numeric_limits<unsigned>::max() + 1 - 5;
 	search_threshold = max(10*L, search_threshold);
     int K_matrix = 0 - curve_dimension*log(eps/(eps*eps));
-	print_parameters(L, k, w, search_threshold, hash_table_dimension, delta, K_matrix);
+
+	print_parameters(L, k, w, search_threshold, hash_table_dimension);
+	cout <<"K_matrix: "<<K_matrix<<endl;
+	cout <<"Max curve length: "<<max_curve_length<<endl;
 
 	//CREATE THE GRID STRUCTURE FOR CURVES WITH LSH 
-	Curve_Projection_LSH grid_projection(L, hash_table_dimension, w, k, delta, curve_dimension, m);
+	Curve_Projection_LSH grid_projection(L, hash_table_dimension, w, k,
+		curve_dimension, m, max_curve_length, K_matrix);
+
 
 	//INSERT INPUT DATA
 	list<Curve*> grid_curves;
 	time_t time = clock();
 	for(Curve *curve : input_curves) {
-		grid_projection.insert_curve(curve, &grid_curves);
+		grid_projection.insert_curve(curve);
 	}
 	time = clock() - time;
 	cout <<"Data insertion time: "<< ((double)time) / CLOCKS_PER_SEC <<endl<<endl;
 
-	//grid_projection.print_hash_tables();
-	//return 0;
 
 	//READ QUERY CURVES FROM THE INPUT FILE
 	list<Curve*> queries;
@@ -135,7 +127,7 @@ int main(int argc, char *argv[]) {
 		cout <<"Query:"<<query->get_name()<<endl;
 
 		//approximate nearest neighbor
-		grid_projection.ANN(query, search_threshold, ann_query_result, check_for_identical_grid_flag);
+		grid_projection.ANN(query, search_threshold, ann_query_result);
 		print_ann_results(ann_query_result);
 
 		//Exact nearest neighbor
@@ -173,5 +165,4 @@ int main(int argc, char *argv[]) {
 	delete_curves(input_curves);
 	delete_curves(queries);
 	return 0;
-	*/
 }

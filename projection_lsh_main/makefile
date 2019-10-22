@@ -1,11 +1,14 @@
 CC = g++
 CFLAGS = -std=c++11
 OBJECTS = projection_lsh_main.o hash_table_implem.o item_implem.o \
-		helping_functions.o curve_implem.o point_implem.o
+		helping_functions.o curve_implem.o point_implem.o \
+		relevant_traversals_implem.o curve_projection_lsh_implem.o
 
 HEADERS = ../hash_table/hash_table.hpp ../item/item.hpp \
 		../helping_functions/helping_functions.hpp ../curve/curve.hpp \
-		../point/point.hpp ../query_result/query_result.hpp
+		../point/point.hpp ../query_result/query_result.hpp \
+		../relevant_traversals/relevant_traversals.hpp ../tuple/tuple.hpp \
+		../curve_projection_lsh/curve_projection_lsh.hpp
 
 all: projection_lsh_main
 
@@ -29,6 +32,12 @@ curve_implem.o: ../curve/curve_implem.cpp ../curve/curve.hpp ../point/point.hpp
 
 point_implem.o: ../point/point_implem.cpp $(HEADERS)
 	$(CC) -c ../point/point_implem.cpp -o point_implem.o
+
+relevant_traversals_implem.o: ../relevant_traversals/relevant_traversals_implem.cpp $(HEADERS)
+	$(CC) -c ../relevant_traversals/relevant_traversals_implem.cpp -o relevant_traversals_implem.o
+
+curve_projection_lsh_implem.o: ../curve_projection_lsh/curve_projection_lsh_implem.cpp $(HEADERS)
+	$(CC) -c ../curve_projection_lsh/curve_projection_lsh_implem.cpp -o curve_projection_lsh_implem.o
 
 clean :
 	rm *.o projection_lsh_main

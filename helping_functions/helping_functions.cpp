@@ -26,6 +26,37 @@ std::random_device rd;  //Will be used to obtain a seed for the random number en
 std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
 std::uniform_int_distribution<> dis(0, 1);
 
+void convert_2d_curve_to_vector_by_projection(vector<Tuple*>& U, float **G_matrix, Curve *curve,
+		int G_rows, int G_cols, Item *item) {
+	matrix_multiplication(U, G_matrix, curve, G_rows, G_cols, item);
+}
+
+void matrix_multiplication(vector<Tuple*>& U, float **G_matrix, Curve *curve,
+		int G_rows, int G_cols, Item *item) {
+
+	float sum;
+	int position_of_curve;
+	vector<Type> *results_points;
+
+	vector<Point*>points = curve->get_points();
+	for (size_t U_i = 0; U_i < U.size(); U_i++) {
+		for(int i = 0; i < G_rows; ++i) { //for every row of G
+        	for(int j = 0; j < 1; ++j) { //for every column of U
+				sum = 0.0;
+            	for(int k = 0; k < G_cols; ++k) {
+					position_of_curve = U[U_i]->get_x();
+					sum += G_matrix[i][k] * points[position_of_curve]->get_coord(k);
+				}
+				results_points = new vector<Type>;
+				results_points->push_back(sum);
+            }
+		}
+	}
+
+	item = new Item(results_points);
+}
+
+
 void convert_2d_curve_to_vector(Curve *curve, Point *t, int delta, int dimension,
 		int curve_dimension, Curve **grid_curve, Item **item) {
 	snap_curve(curve, t, grid_curve, delta);
@@ -84,7 +115,6 @@ unsigned f_hash_function(vector<Type> x , int dimension,int w, int k,
 
 
 }
-
 
 void snap_curve(Curve *curve, Point *t, Curve **grid_curve, int delta) {
 
@@ -200,80 +230,75 @@ void zip_points(Curve *grid_curve, Item **item) {
 }
 
 
-void _get_relative_traversals(int *mat, int i, int j, int m, int n, int *path, int pi, Tuple *pa, list<vector<Tuple*>*>& rel_list) {
-    // Reached the bottom of the matrix so we are left with
-    // only option to move right
-    if (i == m - 1) {
+void _get_relative_traversals(int i, int j, int m, int n, int pi, Tuple *path,
+		list<vector<Tuple*>*>& relative_traversals) { 
+
+    // Reached the bottom of the matrix so we are left with 
+    // only option to move right 
+    if (i == m - 1) { 
         for (int k = j; k < n; k++) {
-            //path[pi + k - j] = *((mat + i*n) + k);
-		    path[pi + k - j] = mat[i*n + k];
-			pa[pi + k - j].set_x(i);
-			pa[pi + k - j].set_y(k);
+		    //path[pi + k - j] = mat[i*n + k];
+			path[pi + k - j].set_x(i);
+			path[pi + k - j].set_y(k);
 		}
 
 		vector<Tuple*> *relative_path = new vector<Tuple*>;
         for (int l = 0; l < pi + n - j; l++) {
-			Tuple *tuple = new Tuple(pa[l].get_x(), pa[l].get_y());
+			Tuple *tuple = new Tuple(path[l].get_x(), path[l].get_y());
 			relative_path->push_back(tuple);
-            cout << path[l] << " ";
 		}
-        cout << endl;
-		rel_list.push_back(relative_path);
-        return;
-    }
-
-    // Reached the right corner of the matrix we are left with
-    // only the downward movement.
-    if (j == n - 1) {
+		relative_traversals.push_back(relative_path);
+        return; 
+    } 
+  
+    // Reached the right corner of the matrix we are left with 
+    // only the downward movement. 
+    if (j == n - 1) { 
         for (int k = i; k < m; k++) {
-            //path[pi + k - i] = *((mat + k*n) + j);
-            path[pi + k - i] = mat[k*n + j];
-			pa[pi + k - i].set_x(k);
-			pa[pi + k - i].set_y(j);
+            //path[pi + k - i] = mat[k*n + j];
+			path[pi + k - i].set_x(k);
+			path[pi + k - i].set_y(j);
 		}
 
 		vector<Tuple*> *relative_path = new vector<Tuple*>;
         for (int l = 0; l < pi + m - i; l++) {
-			Tuple *tuple = new Tuple(pa[l].get_x(), pa[l].get_y());
+			Tuple *tuple = new Tuple(path[l].get_x(), path[l].get_y());
 			relative_path->push_back(tuple);
-            cout << path[l] << " ";
 		}
-        cout << endl;
-		rel_list.push_back(relative_path);
-        return;
+		relative_traversals.push_back(relative_path);
+        return; 
     }
-
-    // Add the current cell to the path being generated
-    //path[pi] = *((mat + i*n) + j);
-    path[pi] = mat[i*n + j];
-	pa[pi].set_x(i);
-	pa[pi].set_y(j);
-
-    // Print all the paths that are possible after moving down
+  
+    // Add the current cell to the path being generated 
+    //path[pi] = mat[i*n + j];
+	path[pi].set_x(i);
+	path[pi].set_y(j);
+  
+    //get all the paths that are possible after moving down
 	if ( abs(i+1 - j) <= 1) {
-    	_get_relative_traversals(mat, i+1, j, m, n, path, pi + 1, pa, rel_list);
+    	_get_relative_traversals(i+1, j, m, n, pi + 1, path, relative_traversals); 
 	}
-
-    // Print all the paths that are possible after moving right
+  
+    //get all the paths that are possible after moving right 
 	if ( abs(j+1 - i) <= 1) {
-    	_get_relative_traversals(mat, i, j+1, m, n, path, pi + 1, pa, rel_list);
+    	_get_relative_traversals(i, j+1, m, n, pi + 1, path, relative_traversals); 
 	}
-
-    // Print all the paths that are possible after moving diagonal
+  
+    //get all the paths that are possible after moving diagonal 
 	if ( abs((j+1) - (i+1)) <= 1) {
-    	_get_relative_traversals(mat, i+1, j+1, m, n, path, pi + 1, pa, rel_list);
+    	_get_relative_traversals(i+1, j+1, m, n, pi + 1, path, relative_traversals); 
 	}
-}
-
-// The main function that prints all paths from top left to bottom right
-// in a matrix 'mat' of size mXn
-void get_relative_traversals(int *mat, int m, int n,
+} 
+  
+// The main function that gets all paths from top left to bottom right 
+// in a matrix of size mXn
+void find_relevant_traversals(int m, int n,
 	list<vector<Tuple*>*>& relative_traverals) {
 
-    int *path = new int[m+n];
-	Tuple *pa = new Tuple[m+n];
-    _get_relative_traversals(mat, 0, 0, m, n, path, 0, pa, relative_traverals);
-}
+	Tuple *path = new Tuple[m + n];
+    _get_relative_traversals(0, 0, m, n, 0, path, relative_traverals); 
+} 
+
 
 void random_matrix(int K, int d, float **G, float from, float to) {
  	random_device rd{};
@@ -284,7 +309,7 @@ void random_matrix(int K, int d, float **G, float from, float to) {
 	for (size_t i = 0; i < K; i++) {
 		for (size_t j = 0; j < d;) {
 			double x = dis(gen);
-			if (x >0 && x < 1) {
+			if (x > from && x < to) {
 				G[i][j] = x;
 			}
 		}
@@ -292,8 +317,7 @@ void random_matrix(int K, int d, float **G, float from, float to) {
 }
 
 void read_command_line_arguments(char *argv[], int& argc, string& input_file, string& query_file,
-	string& output_file, int& k, int& L, int& w, int& st, bool& check_for_identical_grid_flag,
-	int& delta, int& eps) {
+	string& output_file, int& k, int& L, int& w, int& st, int& eps) {
 	for (int i = 1; i < argc; i++) {
 		if (strcmp(argv[i], "-d") == 0) {
 			input_file = argv[i + 1];
@@ -315,12 +339,6 @@ void read_command_line_arguments(char *argv[], int& argc, string& input_file, st
 		}
 		else if (strcmp(argv[i], "-st") == 0) {
 			st = atoi(argv[i + 1]);
-		}
-		else if (strcmp(argv[i], "--identical") == 0) {
-			check_for_identical_grid_flag = atoi(argv[i + 1]);
-		}
-		else if (strcmp(argv[i], "--delta") == 0) {
-			delta = atoi(argv[i + 1]);
 		}
 		else if (strcmp(argv[i], "--eps") == 0) {
 			eps = atoi(argv[i + 1]);
@@ -576,12 +594,6 @@ void print_parameters(int L, int k, int w, int search_threshold, int dimension, 
 
 void print_parameters(int L, int k, int w, int search_threshold, int dimension, float range) {
 	cout <<"range: "<<range<<endl;
-	print_parameters(L, k, w, search_threshold, dimension);
-}
-
-void print_parameters(int L, int k, int w, int search_threshold, int dimension, int delta, int K_matrix) {
-	cout <<"delta: "<<delta<<endl;
-	cout <<"K_matrix: "<<K_matrix<<endl;
 	print_parameters(L, k, w, search_threshold, dimension);
 }
 
