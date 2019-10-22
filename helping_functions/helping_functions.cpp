@@ -96,6 +96,39 @@ void read_command_line_arguments_hypercube(char *argv[], int& argc,string& input
 
 }
 
+void read_command_line_arguments_hypercube_grid(char *argv[], int& argc,string& input_file, string& query_file,
+	string& output_file, int& k, int& M,int& probes,int &L,int &flag ){
+	int opt;
+	while((opt = getopt(argc, argv, "d:q:o:k:M:p:")) != -1)
+    {
+      switch(opt){
+          case 'd':
+            	input_file= optarg;
+          break;
+          case 'q':
+            	query_file=optarg;
+          break;
+		  case 'o':
+		  		output_file=optarg;
+		  break;
+          case 'k':
+               	k=atoi(optarg);
+				flag=1;
+          break;
+          case 'M':{
+		  		M=atoi(optarg);
+		  }
+          break;
+          case 'p':
+		  		probes=atoi(optarg);
+          break;
+		  case 'L':
+		  		L=atoi(optarg);
+          break;
+      }
+  }
+
+}
 unsigned f_hash_function(vector<Type> x , int dimension,int w, int k,
 	int bits_of_each_hash, unsigned M, vector<unsigned>& m_powers,vector<vector<float>*>& s_array,vector< unordered_map<unsigned,int> *>&g_value,int f){
 	int y;
@@ -231,11 +264,11 @@ void zip_points(Curve *grid_curve, Item **item) {
 
 
 void _get_relative_traversals(int i, int j, int m, int n, int pi, Tuple *path,
-		list<vector<Tuple*>*>& relative_traversals) { 
+		list<vector<Tuple*>*>& relative_traversals) {
 
-    // Reached the bottom of the matrix so we are left with 
-    // only option to move right 
-    if (i == m - 1) { 
+    // Reached the bottom of the matrix so we are left with
+    // only option to move right
+    if (i == m - 1) {
         for (int k = j; k < n; k++) {
 		    //path[pi + k - j] = mat[i*n + k];
 			path[pi + k - j].set_x(i);
@@ -248,12 +281,12 @@ void _get_relative_traversals(int i, int j, int m, int n, int pi, Tuple *path,
 			relative_path->push_back(tuple);
 		}
 		relative_traversals.push_back(relative_path);
-        return; 
-    } 
-  
-    // Reached the right corner of the matrix we are left with 
-    // only the downward movement. 
-    if (j == n - 1) { 
+        return;
+    }
+
+    // Reached the right corner of the matrix we are left with
+    // only the downward movement.
+    if (j == n - 1) {
         for (int k = i; k < m; k++) {
             //path[pi + k - i] = mat[k*n + j];
 			path[pi + k - i].set_x(k);
@@ -266,38 +299,38 @@ void _get_relative_traversals(int i, int j, int m, int n, int pi, Tuple *path,
 			relative_path->push_back(tuple);
 		}
 		relative_traversals.push_back(relative_path);
-        return; 
+        return;
     }
-  
-    // Add the current cell to the path being generated 
+
+    // Add the current cell to the path being generated
     //path[pi] = mat[i*n + j];
 	path[pi].set_x(i);
 	path[pi].set_y(j);
-  
+
     //get all the paths that are possible after moving down
 	if ( abs(i+1 - j) <= 1) {
-    	_get_relative_traversals(i+1, j, m, n, pi + 1, path, relative_traversals); 
+    	_get_relative_traversals(i+1, j, m, n, pi + 1, path, relative_traversals);
 	}
-  
-    //get all the paths that are possible after moving right 
+
+    //get all the paths that are possible after moving right
 	if ( abs(j+1 - i) <= 1) {
-    	_get_relative_traversals(i, j+1, m, n, pi + 1, path, relative_traversals); 
+    	_get_relative_traversals(i, j+1, m, n, pi + 1, path, relative_traversals);
 	}
-  
-    //get all the paths that are possible after moving diagonal 
+
+    //get all the paths that are possible after moving diagonal
 	if ( abs((j+1) - (i+1)) <= 1) {
-    	_get_relative_traversals(i+1, j+1, m, n, pi + 1, path, relative_traversals); 
+    	_get_relative_traversals(i+1, j+1, m, n, pi + 1, path, relative_traversals);
 	}
-} 
-  
-// The main function that gets all paths from top left to bottom right 
+}
+
+// The main function that gets all paths from top left to bottom right
 // in a matrix of size mXn
 void find_relevant_traversals(int m, int n,
 	list<vector<Tuple*>*>& relative_traverals) {
 
 	Tuple *path = new Tuple[m + n];
-    _get_relative_traversals(0, 0, m, n, 0, path, relative_traverals); 
-} 
+    _get_relative_traversals(0, 0, m, n, 0, path, relative_traverals);
+}
 
 
 void random_matrix(int K, int d, float **G, float from, float to) {

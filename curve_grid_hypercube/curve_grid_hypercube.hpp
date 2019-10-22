@@ -40,6 +40,7 @@ private:
 
 
 class Curve_Grid_hypercube {
+public:
     Curve_Grid_hypercube(int L,int hash_table_size, int curve_dimension, int w, int k,int delta,unsigned m,unsigned M);
     ~Curve_Grid_hypercube();
     void insert_curve(Curve *curve,list<Curve*> *grid_curves);
