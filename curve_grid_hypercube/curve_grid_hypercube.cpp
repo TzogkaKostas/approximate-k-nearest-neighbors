@@ -3,6 +3,27 @@
 using namespace std;
 
 Curve_Grid_hypercube::Curve_Grid_hypercube(int L,int hash_table_size, int curve_dimension, int w, int k,int delta,unsigned m,unsigned M){
+
+    for (size_t i = 0; i < L; i++) {
+        Hash_Table_Hypercube *hash_table = new Hash_Table_Hypercube(table_size,dimension ,w, k);
+        hash_tables.push_back(hash_table);
+    }
+    vector<float> *random_vector;
+    Point *grid;
+    //create a uniformly random vector t in [0,d)^d for each hash table
+    for (size_t i = 0; i < L; i++) {
+        random_vector = new vector<float>;
+        random_float_vector(0, delta, *random_vector, delta);
+
+        grid = new Point();
+        for (float rand_coord: *random_vector) {
+            grid->insert_coordinate(rand_coord);
+            cout << "boom \n";
+        }
+        grids.push_back(grid);
+        delete random_vector;
+    }
+
     this->L = L;
 	this->table_size = hash_table_size;
 	this->curve_dimension = curve_dimension;
@@ -19,34 +40,14 @@ Curve_Grid_hypercube::Curve_Grid_hypercube(int L,int hash_table_size, int curve_
 	}
 	this->m = m;
 	for (size_t i = 0; i < this->table_size; i++) {
-		//cout <<"m: "<<m<<endl;
-		//cout <<"i: "<<i<<endl;
-		//cout <<"M: "<<M<<endl;
+		cout <<"m: "<<m<<endl;
+		cout <<"i: "<<i<<endl;
+		cout <<"M: "<<M<<endl;
 
 		m_powers.push_back( pow_mod(m, i, M) );
-		//cout << pow(m, i)<<endl;
-		//cout << m_powers[i]<<endl;
+		cout << pow(m, i)<<endl;
+		cout << m_powers[i]<<endl;
 		//getchar();
-	}
-    for (size_t i = 0; i < L; i++) {
-		Hash_Table_Hypercube *hash_table = new Hash_Table_Hypercube(table_size,dimension ,w, k);
-		hash_tables.push_back(hash_table);
-	}
-
-	vector<float> *random_vector;
-	Point *grid;
-
-	//create a uniformly random vector t in [0,d)^d for each hash table
-	for (size_t i = 0; i < L; i++) {
-		random_vector = new vector<float>;
-		random_float_vector(0, delta, *random_vector, delta);
-
-		grid = new Point();
-		for (float rand_coord: *random_vector) {
-			grid->insert_coordinate(rand_coord);
-		}
-		grids.push_back(grid);
-		delete random_vector;
 	}
 }
 

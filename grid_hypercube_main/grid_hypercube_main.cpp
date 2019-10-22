@@ -1,3 +1,5 @@
+//g++ grid_hypercube_main.cpp ../curve_grid_hypercube/curve_grid_hypercube.cpp ../item/item_implem.cpp ../curve/curve_implem.cpp ../query_result/query_result.hpp ../point/point_implem.cpp ../hash_table/hash_table_implem.cpp ../helping_functions/helping_functions.cpp ../relevant_traversals/relevant_traversals_implem.cpp ../Tuple/tuple.hpp
+//
 #include "../curve_grid_hypercube/curve_grid_hypercube.hpp"
 #include "../item/item.hpp"
 #include "../curve/curve.hpp"
