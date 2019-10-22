@@ -182,7 +182,7 @@ void Hypercube::range_search(Item *query, unsigned prompt, float radious,
 			}
 			unsigned nbuckets=hash_table->get_f_values_map()->bucket_count();
 			for (unsigned i=0; i<nbuckets; i++) {
-				if (searched_items >= M_f || searched_items>=prompt) {
+				if (searched_items >= M_f || bucketes_checked>=prompt) {
 					break;
 				}
 
