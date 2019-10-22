@@ -1,6 +1,7 @@
 #ifndef TUPLE_H
 #define TUPLE_H
-
+#include <string>
+using namespace std;
 class Tuple {
 public:
 	Tuple() {}

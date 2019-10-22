@@ -9,7 +9,7 @@
 #include "../query_result/query_result.hpp"
 #include "../curve/curve.hpp"
 #include "../point/point.hpp"
-#include "../tuple/tuple.hpp"
+#include "../Tuple/tuple.hpp"
 
 using namespace std;
 
