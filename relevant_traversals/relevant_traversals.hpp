@@ -6,7 +6,7 @@
 
 #include "../query_result/query_result.hpp"
 #include "../hash_table/hash_table.hpp"
-#include "../tuple/tuple.hpp"
+#include "../Tuple/tuple.hpp"
 
 class Relevant_Traversals {
 public:

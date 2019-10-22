@@ -3,6 +3,7 @@
 
 #include "../query_result/query_result.hpp"
 #include "../hash_table/hash_table.hpp"
+#include <list>
 
 class Curve_Grid_LSH {
 public:

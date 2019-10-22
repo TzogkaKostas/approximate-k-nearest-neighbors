@@ -3,14 +3,15 @@
 
 #include "../query_result/query_result.hpp"
 #include "../hash_table/hash_table.hpp"
-
+#include <list>
+using namespace std;
 class LSH {
 public:
 	LSH(int L, int dimension, int w, int k, unsigned m);
 	~LSH();
 
 	void insert_item(Item *item);
-	void ANN(Item *query, unsigned threshhold, Query_Result& query_result);	
+	void ANN(Item *query, unsigned threshhold, Query_Result& query_result);
 	void range_search(Item *query, unsigned threshhold, float radious,
 		list<Item*>& range_items, Query_Result& query_result);
 	void print_hash_tables();

@@ -5,6 +5,7 @@
 
 #include "../item/item.hpp"
 
+using namespace std;
 
 class Point {
 public:

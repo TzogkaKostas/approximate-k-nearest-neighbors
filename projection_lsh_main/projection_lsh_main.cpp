@@ -14,7 +14,7 @@ using namespace std;
 #include "../hash_table/hash_table.hpp"
 #include "../helping_functions/helping_functions.hpp"
 #include "../query_result/query_result.hpp"
-#include "../tuple/tuple.hpp"
+#include "../Tuple/tuple.hpp"
 #include "../lsh/lsh.hpp"
 #include "../curve_projection_lsh/curve_projection_lsh.hpp"
 
@@ -22,7 +22,7 @@ using namespace std;
 #define K_DEFAULT 4
 #define W_DEFAULT 100
 #define SEARCH_THRESHOLD (L_DEFAULT*10)
-#define TABLE_SIZE_DIVIDED_BY 16 
+#define TABLE_SIZE_DIVIDED_BY 16
 #define CURVE_DIMENSION_DEFAULT 2
 #define CHECK_FOR_IDENTICAL_GRID_FLAG_DEFAULT false
 #define EPS_DEFAULT 0.5
@@ -95,7 +95,7 @@ int main(int argc, char *argv[]) {
 	cout <<"K_matrix: "<<K_matrix<<endl;
 	cout <<"Max curve length: "<<max_curve_length<<endl;
 
-	//CREATE THE GRID STRUCTURE FOR CURVES WITH LSH 
+	//CREATE THE GRID STRUCTURE FOR CURVES WITH LSH
 	Curve_Projection_LSH grid_projection(L, hash_table_dimension, w, k,
 		curve_dimension, m, max_curve_length, K_matrix);
 
@@ -160,7 +160,7 @@ int main(int argc, char *argv[]) {
 	cout << "Found "<<not_null<<"/"<<queries.size()<<" approximate nearest neighbors"<<endl;
 	cout << "Found "<<found_nearest<<"/"<<queries.size()<<" exact nearest neighbors"<<endl;
 	cout << "Average distance: "<<total_distances/queries.size()<<endl;
-	
+
 	delete_curves(grid_curves);
 	delete_curves(input_curves);
 	delete_curves(queries);

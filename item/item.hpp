@@ -2,6 +2,8 @@
 #define ITEM_H
 
 #include <vector>
+#include <string>
+using namespace std;
 
 typedef float Type;
 

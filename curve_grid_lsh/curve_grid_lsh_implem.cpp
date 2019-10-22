@@ -42,7 +42,7 @@ Curve_Grid_LSH::Curve_Grid_LSH(int L, int hash_table_dimension, int w, int k, in
 	this->L = L;
 	this->hash_table_dimension = hash_table_dimension;
 	this->curve_dimension = curve_dimension;
-	this->w = w;    
+	this->w = w;
 	this->k = k;
 	this->bits_of_each_hash = 32/k;
 	this->delta = delta;
@@ -114,7 +114,7 @@ void Curve_Grid_LSH::ANN(Curve *query_curve, unsigned threshhold, Query_Result& 
 		//query_item->print();
 		g_value = g_hash_function(*(query_item->get_coordinates()),
 				hash_table_dimension, w, k, bits_of_each_hash, M, hash_tables[i]->get_s_array(), m_powers);
-		
+
 		//cout <<"g_value: "<< g_value<<endl;
 
 		ret = hash_tables[i]->get_map()->equal_range(g_value);
