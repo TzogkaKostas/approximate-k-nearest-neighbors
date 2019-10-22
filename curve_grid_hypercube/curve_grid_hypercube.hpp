@@ -40,25 +40,26 @@ private:
 
 
 class Curve_Grid_hypercube {
-public:
-    Curve_Grid_hypercube(int L,int hash_table_size, int curve_dimension, int w, int k,int delta,unsigned m,unsigned M);
+ public:
+    Curve_Grid_hypercube(int L, int hash_table_dimension, int w, int k, int delta,
+			int curve_dimension, unsigned m,unsigned M ,int table_size,int probes);
     ~Curve_Grid_hypercube();
     void insert_curve(Curve *curve,list<Curve*> *grid_curves);
 	int get_w() {return w;}
 	int get_k() {return k;}
-	int get_dimension() {return dimension;}
+	int get_dimension() {return curve_dimension;}
 	void print_hash_tables();
 	void ANN(Curve *query_curve, unsigned threshhold, Query_Result& query_result,
 			bool check_for_identical_grid_flag);
 	unsigned long long int Curve_Grid_distance(Curve *curve1, Curve *curve2);
 private:
     vector<Hash_Table_Hypercube*>  hash_tables;
-	int table_size;//k comand line
     vector<Point*> grids; //Each grid is identified from the random Point t
+	int table_size;//k comand line
     int L;
   	int w;
   	int k;//for g,h
-  	int dimension;
+	int hash_table_dimension;
 	int M_f;//M
   	unsigned long M;// for g,h
 	unsigned m;

@@ -1,5 +1,5 @@
 //g++ grid_hypercube_main.cpp ../curve_grid_hypercube/curve_grid_hypercube.cpp ../item/item_implem.cpp ../curve/curve_implem.cpp ../query_result/query_result.hpp ../point/point_implem.cpp ../hash_table/hash_table_implem.cpp ../helping_functions/helping_functions.cpp ../relevant_traversals/relevant_traversals_implem.cpp ../Tuple/tuple.hpp
-//
+//./a.out
 #include "../curve_grid_hypercube/curve_grid_hypercube.hpp"
 #include "../item/item.hpp"
 #include "../curve/curve.hpp"
@@ -13,10 +13,12 @@
 using namespace std;
 #define M_DEFAULT 3
 #define K_DEFAULT 4
-#define W_DEFAULT 100
+#define W_DEFAULT 10
 #define PROBES_DEFAULT 2
 #define L_DEFAULT 4
 #define CHECK_FOR_IDENTICAL_GRID_FLAG_DEFAULT false
+#define CURVE_DIMENSION_DEFAULT 2
+
 
 int main(int argc, char *argv[]) {
     int k;
@@ -27,7 +29,7 @@ int main(int argc, char *argv[]) {
     int L=L_DEFAULT;
     int delta = -1;
     bool check_for_identical_grid_flag = CHECK_FOR_IDENTICAL_GRID_FLAG_DEFAULT;
-
+    int curve_dimension = CURVE_DIMENSION_DEFAULT;
     //READ COMMAND LINE ARGUMENTS
     string input_file, query_file, output_file;
     int flag_defult=-1;
@@ -39,23 +41,26 @@ int main(int argc, char *argv[]) {
     int table_size=k;//initilized after insert items
     read_2d_curves_from_file(input_file, input_curves, max_curve_length);
     //cout << "input_curves : "<<input_curves.size()<<endl;
-    int dimension =max_curve_length;
+    int hash_table_dimension = curve_dimension*max_curve_length;
     if (flag_defult==-1){
         table_size=log(input_curves.size());
     }
     unsigned m = numeric_limits<unsigned>::max() + 1 - 5;
-    print_parameters(L, table_size, w, probes, dimension);
-
-    delta= 4*dimension*table_size;
-
+    print_parameters(L, table_size, w, probes, hash_table_dimension);
+    if (delta == - 1) {
+        delta= 4*hash_table_dimension*table_size;
+    }
+    //cout <<"m :" << m;
     //CREATE THE HYPERCUBE STRUCTURE
-    Curve_Grid_hypercube h_curve_grid(L,table_size,max_curve_length,w,k,delta,m,M);
-    //cout << "ARGS " << input_file << " " << query_file << " " << output_file ;
+    Curve_Grid_hypercube h_curve_grid(L,hash_table_dimension,w,k_s_g,delta,curve_dimension,m,M,table_size,probes);
+    cout << "ARGS " << input_file << " " << query_file << " " << output_file ;
 
     //INSERT INPUT DATA
     list<Curve*> grid_curves;
     time_t time = clock();
     for(Curve *curve : input_curves) {
+        cout<< "\n holla \n";
+        cout <<curve->get_name()<<endl;
 		h_curve_grid.insert_curve(curve, &grid_curves);
 	}
 

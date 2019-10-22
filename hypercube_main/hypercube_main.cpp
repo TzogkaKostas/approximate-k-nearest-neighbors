@@ -1,5 +1,5 @@
 // g++ hypercube.cpp hypercube_main.cpp ../helping_functions/helping_functions.cpp ../item/item_implem.cpp ../curve/curve_implem.cpp ../point/point_implem.cpp -g3
-//./a.out -d input_small_id -q query_small_id -o output
+//./a.out -d trajectories_dataset -q query -o output
 #include <bits/stdc++.h>
 #include <iostream>
 #include <fstream>
@@ -59,7 +59,7 @@ int main(int argc, char *argv[]) {
 		//CREATE THE HYPERCUBE STRUCTURE
 
 		Hypercube hypercube (table_size,dimension,w,k_s_g,m,M);
-		//cout << "ARGS " << input_file << " " << query_file << " " << output_file ;
+		cout << "ARGS " << input_file << " " << query_file << " " << output_file ;
 
 		//INSERT INPUT DATA
 		time_t time = clock();
