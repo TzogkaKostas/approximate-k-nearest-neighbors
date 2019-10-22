@@ -3,7 +3,7 @@
 using namespace std;
 
 Curve_Grid_hypercube::Curve_Grid_hypercube(int L,int hash_table_size, int curve_dimension, int w, int k,int delta,unsigned m,unsigned M){
-
+        printf("\n %d %d %d %d %d %d %d %d \n", L,hash_table_size,  curve_dimension, w, k, delta,m,M);
     for (size_t i = 0; i < L; i++) {
         Hash_Table_Hypercube *hash_table = new Hash_Table_Hypercube(table_size,dimension ,w, k);
         hash_tables.push_back(hash_table);
@@ -18,7 +18,7 @@ Curve_Grid_hypercube::Curve_Grid_hypercube(int L,int hash_table_size, int curve_
         grid = new Point();
         for (float rand_coord: *random_vector) {
             grid->insert_coordinate(rand_coord);
-            cout << "boom \n";
+            //cout << "boom \n";
         }
         grids.push_back(grid);
         delete random_vector;
@@ -33,21 +33,24 @@ Curve_Grid_hypercube::Curve_Grid_hypercube(int L,int hash_table_size, int curve_
 	this->bits_of_each_hash = 32/k;
 	this->delta = delta;
 	if (k == 1) {
-		this->M = numeric_limits<unsigned>::max() + 1;
+		this->M = numeric_limits<unsigned>::max() ;
 	}
 	else {
 		this->M = pow(2, bits_of_each_hash);
 	}
 	this->m = m;
-	for (size_t i = 0; i < this->table_size; i++) {
-		cout <<"m: "<<m<<endl;
-		cout <<"i: "<<i<<endl;
-		cout <<"M: "<<M<<endl;
+    cout << table_size<<endl;
+	for (size_t i = 0; i < table_size; i++) {
+		//cout <<"m: "<<m<<endl;
+		//cout <<"i: "<<i<<endl;
+		//cout <<"M: "<<M<<endl;
 
 		m_powers.push_back( pow_mod(m, i, M) );
-		cout << pow(m, i)<<endl;
-		cout << m_powers[i]<<endl;
+		//cout << pow(m, i)<<endl;
+		//cout << m_powers[i]<<endl;
 		//getchar();
+        //cout << "boom \n";
+        //cout << "boom \n";
 	}
 }
 

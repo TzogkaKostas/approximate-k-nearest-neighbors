@@ -32,6 +32,7 @@ private:
 	vector< unordered_map<unsigned,int> *> g_value;
 	vector < vector <float>* > s_array;
 	int table_size;//k comnd line
+
 };
 
 
@@ -50,8 +51,8 @@ public:
 		list<Item*>& range_items, Query_Result& query_result);
 	void print_hash_tables();
 	void ANN(Item *query, unsigned threshhold, Query_Result& query_result);
-private:
 	Hash_Table* hash_table;
+private:
 	int table_size;//k comand line
   	int w;
   	int k;//for g,h

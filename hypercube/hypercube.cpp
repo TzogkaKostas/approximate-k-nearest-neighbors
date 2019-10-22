@@ -35,7 +35,7 @@ void Hash_Table::insert(Item*item,int dimension, int w, int k,int bits_of_each_h
 }
 
 unsigned Hash_Table::p(vector<Type> x , int dimension, int table_size, int w, int k,
-	int bits_of_each_hash, unsigned M, vector<unsigned>& m_powers) {
+	int bits_of_each_hash, unsigned M, vector<unsigned>& m_powers){
 	int result=0;
 	int p=0;
 	for (int i = 0; i < table_size; i++) {
@@ -77,7 +77,7 @@ Hypercube::Hypercube(int hash_table_size, int dimension, int w, int k,unsigned m
 void Hypercube::ANN(Item *query, unsigned prompt, Query_Result& query_result){
 	int searched_items;
 	unsigned best_distance = numeric_limits<unsigned>::max();
-	unsigned  P_value;
+	unsigned  F_value;
 	string best = "";
 	unordered_multimap<unsigned, Item*> *map;
 	pair <unordered_multimap<unsigned, Item*>::iterator, unordered_multimap<unsigned,Item*>::iterator> ret;
@@ -86,11 +86,11 @@ void Hypercube::ANN(Item *query, unsigned prompt, Query_Result& query_result){
 	int bucketes_checked=0;
 	time_t time;
 	time = clock();
-	P_value = hash_table->p(*(query->get_coordinates()),dimension,
+	F_value = hash_table->p(*(query->get_coordinates()),dimension,
 	                        table_size, w, k, bits_of_each_hash, M,  m_powers);
 
 	map = hash_table->get_f_values_map();
-	ret = map->equal_range(P_value);
+	ret = map->equal_range(F_value);
 	searched_items = 0;
 
 	unsigned bucket_value;
@@ -99,7 +99,7 @@ void Hypercube::ANN(Item *query, unsigned prompt, Query_Result& query_result){
 			if (searched_items >= M_f) {
 				break;
 			}
-			unsigned cur_distance = manhattan_distance(*(query->get_coordinates()), *(it->second->get_coordinates()));//apostasi querry apo ta alla pou iparxoun sto bucket
+			unsigned cur_distance = Hypercube_distance(query, it->second);//apostasi querry apo ta alla pou iparxoun sto bucket
 			if (cur_distance < best_distance) {
 				best = it->second->get_name();
 				best_distance = cur_distance;
@@ -108,7 +108,7 @@ void Hypercube::ANN(Item *query, unsigned prompt, Query_Result& query_result){
 		}
 		unsigned nbuckets=hash_table->get_f_values_map()->bucket_count();
 		for (unsigned i=0; i<nbuckets; i++) {
-			if (searched_items >= M_f || bucketes_checked>=prompt) {
+			if (searched_items >= M_f || searched_items>=prompt) {
 				break;
 			}
 
@@ -117,14 +117,14 @@ void Hypercube::ANN(Item *query, unsigned prompt, Query_Result& query_result){
 				bucket_value=hash_table->get_f_values_map()->begin(i)->first;
 				break;
 	    	}
-			if (hammingDistance(P_value, bucket_value)==1){
+			if (hammingDistance(F_value, bucket_value)==1){
 				bucketes_checked++;
 				ret = map->equal_range(bucket_value);
 				for (it = ret.first; it != ret.second; ++it) {
 					if (searched_items >= M_f) {
 						break;
 					}
-					unsigned cur_distance = manhattan_distance(*(query->get_coordinates()), *(it->second->get_coordinates()));//apostasi querry apo ta alla pou iparxoun sto bucket
+					unsigned cur_distance = Hypercube_distance(query, it->second);//apostasi querry apo ta alla pou iparxoun sto bucket
 					if (cur_distance < best_distance) {
 						best = it->second->get_name();
 						best_distance = cur_distance;
@@ -152,7 +152,7 @@ void Hypercube::range_search(Item *query, unsigned prompt, float radious,
 		list<Item*>& range_items, Query_Result& query_result) {
 		int searched_items;
 		unsigned best_distance = numeric_limits<unsigned>::max();
-		unsigned  P_value;
+		unsigned  F_value;
 		string best = "";
 		unordered_multimap<unsigned, Item*> *map;
 		pair <unordered_multimap<unsigned, Item*>::iterator, unordered_multimap<unsigned,Item*>::iterator> ret;
@@ -161,11 +161,11 @@ void Hypercube::range_search(Item *query, unsigned prompt, float radious,
 		int bucketes_checked=0;
 		time_t time;
 		time = clock();
-		P_value = hash_table->p(*(query->get_coordinates()),dimension,
+		F_value = hash_table->p(*(query->get_coordinates()),dimension,
 		                        table_size, w, k, bits_of_each_hash, M,  m_powers);
 
 		map = hash_table->get_f_values_map();
-		ret = map->equal_range(P_value);
+		ret = map->equal_range(F_value);
 		searched_items = 0;
 
 		unsigned bucket_value;
@@ -174,7 +174,7 @@ void Hypercube::range_search(Item *query, unsigned prompt, float radious,
 				if (searched_items >= M_f) {
 					break;
 				}
-				unsigned cur_distance = manhattan_distance(*(query->get_coordinates()), *(it->second->get_coordinates()));//apostasi querry apo ta alla pou iparxoun sto bucket
+				unsigned cur_distance = Hypercube_distance(query, it->second);//apostasi querry apo ta alla pou iparxoun sto bucket
 				if (cur_distance < radious) {
 					range_items.push_back(it->second);
 				}
@@ -191,14 +191,14 @@ void Hypercube::range_search(Item *query, unsigned prompt, float radious,
 					bucket_value=hash_table->get_f_values_map()->begin(i)->first;
 					break;
 		    	}
-				if (hammingDistance(P_value, bucket_value)==1){
+				if (hammingDistance(F_value, bucket_value)==1){
 					bucketes_checked++;
 					ret = map->equal_range(bucket_value);
 					for (it = ret.first; it != ret.second; ++it) {
 						if (searched_items >= M_f) {
 							break;
 						}
-						unsigned cur_distance =manhattan_distance(*(query->get_coordinates()), *(it->second->get_coordinates()));//apostasi querry apo ta alla pou iparxoun sto bucket
+						unsigned cur_distance = Hypercube_distance(query, it->second);//apostasi querry apo ta alla pou iparxoun sto bucket
 						if (cur_distance < radious) {
 							range_items.push_back(it->second);
 						}
@@ -220,4 +220,8 @@ void Hypercube::range_search(Item *query, unsigned prompt, float radious,
 			query_result.set_time(-1);
 			query_result.set_best_item("NULL");
 		}
+}
+
+unsigned long long int Hypercube::Hypercube_distance(Item *item1, Item *item2) {
+	return manhattan_distance(*(item1->get_coordinates()), *(item2->get_coordinates()));
 }

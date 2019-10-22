@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
     int max_curve_length;
     int table_size=k;//initilized after insert items
     read_2d_curves_from_file(input_file, input_curves, max_curve_length);
-
+    //cout << "input_curves : "<<input_curves.size()<<endl;
     int dimension =max_curve_length;
     if (flag_defult==-1){
         table_size=log(input_curves.size());
