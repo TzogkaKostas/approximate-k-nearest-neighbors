@@ -44,7 +44,7 @@ Curve_Grid_hypercube::Curve_Grid_hypercube(int L, int hash_table_dimension, int 
 		this->M = pow(2, bits_of_each_hash);
 	}
 	this->m = m;
-    cout << table_size<<endl;
+    //cout << ":table_size "<<endl;
 	for (size_t i = 0; i < table_size; i++) {
 		//cout <<"m: "<<m<<endl;
 		//cout <<"i: "<<i<<endl;
@@ -84,7 +84,7 @@ void Curve_Grid_hypercube::insert_curve(Curve *curve, list<Curve*> *grid_curves)
 		P_value = hash_tables[i]->p(*item->get_coordinates(), hash_table_dimension, table_size, w, k,bits_of_each_hash,  M, m_powers);
 		hash_tables[i]->insert(grid_curve, P_value);
 		//cout <<"P_value: "<<P_value<<endl;
-		//delete item;
+		delete item;
 	}
 }
 
@@ -146,7 +146,7 @@ void Curve_Grid_hypercube::ANN(Curve *query_curve, unsigned prompt, Query_Result
 			}
             for (auto it = hash_tables[i]->get_f_values_map()->begin(y);it!= hash_tables[i]->get_f_values_map()->end(y);it++){
 	        	//std::cout << "[" << hash_table->get_f_values_map()->begin(i)->first << ":" << it->second->get_name() << "] ";
-				bucket_value=hash_tables[i]->get_f_values_map()->begin(i)->first;
+				bucket_value=hash_tables[i]->get_f_values_map()->begin(y)->first;
 				break;
 	    	}
             if (hammingDistance(P_value, bucket_value)==1){
@@ -166,7 +166,21 @@ void Curve_Grid_hypercube::ANN(Curve *query_curve, unsigned prompt, Query_Result
 			}
 
         }
+
     }
+    time = clock() - time;
+    delete query_grid_curve;
+    delete query_item;
+	if (best != "") {
+		query_result.set_best_distance(best_distance);
+		query_result.set_time( ((double)time) / CLOCKS_PER_SEC );
+		query_result.set_best_item(best);
+	}
+	else {
+		query_result.set_best_distance(-1);
+		query_result.set_time(-1);
+		query_result.set_best_item("NULL");
+	}
 
 }
 

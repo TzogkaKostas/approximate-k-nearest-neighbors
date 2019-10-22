@@ -1,5 +1,5 @@
-//g++ grid_hypercube_main.cpp ../curve_grid_hypercube/curve_grid_hypercube.cpp ../item/item_implem.cpp ../curve/curve_implem.cpp ../query_result/query_result.hpp ../point/point_implem.cpp ../hash_table/hash_table_implem.cpp ../helping_functions/helping_functions.cpp ../relevant_traversals/relevant_traversals_implem.cpp ../Tuple/tuple.hpp
-//./a.out
+//g++ grid_hypercube_main.cpp ../curve_grid_hypercube/curve_grid_hypercube.cpp ../item/item_implem.cpp ../curve/curve_implem.cpp ../query_result/query_result.hpp ../point/point_implem.cpp ../hash_table/hash_table_implem.cpp ../helping_functions/helping_functions.cpp ../relevant_traversals/relevant_traversals_implem.cpp ../Tuple/tuple.hpp -g3
+//./a.out -d data -q query -o output
 #include "../curve_grid_hypercube/curve_grid_hypercube.hpp"
 #include "../item/item.hpp"
 #include "../curve/curve.hpp"
@@ -53,14 +53,13 @@ int main(int argc, char *argv[]) {
     //cout <<"m :" << m;
     //CREATE THE HYPERCUBE STRUCTURE
     Curve_Grid_hypercube h_curve_grid(L,hash_table_dimension,w,k_s_g,delta,curve_dimension,m,M,table_size,probes);
-    cout << "ARGS " << input_file << " " << query_file << " " << output_file ;
+    //cout << "ARGS " << input_file << " " << query_file << " " << output_file ;
 
     //INSERT INPUT DATA
     list<Curve*> grid_curves;
     time_t time = clock();
     for(Curve *curve : input_curves) {
-        cout<< "\n holla \n";
-        cout <<curve->get_name()<<endl;
+        //cout <<curve->get_name()<<endl;
 		h_curve_grid.insert_curve(curve, &grid_curves);
 	}
 
@@ -86,12 +85,13 @@ int main(int argc, char *argv[]) {
 		cout <<"Query:"<<query->get_name()<<endl;
 
 		//approximate nearest neighbor
+        cout << "\n YO \n";
 		h_curve_grid.ANN(query, probes, ann_query_result, check_for_identical_grid_flag);
 		print_ann_results(ann_query_result);
 
 		//Exact nearest neighbor
 		exhaustive_curve_search(&input_curves, query, exhaustive_query_result);
-		print_exhaustive_search_results(exhaustive_query_result);
+		//print_exhaustive_search_results(exhaustive_query_result);
 		cout <<"-------------------------------------------------------"<<endl;
 		cout<<endl;
 

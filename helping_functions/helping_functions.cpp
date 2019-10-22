@@ -477,6 +477,7 @@ int read_2d_curves_from_file(string file_name, list<Curve*>& curves, int& max_le
 			}
 			curve = new Curve(name, points);
 			curves.push_back(curve);
+			//cout << "READING \n";
 		}
 		inputfile.close();
 	}
