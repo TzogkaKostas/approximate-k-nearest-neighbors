@@ -27,9 +27,8 @@ private:
 	unsigned long M;
 	int curve_dimension; //2D in our case
 	unsigned m;
-	vector<unsigned> m_powers;
 	int table_size;
-	vector<vector<Relevant_Traversals*>> table;
+	vector<Relevant_Traversals*> table;
 	float **G_matrix;
 	int K_matrix;
 };

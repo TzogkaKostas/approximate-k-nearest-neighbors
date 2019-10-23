@@ -264,7 +264,7 @@ void zip_points(Curve *grid_curve, Item **item) {
 
 
 void _get_relative_traversals(int i, int j, int m, int n, int pi, Tuple *path,
-		list<vector<Tuple*>*>& relative_traversals) {
+		list<vector<Tuple*>*>& relative_traversals) { 
 
     // Reached the bottom of the matrix so we are left with
     // only option to move right
@@ -308,29 +308,35 @@ void _get_relative_traversals(int i, int j, int m, int n, int pi, Tuple *path,
 	path[pi].set_y(j);
 
     //get all the paths that are possible after moving down
-	if ( abs(i+1 - j) <= 1) {
-    	_get_relative_traversals(i+1, j, m, n, pi + 1, path, relative_traversals);
+	if (next_i     == j*m/n || j ==  next_i*n/m ) { 
+		//|| next_i + 1 == j*m/n || j == (next_i + 1)*n/m
+		//|| next_i - 1 == j*m/n || j == (next_i - 1)*n/m )  {
+    	_get_relative_traversals(i+1, j, m, n, pi + 1, path, relative_traversals); 
 	}
 
     //get all the paths that are possible after moving right
-	if ( abs(j+1 - i) <= 1) {
-    	_get_relative_traversals(i, j+1, m, n, pi + 1, path, relative_traversals);
+	if (i     == next_j*m/n || next_j == i*n/m ) {
+		//|| i + 1 == next_j*m/n || next_j == (i + 1)*n/m
+		//|| i - 1 == next_j*m/n || next_j == (i - 1)*n/m) {
+    	_get_relative_traversals(i, j+1, m, n, pi + 1, path, relative_traversals); 
 	}
-
-    //get all the paths that are possible after moving diagonal
-	if ( abs((j+1) - (i+1)) <= 1) {
-    	_get_relative_traversals(i+1, j+1, m, n, pi + 1, path, relative_traversals);
+  
+    //get all the paths that are possible after moving diagonal 
+	if (next_i     == next_j*m/n || next_j == next_i*n/m ) {
+		//|| next_i + 1 == next_j*m/n || next_j == (next_i + 1)*n/m
+		//|| next_i - 1 == next_j*m/n || next_j == (next_i - 1)*n/m) {
+    	_get_relative_traversals(i+1, j+1, m, n, pi + 1, path, relative_traversals); 
 	}
 }
 
 // The main function that gets all paths from top left to bottom right
 // in a matrix of size mXn
-void find_relevant_traversals(int m, int n,
-	list<vector<Tuple*>*>& relative_traverals) {
+void find_relevant_traversals(int m, int n, list<vector<Tuple*>*>& relative_traverals) {
 
 	Tuple *path = new Tuple[m + n];
     _get_relative_traversals(0, 0, m, n, 0, path, relative_traverals);
-}
+	delete[] path;
+} 
 
 
 void random_matrix(int K, int d, float **G, float from, float to) {
@@ -350,7 +356,7 @@ void random_matrix(int K, int d, float **G, float from, float to) {
 }
 
 void read_command_line_arguments(char *argv[], int& argc, string& input_file, string& query_file,
-	string& output_file, int& k, int& L, int& w, int& st, int& eps) {
+	string& output_file, int& k, int& L, int& w, int& st, float& eps, int& M_table) {
 	for (int i = 1; i < argc; i++) {
 		if (strcmp(argv[i], "-d") == 0) {
 			input_file = argv[i + 1];
@@ -375,6 +381,9 @@ void read_command_line_arguments(char *argv[], int& argc, string& input_file, st
 		}
 		else if (strcmp(argv[i], "--eps") == 0) {
 			eps = atoi(argv[i + 1]);
+		}
+		else if (strcmp(argv[i], "-M") == 0) {
+			M_table = atoi(argv[i + 1]);
 		}
 	}
 }
@@ -443,6 +452,49 @@ void delete_curves(list<Curve*> curves) {
 	for (Curve *curve : curves) {
 		delete curve;
 	}
+}
+
+int read_2d_curves_from_file(string file_name, list<Curve*>& curves, int& max_length) {
+	string line, coordinate, name, tuple, part1, part2;
+	int length;
+	Type x, y;
+	Point *point;
+	Curve *curve;
+	vector<Point*> *points;
+
+	ifstream inputfile(file_name.c_str());
+	if (inputfile.is_open() == false) {
+		cout <<"File opening error: "<<file_name<<endl;
+		return 1;
+	}
+	else {
+		max_length = -1;
+		while(getline(inputfile, line)) {
+			istringstream iss (line);
+			iss >> name;
+			iss >> length;
+			max_length = max(max_length, length);
+			if (length > M_table) {
+				iss.ignore();
+				continue;
+			}
+
+			points = new vector<Point*>;
+			while ( iss >> part1 >> part2) {
+				tuple = part1 + part2;
+				sscanf(tuple.c_str(), "(%f, %f)", &x, &y);
+				point = new Point();
+				point->insert_coordinate(x);
+				point->insert_coordinate(y);
+				points->push_back(point);
+			}
+			curve = new Curve(name, points);
+			curves.push_back(curve);
+			//cout << "READING \n";
+		}
+		inputfile.close();
+	}
+	return 0;
 }
 
 int read_2d_curves_from_file(string file_name, list<Curve*>& curves, int& max_length) {

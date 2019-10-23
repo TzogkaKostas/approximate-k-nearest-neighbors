@@ -18,7 +18,7 @@ using namespace std;
 #include "../lsh/lsh.hpp"
 #include "../curve_projection_lsh/curve_projection_lsh.hpp"
 
-#define L_DEFAULT 5
+#define L_DEFAULT 1
 #define K_DEFAULT 4
 #define W_DEFAULT 100
 #define SEARCH_THRESHOLD (L_DEFAULT*10)
@@ -51,13 +51,6 @@ int main(int argc, char *argv[]) {
 	get_relative_traversals(3, 3, relevant_traversals);
 	cout << relevant_traversals.size();
 	return 0;
-	for (auto it : relevant_traversals) {
-		for (Tuple *tuple : *it) {
-			cout <<"("<<tuple->get_x()<<", "<<tuple->get_y()<<") ";
-		}
-		cout <<endl;
-	}
-	return 0;
 	*/
 
 	int L = L_DEFAULT;
@@ -76,7 +69,7 @@ int main(int argc, char *argv[]) {
 	//READ COMMAND LINE ARGUMENTS
 	string input_file, query_file, output_file;
 	read_command_line_arguments(argv, argc, input_file, query_file, output_file,
-			k, L, w, search_threshold, eps);
+			k, L, w, search_threshold, eps, M_table);
 
 	//READ CURVES FROM THE INPUT FILE
 	list<Curve*> input_curves;
@@ -91,17 +84,17 @@ int main(int argc, char *argv[]) {
 	search_threshold = max(10*L, search_threshold);
     int K_matrix = 0 - curve_dimension*log(eps/(eps*eps));
 
+	cout <<"K_matrix: "<<K_matrix<<endl;
+	cout <<"M: "<<M_table<<endl;
 	print_parameters(L, k, w, search_threshold, hash_table_dimension);
 	cout <<"K_matrix: "<<K_matrix<<endl;
 	cout <<"Max curve length: "<<max_curve_length<<endl;
 
 	//CREATE THE GRID STRUCTURE FOR CURVES WITH LSH
 	Curve_Projection_LSH grid_projection(L, hash_table_dimension, w, k,
-		curve_dimension, m, max_curve_length, K_matrix);
-
+		curve_dimension, m, M_table, K_matrix);
 
 	//INSERT INPUT DATA
-	list<Curve*> grid_curves;
 	time_t time = clock();
 	for(Curve *curve : input_curves) {
 		grid_projection.insert_curve(curve);
@@ -109,6 +102,9 @@ int main(int argc, char *argv[]) {
 	time = clock() - time;
 	cout <<"Data insertion time: "<< ((double)time) / CLOCKS_PER_SEC <<endl<<endl;
 
+	delete_curves(input_curves);
+	cout <<"main"<<input_curves.size()<<endl;
+	return 0;
 
 	//READ QUERY CURVES FROM THE INPUT FILE
 	list<Curve*> queries;
@@ -161,7 +157,6 @@ int main(int argc, char *argv[]) {
 	cout << "Found "<<found_nearest<<"/"<<queries.size()<<" exact nearest neighbors"<<endl;
 	cout << "Average distance: "<<total_distances/queries.size()<<endl;
 
-	delete_curves(grid_curves);
 	delete_curves(input_curves);
 	delete_curves(queries);
 	return 0;
