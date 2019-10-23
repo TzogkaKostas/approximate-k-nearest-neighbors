@@ -89,7 +89,7 @@ int main(int argc, char *argv[]) {
 		//HANDLE QUERIES
 		list<Item*> queries;
 		read_vectors_from_file(query_file, queries, radious);
-		cout <<"Radious: "<<radious<<endl;
+		//cout <<"Radious: "<<radious<<endl;
 
 
 
@@ -122,7 +122,10 @@ int main(int argc, char *argv[]) {
 			//cout<<endl;
 			if (radious > 0) {
 				hypercube.range_search(query, probes, radious, range_items, range_query_result);
-				print_range_results(range_items, radious);
+				if(PRINT_ON_SCREAN==1)
+					print_range_results(range_items, radious);
+
+				print_range_results_to_file(range_items, out,radious);
 				range_items.clear();
 			}
 

@@ -492,11 +492,16 @@ void print_curves(list<Curve*> curves)  {
 }
 
 void print_range_results(list<Item*> items, float radious)  {
-	cout <<radious<<"-near neighbors:"<<endl;
+	cout <<"R-near neighbors :"<<radious<<endl;
 	for (Item *item : items) {
 		cout << item->get_name();
 		cout <<endl;
 	}
+}
+void print_range_results_to_file(list<Item*> items,FILE *out ,float range){
+	fprintf(out,"R-near neighbors : %lf", range);
+	for (Item *item : items)
+		fprintf(out,  "%s\n",   item->get_name().c_str() );
 }
 
 Type DTW(vector<Point*> p, vector<Point*> q) {
