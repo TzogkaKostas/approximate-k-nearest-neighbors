@@ -82,7 +82,7 @@ int main(int argc, char *argv[]) {
 	int total_distances = 0;
 	int not_null = 0;
 	for(Curve *query: queries) {
-		//cout <<"Query:"<<query->get_name()<<endl;
+		cout <<"Query:"<<query->get_name()<<endl;
 
 		//approximate nearest neighbor
 		h_curve_grid.ANN(query, probes, ann_query_result, check_for_identical_grid_flag);
