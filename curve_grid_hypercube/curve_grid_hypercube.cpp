@@ -190,16 +190,19 @@ void Curve_Grid_hypercube::ANN(Curve *query_curve, unsigned prompt, Query_Result
 
 Hash_Table_Hypercube::Hash_Table_Hypercube(int table_size, int dimension, int w, int k){
 	this->table_size=table_size;
-	for (int i = 0; i < k; i++){
-		vector<float> *s = new vector<float>;
-		random_float_vector(0, w, *s, dimension);
-		s_array.push_back(s);
-	}
 	for (int i = 0; i < table_size; i++) {
 		unordered_map<unsigned,int> *it=new unordered_map<unsigned,int>;
 		g_value.push_back(it);
 	}
-
+    for (size_t y = 0; y < table_size; y++) {
+        vector < vector <float>* > *it1 =new vector < vector <float>* >;
+        for (int i = 0; i < k; i++){
+            vector<float> *s = new vector<float>;
+            random_float_vector(0, w, *s, dimension);
+            it1->push_back(s);
+        }
+        s_array.push_back(it1);
+    }
 }
 
 Hash_Table_Hypercube::~Hash_Table_Hypercube() {
@@ -220,7 +223,7 @@ unsigned Hash_Table_Hypercube::p(vector<Type> x , int dimension, int table_size,
 	int p=0;
 	for (int i = 0; i < table_size; i++) {
 
-		p = f_hash_function(x,dimension,w,k,bits_of_each_hash,M,m_powers,s_array,g_value,i);
+		p = f_hash_function(x,dimension,w,k,bits_of_each_hash,M,m_powers,*s_array[i],g_value,i);
 		result = result ^ p;
 		result = result <<1;
 	}
