@@ -14,7 +14,7 @@ public:
 	Relevant_Traversals() {}
 	~Relevant_Traversals();
 
-	void insert(Curve *curve, int hash_table_dimension, int L, int w,
+	void insert(Curve *curve, int L, int w,
 		int k, int bits_of_each_hash, int M,
 		float **G_matrix, int K_matrix, int curve_dimensinion);
 	void print_hash_tables();
@@ -22,6 +22,7 @@ public:
 	list<vector<Tuple*>*>& get_relevant_traversals() {return relevant_traversals;}
 	vector<Hash_Table*>& get_hash_tables() {return hash_tables;}
 	vector<vector<unsigned>*>& get_m_powers_array() {return m_powers_array;}
+	int get_num_of_traversals() {return relevant_traversals.size();}
 
 
 private:

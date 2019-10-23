@@ -27,35 +27,65 @@ std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
 std::uniform_int_distribution<> dis(0, 1);
 
 void convert_2d_curve_to_vector_by_projection(vector<Tuple*>& U, float **G_matrix, Curve *curve,
-		int G_rows, int G_cols, Item *item) {
+		int G_rows, int G_cols, Item **item) {
 	matrix_multiplication(U, G_matrix, curve, G_rows, G_cols, item);
 }
 
 void matrix_multiplication(vector<Tuple*>& U, float **G_matrix, Curve *curve,
-		int G_rows, int G_cols, Item *item) {
+		int G_rows, int G_cols, Item **item) {
 
 	float sum;
 	int position_of_curve;
 	vector<Type> *results_points;
 
+	//cout <<"Grows: "<<G_rows<<endl;
+	//cout <<"G_cols: "<<G_cols<<endl;
+	//cout <<"u.size: "<<U.size()<<endl;
+	//curve->print();
+	//for(Tuple *t : U) {
+	//	cout <<"("<<t->get_x()<<", "<<t->get_y()<<") ";
+	//}
+	//cout <<endl;
+
+	//for (size_t i = 0; i < G_rows; i++) {
+	//	for (size_t j = 0; j < G_cols; j++) {
+	//		G_matrix[i][j] = 0.5;
+	//		cout <<G_matrix[i][j]<<" ";
+	//	}
+	//	cout << endl;
+	//}	
+
 	vector<Point*>points = curve->get_points();
+	results_points = new vector<Type>;
 	for (size_t U_i = 0; U_i < U.size(); U_i++) {
 		for(int i = 0; i < G_rows; ++i) { //for every row of G
         	for(int j = 0; j < 1; ++j) { //for every column of U
 				sum = 0.0;
+				//cout<<"kostas"<<endl;
             	for(int k = 0; k < G_cols; ++k) {
+					//cout<<"kostas91"<<endl;
 					position_of_curve = U[U_i]->get_x();
+					//cout<<"kostas92"<<endl;
+					//cout <<"i: "<<i<<endl;
+					//cout <<"k: "<<k<<endl;
+					//cout <<"position_of_curve: "<<position_of_curve<<endl;
 					sum += G_matrix[i][k] * points[position_of_curve]->get_coord(k);
+					//cout<<"kostas93"<<endl;
 				}
-				results_points = new vector<Type>;
+				//cout<<"kostas223"<<endl;
 				results_points->push_back(sum);
             }
 		}
 	}
 
-	item = new Item(results_points);
-}
+	//for (Type p : *results_points) {
+	//	cout <<p<<" ";
+	//}
+	//cout <<endl;
+	//cout <<"done"<<endl;
 
+	*item = new Item(results_points);
+}
 
 void convert_2d_curve_to_vector(Curve *curve, Point *t, int delta, int dimension,
 		int curve_dimension, Curve **grid_curve, Item **item) {
@@ -270,7 +300,6 @@ void _get_relative_traversals(int i, int j, int m, int n, int pi, Tuple *path,
     // only option to move right
     if (i == m - 1) {
         for (int k = j; k < n; k++) {
-		    //path[pi + k - j] = mat[i*n + k];
 			path[pi + k - j].set_x(i);
 			path[pi + k - j].set_y(k);
 		}
@@ -288,7 +317,6 @@ void _get_relative_traversals(int i, int j, int m, int n, int pi, Tuple *path,
     // only the downward movement.
     if (j == n - 1) {
         for (int k = i; k < m; k++) {
-            //path[pi + k - i] = mat[k*n + j];
 			path[pi + k - i].set_x(k);
 			path[pi + k - i].set_y(j);
 		}
@@ -306,6 +334,9 @@ void _get_relative_traversals(int i, int j, int m, int n, int pi, Tuple *path,
     //path[pi] = mat[i*n + j];
 	path[pi].set_x(i);
 	path[pi].set_y(j);
+
+	int next_i = i + 1;
+	int next_j = j + 1;
 
     //get all the paths that are possible after moving down
 	if (next_i     == j*m/n || j ==  next_i*n/m ) { 
@@ -350,6 +381,7 @@ void random_matrix(int K, int d, float **G, float from, float to) {
 			double x = dis(gen);
 			if (x > from && x < to) {
 				G[i][j] = x;
+				j++;
 			}
 		}
 	}
@@ -454,7 +486,7 @@ void delete_curves(list<Curve*> curves) {
 	}
 }
 
-int read_2d_curves_from_file(string file_name, list<Curve*>& curves, int& max_length) {
+int read_2d_curves_from_file(string file_name, list<Curve*>& curves, int& max_length, int M_table) {
 	string line, coordinate, name, tuple, part1, part2;
 	int length;
 	Type x, y;
@@ -551,7 +583,7 @@ void print_range_results(list<Item*> items, float radious)  {
 	}
 }
 
-Type DTW(vector<Point*> p, vector<Point*> q) {
+Type DTW(vector<Point*>& p, vector<Point*>& q) {
 	int m1 = p.size();
 	int m2 = q.size();
 
@@ -607,35 +639,14 @@ unsigned g_hash_function(vector<Type> x , int dimension, int w, int k,
 
 unsigned hash_function(vector<Type> x, int dimension, int w, unsigned M,
 	vector<float>& s, vector<unsigned>& m_powers) {
-	unsigned sum = 0;
+
 	vector<int> a;
+
 	for (size_t i = 0; i < dimension; i++) {
 		a.push_back( floor( (x[i] - s[i]) / w) );
 	}
-	/*
-	cout <<"x: ";
-	for (float xi : x) {
-		cout <<xi<<" ";
-	}
-	cout <<endl<<endl;
-	cout <<"s: ";
-	for (float si : s) {
-		cout <<si<<" ";
-	}
-	cout <<endl<<endl;
-	cout <<"a: ";
-	for (int ai : a) {
-		cout <<ai<<" ";
-	}
-	cout <<endl<<endl;
 
-	cout <<"m_p: "<<endl;
-	for (float mi : m_powers) {
-		cout << mi<<" ";
-	}
-	cout <<endl<<endl;
-	*/
-
+	unsigned sum = 0;
 	sum = mod( mul_mod(a[0], m_powers[dimension - 1 - 0], M), M);
 	for (size_t i = 1; i < a.size(); i++) {
 		sum = add_mod( mul_mod(a[i], m_powers[dimension - 1 - i], M), sum, M);
@@ -671,6 +682,13 @@ void print_parameters(int L, int k, int w, int search_threshold, int dimension) 
 	cout <<"w: "<<w<<endl;
 	cout <<"search_threshold: "<<search_threshold<<endl;
 	cout <<"dimension: "<<dimension<<endl<<endl;;
+}
+
+void print_parameters(int L, int k, int w, int search_threshold) {
+	cout <<"L: "<<L<<endl;
+	cout <<"k: "<<k<<endl;
+	cout <<"w: "<<w<<endl;
+	cout <<"search_threshold: "<<search_threshold<<endl;
 }
 
 void print_parameters(int L, int k, int w, int search_threshold, int dimension, int delta) {

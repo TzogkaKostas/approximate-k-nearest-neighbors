@@ -41,6 +41,7 @@ unsigned long long int manhattan_distance(vector<Type> x1, vector<Type> x2);
 void print_ann_results(Query_Result ann_result);
 void print_exhaustive_search_results(Query_Result exhaustive_result);
 void print_parameters(int L, int k, int w, int search_threshold, int dimension);
+void print_parameters(int L, int k, int w, int search_threshold);
 void print_parameters(int L, int k, int w, int search_threshold, int dimension, int delta);
 void print_parameters(int L, int k, int w, int search_threshold, int dimension, float range);
 void get_vector_from_line(string line, Item& item);
@@ -50,10 +51,11 @@ unsigned long long int manhattan_distance(vector<Type> x1, vector<Type> x2);
 void exhaustive_search(list<Item*> *items, Item *query, Query_Result& query_result);
 void delete_items(list<Item*> items);
 int read_2d_curves_from_file(string file_name, list<Curve*>& curves, int& max_length);
+int read_2d_curves_from_file(string file_name, list<Curve*>& curves, int& max_length, int M_table);
 void print_curves(list<Curve*> curves);
 void delete_curves(list<Curve*> curves);
 void exhaustive_curve_search(list<Curve*> *curves, Curve *query, Query_Result& query_result);
-Type DTW(vector<Point*> p, vector<Point*> q);
+Type DTW(vector<Point*>& p, vector<Point*>& q);
 float manhattan_distance_2d(Point *p, Point *q);
 float euclidean_distance_2d(Point *p, Point *q);
 void snap_curve(Curve *curve, Point *t, Curve **snapped_curve, int delta);
@@ -66,9 +68,9 @@ void random_matrix(int K, int d, float **G, float from, float to);
 void print_range_results(list<Item*> items, float range);
 void find_relevant_traversals(int m, int n, list<vector<Tuple*>*>& relative_traverals);
 void convert_2d_curve_to_vector_by_projection(vector<Tuple*>& U, float **G_matrix, Curve *curve,
-		int G_rows, int G_cols, Item *item);
+		int G_rows, int G_cols, Item **item);
 void matrix_multiplication(vector<Tuple*>& U, float **G_matrix, Curve *curve,
-		int G_rows, int G_cols, Item *item);
+		int G_rows, int G_cols, Item **item);
 
 void read_command_line_arguments_hypercube(char *argv[], int& argc,string& input_file, string& query_file,
 	string& output_file, int& k, int& M,int& probes,int &flag);
