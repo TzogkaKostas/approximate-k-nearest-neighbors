@@ -44,10 +44,16 @@ relevant_traversals.o : ../relevant_traversals/relevant_traversals_implem.cpp $(
 	$(CC) $(DEBUG) $(FLAGS) ../relevant_traversals/relevant_traversals_implem.cpp -o relevant_traversals_implem.o
 
 cube_main.o : hypercube_main.o $(HEADERS)
-	$(CC) $(DEBUG) $(FLAGS) ../hypercube_main.cpp -o hypercube_main.o
+	$(CC) $(DEBUG) $(FLAGS) hypercube_main.cpp -o hypercube_main.o
 
-cube : $(OBJECTS)
+grid_hypercube_main.o : grid_hypercube_main.o $(HEADERS)
+	$(CC) $(DEBUG) $(FLAGS) grid_hypercube_main.cpp -o grid_hypercube_main.o
+
+cube : $(OBJECTS) cube_main.o
 	$(CC) $(DEBUG) $(OBJECTS) -o cube
+
+curve_grid_hypercube : $(OBJECTS) grid_hypercube_main.o
+	$(CC) $(DEBUG) $(OBJECTS) -o curve_grid_hypercube
 
 # Cleaning Files
 clean:
