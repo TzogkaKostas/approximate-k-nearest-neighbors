@@ -124,6 +124,7 @@ void Curve_Projection_LSH::ANN(Curve *query_curve, unsigned threshhold, Query_Re
 				searched_items = 0;
 				for (it = ret.first; it != ret.second; ++it) {
 					if (searched_items >= threshhold) {
+						delete query_item;
 						goto exit;
 					}
 
@@ -134,9 +135,9 @@ void Curve_Projection_LSH::ANN(Curve *query_curve, unsigned threshhold, Query_Re
 					}
 					searched_items++;
 				}
-				delete query_item;
 				h_i++;
-			}			
+			}
+			delete query_item;
 		}
 	}
 	exit:

@@ -1,8 +1,8 @@
 CC = g++
 CFLAGS = -std=c++11
-OBJECTS = lsh_main.o lsh_implem.o hash_table_implem.o item_implem.o helping_functions.o \
+OBJECTS = lsh_main.o lsh_implem.o hash_table_vector_implem.o item_implem.o helping_functions.o \
 		curve_implem.o point_implem.o
-HEADERS = ../hash_table/hash_table.hpp ../item/item.hpp ../helping_functions/helping_functions.hpp \
+HEADERS = ../hash_table_vector/hash_table_vector.hpp ../item/item.hpp ../helping_functions/helping_functions.hpp \
 		../lsh/lsh.hpp ../curve/curve.hpp ../point/point.hpp
 	
 all: lsh_main
@@ -16,8 +16,8 @@ lsh_main.o: lsh_main.cpp $(HEADERS)
 lsh_implem.o: ../lsh/lsh_implem.cpp $(HEADERS) 
 	$(CC) -c ../lsh/lsh_implem.cpp -o lsh_implem.o 
 
-hash_table_implem.o: ../hash_table/hash_table_implem.cpp $(HEADERS)
-	$(CC) -c ../hash_table/hash_table_implem.cpp -o hash_table_implem.o 
+hash_table_vector_implem.o: ../hash_table_vector/hash_table_vector_implem.cpp $(HEADERS)
+	$(CC) -c ../hash_table_vector/hash_table_vector_implem.cpp -o hash_table_vector_implem.o 
 
 item_implem.o: ../item/item_implem.cpp $(HEADERS)
 	$(CC) -c ../item/item_implem.cpp -o item_implem.o

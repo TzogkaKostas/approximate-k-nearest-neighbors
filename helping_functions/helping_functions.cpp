@@ -278,7 +278,7 @@ void get_snapped_point(Point *point, int delta, Point *t, Point **snapped_point)
 
 void fill_curve(Curve *curve, int pad_length) {
 	for (size_t i = 0; i < pad_length; i++) {
-		Point *point = new Point(0, 0);
+		Point *point = new Point(65536, 65536);
 		curve->insert_point(point);
 	}
 }
@@ -489,7 +489,7 @@ void delete_curves(list<Curve*> curves) {
 int read_2d_curves_from_file(string file_name, list<Curve*>& curves, int& max_length, int M_table) {
 	string line, coordinate, name, tuple, part1, part2;
 	int length;
-	Type x, y;
+	float x, y;
 	Point *point;
 	Curve *curve;
 	vector<Point*> *points;
@@ -532,7 +532,7 @@ int read_2d_curves_from_file(string file_name, list<Curve*>& curves, int& max_le
 int read_2d_curves_from_file(string file_name, list<Curve*>& curves, int& max_length) {
 	string line, coordinate, name, tuple, part1, part2;
 	int length;
-	Type x, y;
+	float x, y;
 	Point *point;
 	Curve *curve;
 	vector<Point*> *points;
@@ -588,14 +588,24 @@ void print_range_results_to_file(list<Item*> items,FILE *out ,float range){
 		fprintf(out,  "%s\n",   item->get_name().c_str() );
 }
 
-Type DTW(vector<Point*>& p, vector<Point*>& q) {
+double DTW(vector<Point*>& p, vector<Point*>& q) {
 	int m1 = p.size();
 	int m2 = q.size();
 
-	Type dtw_array[m1][m2];
+	double dtw_array[m1][m2];
 
 	//initialize (0,0) point of the array
 	dtw_array[0][0] = euclidean_distance_2d(p[0], q[0]);
+
+	//cout <<"p_x:"<<p[0]->get_x()<<endl;
+	//cout <<"p_y:"<<p[0]->get_y()<<endl;
+	//cout <<"q_x:"<<q[0]->get_x()<<endl;
+	//cout <<"q_y:"<<q[0]->get_y()<<endl;
+//
+	//cout <<"diff:"<<p[0]->get_x() - q[0]->get_x()<<endl;
+//
+//
+	//cout <<"dtw00: "<<dtw_array[0][0]<<endl;
 
 	//initialize first row of the array
 	for (size_t j = 1; j < m2; j++) {
@@ -676,7 +686,10 @@ void print_results(Query_Result ann_result,string type,Query_Result exhaustive_r
 		cout <<"NOT FOUND"<<endl;
 		return;
 	}
-	printf("Query: %s \nNearest neighbor: %s \ndistance%s: %d\ndistanceTrue: %d\nt%s: %d \n\n\n",ann_result.get_name().c_str(),exhaustive_result.get_name().c_str(),type.c_str(),ann_result.get_best_distance(),exhaustive_result.get_best_distance(),type.c_str(),ann_result.get_time());
+	printf("Query: %s \nNearest neighbor: %s \ndistance%s: %lld \ndistanceTrue: %lld \n"
+		"t%s: %f \n\n\n",ann_result.get_name().c_str(),exhaustive_result.get_name().c_str(),
+		type.c_str(),ann_result.get_best_distance(),exhaustive_result.get_best_distance(),
+		type.c_str(),ann_result.get_time());
 }
 
 void print_results_to_file(Query_Result ann_result,string type,FILE *out,Query_Result exhaustive_result){
@@ -685,7 +698,10 @@ void print_results_to_file(Query_Result ann_result,string type,FILE *out,Query_R
 		fprintf(stderr, "Error opening file '%s'\n", optarg);
 	}
 	//printf("Query: %s \nNearest neighbor: %s \ndistance%s: %ld\ndistanceTrue: %ld\nt%s: %ld \n\n\n",ann_result.get_name().c_str(),exhaustive_result.get_name().c_str(),type.c_str(),ann_result.get_best_distance(),exhaustive_result.get_best_distance(),type.c_str(),ann_result.get_time());
-	fprintf(out, "Query: %s \nNearest neighbor: %s \ndistance%s: %ld\ndistanceTrue: %ld\nt%s: %ld\n\n\n",ann_result.get_name().c_str(),exhaustive_result.get_name().c_str(),type.c_str(),ann_result.get_best_distance(),exhaustive_result.get_best_distance(),type.c_str(),ann_result.get_time());
+	fprintf(out, "Query: %s \nNearest neighbor: %s \ndistance%s: %lld \ndistanceTrue: %lld \n"
+	"t%s: %f \n\n\n",ann_result.get_name().c_str(),exhaustive_result.get_name().c_str(),
+	type.c_str(),ann_result.get_best_distance(),exhaustive_result.get_best_distance(),
+	type.c_str(),ann_result.get_time());
 	//fclose(out);
 }
 
@@ -810,7 +826,7 @@ void exhaustive_curve_search(list<Curve*> *curves, Curve *query, Query_Result& q
 	time_t time;
 	time = clock();
 	for (Curve *curve : *curves) {
-		unsigned cur_distance = DTW(curve->get_points(), query->get_points());
+		double cur_distance = DTW(query->get_points(), curve->get_points());
 		if (cur_distance < best_distance) {
 			best = curve->get_name();
 			best_distance = cur_distance;

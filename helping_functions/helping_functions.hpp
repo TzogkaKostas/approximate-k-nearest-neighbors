@@ -57,7 +57,7 @@ int read_2d_curves_from_file(string file_name, list<Curve*>& curves, int& max_le
 void print_curves(list<Curve*> curves);
 void delete_curves(list<Curve*> curves);
 void exhaustive_curve_search(list<Curve*> *curves, Curve *query, Query_Result& query_result);
-Type DTW(vector<Point*>& p, vector<Point*>& q);
+double DTW(vector<Point*>& p, vector<Point*>& q);
 float manhattan_distance_2d(Point *p, Point *q);
 float euclidean_distance_2d(Point *p, Point *q);
 void snap_curve(Curve *curve, Point *t, Curve **snapped_curve, int delta);
