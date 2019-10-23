@@ -81,7 +81,7 @@ Hypercube::Hypercube(int hash_table_size, int dimension, int w, int k,unsigned m
 
 }
 
-void Hypercube::ANN(Item *query, unsigned prompt, Query_Result& query_result){
+void Hypercube::ANN(Item *query, unsigned probes, Query_Result& query_result){
 	int searched_items;
 	unsigned best_distance = numeric_limits<unsigned>::max();
 	unsigned  F_value;
@@ -115,7 +115,7 @@ void Hypercube::ANN(Item *query, unsigned prompt, Query_Result& query_result){
 		}
 		unsigned nbuckets=hash_table->get_f_values_map()->bucket_count();
 		for (unsigned i=0; i<nbuckets; i++) {
-			if (searched_items >= M_f || searched_items>=prompt) {
+			if (searched_items >= M_f || bucketes_checked >probes) {
 				break;
 			}
 
