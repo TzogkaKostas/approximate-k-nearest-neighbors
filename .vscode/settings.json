@@ -5,5 +5,10 @@
     },
     "search.exclude": {
         "**/.o": true
+    },
+    "files.associations": {
+        "ostream": "cpp",
+        "random": "cpp",
+        "*.tcc": "cpp"
     }
 }

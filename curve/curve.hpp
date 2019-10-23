@@ -10,7 +10,7 @@ public:
 	~Curve();
 
 	string get_name(){return name;}
-	vector<Point*> get_points() {return *points;}
+	vector<Point*>& get_points() {return *points;}
 	void set_points(vector<Point*> *points) {this->points = points;}
 	Curve* get_corresponding_curve() {return corresponding_curve;}
 	void set_corresponding_curve(Curve *corresponding_curve) {this->corresponding_curve = corresponding_curve;}

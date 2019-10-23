@@ -14,6 +14,7 @@ Hash_Table::Hash_Table(int dimension, int w, int k) {
 		random_float_vector(0, w, *s, dimension);
 		s_array.push_back(s);
 	}
+	this->dimension = dimension;
 }
 
 Hash_Table::~Hash_Table() {

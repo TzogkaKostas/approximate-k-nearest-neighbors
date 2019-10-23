@@ -18,55 +18,24 @@ using namespace std;
 #include "../lsh/lsh.hpp"
 #include "../curve_projection_lsh/curve_projection_lsh.hpp"
 
-#define L_DEFAULT 5
+#define L_DEFAULT 1
 #define K_DEFAULT 4
-#define W_DEFAULT 100
-#define SEARCH_THRESHOLD (L_DEFAULT*10)
-#define TABLE_SIZE_DIVIDED_BY 16
+#define W_DEFAULT 400
+#define SEARCH_THRESHOLD (L_DEFAULT*100)
 #define CURVE_DIMENSION_DEFAULT 2
 #define CHECK_FOR_IDENTICAL_GRID_FLAG_DEFAULT false
 #define EPS_DEFAULT 0.5
+#define M_TABLE_DEFAULT 4
 
 
 int main(int argc, char *argv[]) {
-	/*
-	int mat[5][5] = {
-		{11, 12, 13, 14, 15},
-		{21, 22, 23, 24, 25},
-		{31, 32, 33, 34, 35},
-		{41, 42, 43, 44, 45},
-		{51, 52, 53, 54, 55} };
-	int mat[3][3] = {
-		{11, 12, 13},
-		{21, 22, 23},
-		{31, 32, 33}
-	};
-	int mat[2][2] = {
-		{11, 12},
-		{21, 22}
-	};
-	list<vector<Tuple*>*> rel_list;
-    printAllPaths(*mat, 2, 2, rel_list);
-	list<vector<Tuple*>*> relevant_traversals;
-	get_relative_traversals(3, 3, relevant_traversals);
-	cout << relevant_traversals.size();
-	return 0;
-	for (auto it : relevant_traversals) {
-		for (Tuple *tuple : *it) {
-			cout <<"("<<tuple->get_x()<<", "<<tuple->get_y()<<") ";
-		}
-		cout <<endl;
-	}
-	return 0;
-	*/
-
 	int L = L_DEFAULT;
 	int k = K_DEFAULT;
 	int w = W_DEFAULT;
 	int search_threshold = SEARCH_THRESHOLD;
-	int table_size_divived_by = TABLE_SIZE_DIVIDED_BY;
 	int curve_dimension = CURVE_DIMENSION_DEFAULT;
-    int eps = EPS_DEFAULT;
+    float eps = EPS_DEFAULT;
+	int M_table = M_TABLE_DEFAULT;
 
 	//if (argc < 7 ) {
 	//	cout <<"usage: ./lsh –d <input file> –q <query file> –k <int> -L <int> -ο <output file>"<<endl;
@@ -76,32 +45,32 @@ int main(int argc, char *argv[]) {
 	//READ COMMAND LINE ARGUMENTS
 	string input_file, query_file, output_file;
 	read_command_line_arguments(argv, argc, input_file, query_file, output_file,
-			k, L, w, search_threshold, eps);
+			k, L, w, search_threshold, eps, M_table);
 
 	//READ CURVES FROM THE INPUT FILE
 	list<Curve*> input_curves;
 	int max_curve_length;
-	read_2d_curves_from_file(input_file, input_curves, max_curve_length);
+	read_2d_curves_from_file(input_file, input_curves, max_curve_length, M_table);
 
 	//INITIALIZE PARAMETERS
-	int table_size = max( (int)floor(input_curves.size()) /
-		table_size_divived_by, table_size_divived_by );
-	int hash_table_dimension = curve_dimension*max_curve_length; //<---------------------------------
 	unsigned m = numeric_limits<unsigned>::max() + 1 - 5;
-	search_threshold = max(10*L, search_threshold);
-    int K_matrix = 0 - curve_dimension*log(eps/(eps*eps));
+	search_threshold = max(100*L, search_threshold);
+    int K_matrix = 0 - curve_dimension*log2(eps)/(eps*eps);
 
-	print_parameters(L, k, w, search_threshold, hash_table_dimension);
 	cout <<"K_matrix: "<<K_matrix<<endl;
+	cout <<"M: "<<M_table<<endl;
+	print_parameters(L, k, w, search_threshold);
 	cout <<"Max curve length: "<<max_curve_length<<endl;
+	cout <<"num of curves: "<<input_curves.size()<<endl;
 
 	//CREATE THE GRID STRUCTURE FOR CURVES WITH LSH
-	Curve_Projection_LSH grid_projection(L, hash_table_dimension, w, k,
-		curve_dimension, m, max_curve_length, K_matrix);
+	Curve_Projection_LSH grid_projection(L, w, k,
+		curve_dimension, m, M_table, K_matrix);
+
+	grid_projection.print_hash_tables();
 
 
 	//INSERT INPUT DATA
-	list<Curve*> grid_curves;
 	time_t time = clock();
 	for(Curve *curve : input_curves) {
 		grid_projection.insert_curve(curve);
@@ -109,10 +78,9 @@ int main(int argc, char *argv[]) {
 	time = clock() - time;
 	cout <<"Data insertion time: "<< ((double)time) / CLOCKS_PER_SEC <<endl<<endl;
 
-
 	//READ QUERY CURVES FROM THE INPUT FILE
 	list<Curve*> queries;
-	read_2d_curves_from_file(query_file, queries, max_curve_length);
+	read_2d_curves_from_file(query_file, queries, max_curve_length, M_table);
 
 	//HANDLE QUERIES
 	Query_Result ann_query_result, exhaustive_query_result;
@@ -137,13 +105,17 @@ int main(int argc, char *argv[]) {
 		cout<<endl;
 
 		//statistics info for searches that succeeded
-		if (ann_query_result.get_time() != -1 && 0) {
+		if (ann_query_result.get_time() != -1 ) {
 			sum_query_time += ann_query_result.get_time();
+			cout <<"kosdas"<<endl;
 			if (exhaustive_query_result.get_best_distance() != 0) { //division by zero
+				cout <<"kosdas"<<endl;
 				max_rate = max(max_rate,
 						(double)ann_query_result.get_best_distance()/exhaustive_query_result.get_best_distance());
 				sum_rate += ann_query_result.get_best_distance()/exhaustive_query_result.get_best_distance();
 			}
+			cout << ann_query_result.get_name()<<endl;
+			cout << exhaustive_query_result.get_name()<<endl;
 			if (ann_query_result.get_name() == exhaustive_query_result.get_name()) {
 				found_nearest++;
 			}
@@ -161,7 +133,6 @@ int main(int argc, char *argv[]) {
 	cout << "Found "<<found_nearest<<"/"<<queries.size()<<" exact nearest neighbors"<<endl;
 	cout << "Average distance: "<<total_distances/queries.size()<<endl;
 
-	delete_curves(grid_curves);
 	delete_curves(input_curves);
 	delete_curves(queries);
 	return 0;

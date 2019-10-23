@@ -7,8 +7,8 @@
 
 class Curve_Projection_LSH {
 public:
-	Curve_Projection_LSH(int L, int hash_table_dimension, int w, int k,
-			int curve_dimension, unsigned m, int max_curve_length, int K_matrix);
+	Curve_Projection_LSH(int L, int w, int k, int curve_dimension, unsigned m,
+		int max_curve_length, int K_matrix);
 	~Curve_Projection_LSH();
 
 	void insert_curve(Curve *curve);
@@ -16,20 +16,17 @@ public:
 	void print_hash_tables();
 	int get_w() {return w;}
 	int get_k() {return k;}
-	int get_dimension() {return hash_table_dimension;}
 private:
 	unsigned long long int Curve_Projection_LSH_distance(Curve *curve1, Curve *curve2);
 	int w;
 	int k;
-	int hash_table_dimension;
 	int L;
 	int bits_of_each_hash;
 	unsigned long M;
 	int curve_dimension; //2D in our case
 	unsigned m;
-	vector<unsigned> m_powers;
 	int table_size;
-	vector<vector<Relevant_Traversals*>> table;
+	Relevant_Traversals ***table;
 	float **G_matrix;
 	int K_matrix;
 };
