@@ -25,7 +25,7 @@ typedef float Type;
 
 #define TABLE_SIZE_DIVIDED_BY 16
 
-
+#define PRINT_ON_SCREAN 0
 
 
 int main(int argc, char *argv[]) {
@@ -59,7 +59,7 @@ int main(int argc, char *argv[]) {
 		//CREATE THE HYPERCUBE STRUCTURE
 
 		Hypercube hypercube (table_size,dimension,w,k_s_g,m,M);
-		cout << "ARGS " << input_file << " " << query_file << " " << output_file ;
+		//cout << "ARGS " << input_file << " " << query_file << " " << output_file ;
 
 		//INSERT INPUT DATA
 		time_t time = clock();
@@ -102,6 +102,8 @@ int main(int argc, char *argv[]) {
 		int total_distances = 0;
 		int not_null = 0;
 		list<Item*> range_items;
+		FILE *out;
+		out= fopen(output_file.c_str(), "w");
 		for(Item *query: queries) {
 			//cout <<"Query:"<<query->get_name()<<endl;
 			//approximate nearest neighbor
@@ -111,6 +113,12 @@ int main(int argc, char *argv[]) {
 			//Exact nearest neighbor
 			exhaustive_search(&input_items, query, exhaustive_query_result);
 			//print_exhaustive_search_results(exhaustive_query_result);
+			print_results(ann_query_result,"Cube", exhaustive_query_result);
+			if(PRINT_ON_SCREAN==1)
+				print_results(ann_query_result,"Cube", exhaustive_query_result);
+
+			print_results_to_file(ann_query_result,"Cube",out ,exhaustive_query_result);
+
 			//cout<<endl;
 			if (radious > 0) {
 				hypercube.range_search(query, probes, radious, range_items, range_query_result);

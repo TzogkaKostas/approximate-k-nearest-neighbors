@@ -603,6 +603,24 @@ void print_ann_results(Query_Result ann_result) {
 	cout <<"tLSH:"<<ann_result.get_time()<<endl;
 }
 
+void print_results(Query_Result ann_result,string type,Query_Result exhaustive_result){
+	if (ann_result.get_name() == "NULL") {
+		cout <<"NOT FOUND"<<endl;
+		return;
+	}
+	printf("Query: %s \nNearest neighbor: %s \ndistance%s: %d\ndistanceTrue: %d\nt%s: %d \n\n\n",ann_result.get_name().c_str(),exhaustive_result.get_name().c_str(),type.c_str(),ann_result.get_best_distance(),exhaustive_result.get_best_distance(),type.c_str(),ann_result.get_time());
+}
+
+void print_results_to_file(Query_Result ann_result,string type,FILE *out,Query_Result exhaustive_result){
+
+	if (out==NULL){
+		fprintf(stderr, "Error opening file '%s'\n", optarg);
+	}
+	//printf("Query: %s \nNearest neighbor: %s \ndistance%s: %ld\ndistanceTrue: %ld\nt%s: %ld \n\n\n",ann_result.get_name().c_str(),exhaustive_result.get_name().c_str(),type.c_str(),ann_result.get_best_distance(),exhaustive_result.get_best_distance(),type.c_str(),ann_result.get_time());
+	fprintf(out, "Query: %s \nNearest neighbor: %s \ndistance%s: %ld\ndistanceTrue: %ld\nt%s: %ld\n\n\n",ann_result.get_name().c_str(),exhaustive_result.get_name().c_str(),type.c_str(),ann_result.get_best_distance(),exhaustive_result.get_best_distance(),type.c_str(),ann_result.get_time());
+	//fclose(out);
+}
+
 void print_exhaustive_search_results(Query_Result exhaustive_result) {
 	if (exhaustive_result.get_name() == "NULL") {
 		cout <<"NOT FOUND"<<endl;

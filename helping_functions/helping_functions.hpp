@@ -39,6 +39,8 @@ void read_command_line_arguments(char *argv[], int& argc, string& input_file, st
 	string& output_file, int& k, int& L, int& w, int& st, int& eps);
 unsigned long long int manhattan_distance(vector<Type> x1, vector<Type> x2);
 void print_ann_results(Query_Result ann_result);
+void print_results(Query_Result ann_result,string type,Query_Result exhaustive_result);
+void print_results_to_file(Query_Result ann_result,string type,FILE *out,Query_Result exhaustive_result);
 void print_exhaustive_search_results(Query_Result exhaustive_result);
 void print_parameters(int L, int k, int w, int search_threshold, int dimension);
 void print_parameters(int L, int k, int w, int search_threshold, int dimension, int delta);
