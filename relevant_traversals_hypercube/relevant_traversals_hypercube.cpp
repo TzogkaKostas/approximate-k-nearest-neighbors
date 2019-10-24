@@ -1,8 +1,11 @@
 #include "relevant_traversals_hypercube.hpp"
 #include "../helping_functions//helping_functions.hpp"
+#include "../curve_grid_hypercube/curve_grid_hypercube.hpp"
 using namespace std;
-
+class Hash_Table_Hypercube;
 Relevant_Traversals_hypercube::Relevant_Traversals_hypercube(int i, int j, int table_size_hypercube, int K_matrix, int w, int k,int m,int M){
+
+    find_relevant_traversals(i + 1, j + 1, relevant_traversals);
     //cout <<"rela _size: ("<<i<<", "<<j<<"): "<<relevant_traversals.size()<<endl;
     int hash_table_dimension;
     for (vector<Tuple*>* rel_trav : relevant_traversals ) {
@@ -20,6 +23,8 @@ Relevant_Traversals_hypercube::Relevant_Traversals_hypercube(int i, int j, int t
     this->length_i = i;
     this->length_j = j;
     this->table_size_hypercube =table_size_hypercube;
+    //cout <<"rela _size: ("<<i<<", "<<j<<"): "<<relevant_traversals.size()<<endl;
+
 }
 
 Relevant_Traversals_hypercube::~Relevant_Traversals_hypercube() {
@@ -40,15 +45,17 @@ Relevant_Traversals_hypercube::~Relevant_Traversals_hypercube() {
 
 void Relevant_Traversals_hypercube::insert(Curve *curve, int Hash_Table_Hypercube, int w,
     int k, int bits_of_each_hash, int M,
-    float **G_matrix, int K_matrix, int curve_dimensinion) {
+    float **G_matrix, int K_matrix, int curve_dimension) {
 
 	Item *item = NULL;
 	unsigned P_value;
-
+    cout<< "boom \n";
+    cout <<"\n rel size:\n"<<relevant_traversals.size()<<endl;
+    cout << "\n BOOM \n";
 	int rel_indx = 0;
 	for (vector<Tuple*> *relevant_traversal : relevant_traversals) {
-		//convert_2d_curve_to_vector_by_projection(*relevant_traversal, G_matrix,
-		//curve, K_matrix, curve_dimension, &item);
+		convert_2d_curve_to_vector_by_projection(*relevant_traversal, G_matrix,
+		curve, K_matrix, curve_dimension, &item);
 
 		//cout <<"ite po:"<<item<<endl;
 		//item->print();

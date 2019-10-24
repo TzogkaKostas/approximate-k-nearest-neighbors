@@ -1,5 +1,5 @@
-#ifndef HASH_H
-#define HASH_H
+#ifndef HASH_H_VEC
+#define HASH_H_VEC
 
 #include <unordered_map>
 

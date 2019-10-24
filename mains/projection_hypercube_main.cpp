@@ -28,7 +28,6 @@ int main(int argc, char *argv[]) {
 	int w = W_DEFAULT;
     int M = M_DEFAULT;
     int probes = PROBES_DEFAULT;
-    bool check_for_identical_grid_flag = CHECK_FOR_IDENTICAL_GRID_FLAG_DEFAULT;
     int curve_dimension = CURVE_DIMENSION_DEFAULT;
     float eps =EPS_DEFAULT;
     int M_table = M_TABLE_DEFAULT;
