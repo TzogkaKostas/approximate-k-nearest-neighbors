@@ -616,6 +616,11 @@ void print_results(Query_Result ann_result,string type,Query_Result exhaustive_r
 	printf("Query: %s \nNearest neighbor: %s \ndistance%s: %d\ndistanceTrue: %d\nt%s: %d \n\n\n",ann_result.get_name().c_str(),exhaustive_result.get_name().c_str(),type.c_str(),ann_result.get_best_distance(),exhaustive_result.get_best_distance(),type.c_str(),ann_result.get_time());
 }
 
+void print_results(Query_Result ann_result,string type,string hashing,Query_Result exhaustive_result){
+
+	printf("Query: %s \nMethod: %s \nHashFunction: %s\nFound Nearest: %s",ann_result.get_name().c_str(),type.c_str(),hashing.c_str());
+}
+
 void print_results_to_file(Query_Result ann_result,string type,FILE *out,Query_Result exhaustive_result){
 
 	if (out==NULL){

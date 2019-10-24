@@ -80,4 +80,5 @@ unsigned f_hash_function(vector<Type> x , int dimension,int w, int k,
 int hammingDistance(unsigned n1, unsigned n2);
 void read_command_line_arguments_hypercube_grid(char *argv[], int& argc,string& input_file, string& query_file,
 	string& output_file, int& k, int& M,int& probes,int &L,int &flag );
+	void print_results(Query_Result ann_result,string type,string hashing,Query_Result exhaustive_result);
 #endif
