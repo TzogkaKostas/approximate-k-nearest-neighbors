@@ -61,18 +61,10 @@ void matrix_multiplication(vector<Tuple*>& U, float **G_matrix, Curve *curve,
 		for(int i = 0; i < G_rows; ++i) { //for every row of G
         	for(int j = 0; j < 1; ++j) { //for every column of U
 				sum = 0.0;
-				//cout<<"kostas"<<endl;
             	for(int k = 0; k < G_cols; ++k) {
-					//cout<<"kostas91"<<endl;
 					position_of_curve = U[U_i]->get_x();
-					//cout<<"kostas92"<<endl;
-					//cout <<"i: "<<i<<endl;
-					//cout <<"k: "<<k<<endl;
-					//cout <<"position_of_curve: "<<position_of_curve<<endl;
 					sum += G_matrix[i][k] * points[position_of_curve]->get_coord(k);
-					//cout<<"kostas93"<<endl;
 				}
-				//cout<<"kostas223"<<endl;
 				results_points->push_back(sum);
             }
 		}
@@ -686,7 +678,7 @@ void print_results(Query_Result ann_result,string type,Query_Result exhaustive_r
 		cout <<"NOT FOUND"<<endl;
 		return;
 	}
-	printf("Query: %s \nNearest neighbor: %s \ndistance%s: %lld \ndistanceTrue: %lld \n"
+	printf("Query: %s \nNearest neighbor: %s \ndistance%s: %f \ndistanceTrue: %f \n"
 		"t%s: %f \n\n\n",ann_result.get_name().c_str(),exhaustive_result.get_name().c_str(),
 		type.c_str(),ann_result.get_best_distance(),exhaustive_result.get_best_distance(),
 		type.c_str(),ann_result.get_time());
@@ -698,7 +690,7 @@ void print_results_to_file(Query_Result ann_result,string type,FILE *out,Query_R
 		fprintf(stderr, "Error opening file '%s'\n", optarg);
 	}
 	//printf("Query: %s \nNearest neighbor: %s \ndistance%s: %ld\ndistanceTrue: %ld\nt%s: %ld \n\n\n",ann_result.get_name().c_str(),exhaustive_result.get_name().c_str(),type.c_str(),ann_result.get_best_distance(),exhaustive_result.get_best_distance(),type.c_str(),ann_result.get_time());
-	fprintf(out, "Query: %s \nNearest neighbor: %s \ndistance%s: %lld \ndistanceTrue: %lld \n"
+	fprintf(out, "Query: %s \nNearest neighbor: %s \ndistance%s: %f \ndistanceTrue: %f \n"
 	"t%s: %f \n\n\n",ann_result.get_name().c_str(),exhaustive_result.get_name().c_str(),
 	type.c_str(),ann_result.get_best_distance(),exhaustive_result.get_best_distance(),
 	type.c_str(),ann_result.get_time());
@@ -820,7 +812,7 @@ unsigned long long int manhattan_distance(vector<Type> x1, vector<Type> x2) {
 
 
 void exhaustive_curve_search(list<Curve*> *curves, Curve *query, Query_Result& query_result) {
-	unsigned best_distance = numeric_limits<unsigned>::max();
+	double best_distance = numeric_limits<double>::max();
 	string best = "";
 
 	time_t time;

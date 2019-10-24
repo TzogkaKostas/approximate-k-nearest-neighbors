@@ -94,7 +94,7 @@ int main(int argc, char *argv[]) {
 		exhaustive_curve_search(&input_curves, query, exhaustive_query_result);
 
 		if (output_file != "") {
-			print_results_to_file(ann_query_result,"LSH", out ,exhaustive_query_result);
+			print_results_to_file(ann_query_result,"Grid", out ,exhaustive_query_result);
 		}
 		else {
 			cout <<"Query:"<<query->get_name()<<endl;

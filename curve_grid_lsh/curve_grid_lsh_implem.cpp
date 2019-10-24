@@ -92,7 +92,7 @@ void Curve_Grid_LSH::insert_curve(Curve *curve, list<Curve*> *grid_curves) {
 void Curve_Grid_LSH::ANN(Curve *query_curve, unsigned threshhold, Query_Result& query_result,
 		bool check_for_identical_grid_flag) {
 	unsigned searched_items;
-	unsigned best_distance = numeric_limits<unsigned>::max();
+	double best_distance = numeric_limits<double>::max();
 	unsigned position, g_value;
 	Curve *query_grid_curve;
 	Item *query_item;

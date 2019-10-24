@@ -37,10 +37,10 @@ int main(int argc, char *argv[]) {
     float eps = EPS_DEFAULT;
 	int M_table = M_TABLE_DEFAULT;
 
-	//if (argc < 7 ) {
-	//	cout <<"usage: ./lsh –d <input file> –q <query file> –k <int> -L <int> -ο <output file>"<<endl;
-	//	return 1;
-	//}
+	if (argc < 5 ) {
+		cout <<"usage: ./lsh –d <input file> –q <query file> –k <int> -L <int> -ο <output file>"<<endl;
+		return 1;
+	}
 
 	//READ COMMAND LINE ARGUMENTS
 	string input_file, query_file, output_file;
@@ -67,9 +67,6 @@ int main(int argc, char *argv[]) {
 	Curve_Projection_LSH grid_projection(L, w, k,
 		curve_dimension, m, M_table, K_matrix);
 
-	grid_projection.print_hash_tables();
-
-
 	//INSERT INPUT DATA
 	time_t time = clock();
 	for(Curve *curve : input_curves) {
@@ -89,33 +86,34 @@ int main(int argc, char *argv[]) {
 	double max_rate = -1;
 	double sum_rate = 0;
 	int found_nearest = 0;
-	int total_distances = 0;
+	double total_distances = 0;
 	int not_null = 0;
+	FILE *out = fopen(output_file.c_str(), "w");
 	for(Curve *query: queries) {
-		cout <<"Query:"<<query->get_name()<<endl;
-
-		//approximate nearest neighbor
+		//Approximate nearest neighbor
 		grid_projection.ANN(query, search_threshold, ann_query_result);
-		print_ann_results(ann_query_result);
 
 		//Exact nearest neighbor
 		exhaustive_curve_search(&input_curves, query, exhaustive_query_result);
-		print_exhaustive_search_results(exhaustive_query_result);
-		cout <<"-------------------------------------------------------"<<endl;
-		cout<<endl;
+
+		if (output_file != "") {
+			print_results_to_file(ann_query_result,"Projection", out ,exhaustive_query_result);
+		}
+		else {
+			cout <<"Query:"<<query->get_name()<<endl;
+			print_ann_results(ann_query_result);
+			print_exhaustive_search_results(exhaustive_query_result);
+			cout <<"--------------------------------------------------------"<<endl<<endl;
+		}
 
 		//statistics info for searches that succeeded
 		if (ann_query_result.get_time() != -1 ) {
 			sum_query_time += ann_query_result.get_time();
-			cout <<"kosdas"<<endl;
 			if (exhaustive_query_result.get_best_distance() != 0) { //division by zero
-				cout <<"kosdas"<<endl;
 				max_rate = max(max_rate,
 						(double)ann_query_result.get_best_distance()/exhaustive_query_result.get_best_distance());
 				sum_rate += ann_query_result.get_best_distance()/exhaustive_query_result.get_best_distance();
 			}
-			cout << ann_query_result.get_name()<<endl;
-			cout << exhaustive_query_result.get_name()<<endl;
 			if (ann_query_result.get_name() == exhaustive_query_result.get_name()) {
 				found_nearest++;
 			}

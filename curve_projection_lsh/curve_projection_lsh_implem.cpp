@@ -86,7 +86,7 @@ void Curve_Projection_LSH::insert_curve(Curve *curve) {
 
 void Curve_Projection_LSH::ANN(Curve *query_curve, unsigned threshhold, Query_Result& query_result) {
 	unsigned searched_items;
-	unsigned best_distance = numeric_limits<unsigned>::max();
+	double best_distance = numeric_limits<double>::max();
 	unsigned g_value;
 	Item *query_item;
 	string best = "";
@@ -128,7 +128,7 @@ void Curve_Projection_LSH::ANN(Curve *query_curve, unsigned threshhold, Query_Re
 						goto exit;
 					}
 
-					unsigned cur_distance = Curve_Projection_LSH_distance(query_curve, it->second);
+					double cur_distance = Curve_Projection_LSH_distance(query_curve, it->second);
 					if (cur_distance < best_distance) {
 						best = it->second->get_name();
 						best_distance = cur_distance;
