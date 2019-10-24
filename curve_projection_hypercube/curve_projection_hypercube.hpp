@@ -24,8 +24,7 @@ class Curve_Projection_hypercube {
 	int get_k() {return k;}
 	int get_dimension() {return curve_dimension;}
 	void print_hash_tables();
-	void ANN(Curve *query_curve, unsigned probes, Query_Result& query_result,
-			bool check_for_identical_grid_flag);
+	void ANN(Curve *query_curve, unsigned probes, Query_Result& query_result);
 	unsigned long long int Curve_Grid_distance(Curve *curve1, Curve *curve2);
 private:
 

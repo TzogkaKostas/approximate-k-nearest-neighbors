@@ -72,7 +72,7 @@ void Curve_Projection_hypercube::insert_curve(Curve *curve) {
 	}
 }
 
-void Curve_Projection_hypercube::ANN(Curve *query_curve, unsigned probes, Query_Result& query_result,bool check_for_identical_grid_flag) {
+void Curve_Projection_hypercube::ANN(Curve *query_curve, unsigned probes, Query_Result& query_result) {
         unsigned searched_items;
     	double best_distance = numeric_limits<double>::max();
     	unsigned P_value;

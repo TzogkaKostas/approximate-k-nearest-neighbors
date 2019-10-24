@@ -51,7 +51,7 @@ int main(int argc, char *argv[]) {
 	    int dimension = input_items.front()->get_coordinates()->size();
 		//	table_size=log(input_items.size());
 		if (flag_defult==-1){
-			table_size=log(input_items.size());
+			table_size=log2(input_items.size());
 		}
 	    unsigned m = numeric_limits<unsigned>::max() + 1 - 5;
 	    print_parameters(0, table_size, w, probes, dimension);

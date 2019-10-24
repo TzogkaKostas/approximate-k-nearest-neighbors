@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
     //cout << "input_curves : "<<input_curves.size()<<endl;
     int hash_table_dimension = curve_dimension*max_curve_length;
     if (flag_defult==-1){
-        table_size=log(input_curves.size());
+        table_size=log2(input_curves.size());
     }
     unsigned m = numeric_limits<unsigned>::max() + 1 - 5;
     print_parameters(L, table_size, w, probes, hash_table_dimension);
