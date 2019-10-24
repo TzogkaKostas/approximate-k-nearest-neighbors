@@ -17,25 +17,12 @@ using namespace std;
 #include "curve_projection_lsh.hpp"
 
 
-Curve_Projection_LSH::Curve_Projection_LSH(int L, int hash_table_dimension,
-	int w, int k, int curve_dimension, unsigned m, int max_curve_length, int K_matrix) {
+Curve_Projection_LSH::Curve_Projection_LSH(int L, int w, int k,
+	int curve_dimension, unsigned m, int M_table, int K_matrix) {
 
-	//ALLOCATE M*M TABLE
-	Relevant_Traversals *relevant_traversals;
-	for (size_t i = 0; i < max_curve_length; i++) {
-		for (size_t j = 0; j < max_curve_length; j++) {
-			relevant_traversals = new Relevant_Traversals(i, j, L, hash_table_dimension, w, k);
-			table[i].push_back(relevant_traversals);
-		}
-	}
-
-	//CREATE RANDOM G MATRIX ~N(0, 1)
-	random_matrix(K_matrix, curve_dimension, G_matrix, 0, 1);
-	
 	this->K_matrix = K_matrix;
-	this->table_size = max_curve_length;
+	this->table_size = M_table;
 	this->L = L;
-	this->hash_table_dimension = hash_table_dimension;
 	this->curve_dimension = curve_dimension;
 	this->w = w;    
 	this->k = k;
@@ -47,17 +34,40 @@ Curve_Projection_LSH::Curve_Projection_LSH(int L, int hash_table_dimension,
 		this->M = pow(2, bits_of_each_hash);
 	}
 	this->m = m;
-	for (size_t i = 0; i < hash_table_dimension; i++) {
-		m_powers.push_back( pow_mod(m, i, M) );
+
+	//ALLOCATE M_Table*M_Table TABLE
+	table = new Relevant_Traversals**[table_size];
+	for(int i = 0; i < table_size; ++i) {
+	    table[i] = new Relevant_Traversals*[table_size];
+
+	    for(int j = 0; j < table_size; ++j) {
+	        table[i][j] = new Relevant_Traversals(i, j, L, K_matrix, w, k, m, M);
+	    }
 	}
+
+
+	//CREATE RANDOM G MATRIX ~N(0, 1)
+	G_matrix = new float*[K_matrix];
+	for (size_t i = 0; i < K_matrix; i++) {
+		G_matrix[i] = new float[curve_dimension];
+	}
+	random_matrix(K_matrix, curve_dimension, G_matrix, 0, 1);
 }
 
 Curve_Projection_LSH::~Curve_Projection_LSH() {
-	for (size_t i = 0; i < L; i++) {
-		for (size_t j = 0; j < L; j++) {
+	for(int i = 0; i < table_size; ++i) {
+	    for(int j = 0; j < table_size; ++j) {
 			delete table[i][j];
 		}
+		delete[] table[i];
 	}
+	delete[] table;
+
+	for (size_t i = 0; i < K_matrix; i++) {
+		delete[] G_matrix[i];
+	}
+
+	delete[] G_matrix;
 }
 
 void Curve_Projection_LSH::insert_curve(Curve *curve) {
@@ -65,16 +75,18 @@ void Curve_Projection_LSH::insert_curve(Curve *curve) {
 	Item *item = NULL;
 	unsigned g_value;
 
-	int table_row = curve->get_length();
+	int table_row = curve->get_length() - 1;
+	//cout <<"table_row: "<<table_row<<endl;
 	for (size_t j = 0; j < table_size; j++) {
-		table[table_row][j]->insert(curve, hash_table_dimension, w, k,
-			bits_of_each_hash, M, m_powers, G_matrix, table_size, curve_dimension);
+		//cout <<":-"<<table[table_row][j]->get_num_of_traversals() <<endl;
+		table[table_row][j]->insert(curve, L, w, k,
+			bits_of_each_hash, M, G_matrix, K_matrix, curve_dimension);
 	}
 }
 
 void Curve_Projection_LSH::ANN(Curve *query_curve, unsigned threshhold, Query_Result& query_result) {
 	unsigned searched_items;
-	unsigned best_distance = numeric_limits<unsigned>::max();
+	double best_distance = numeric_limits<double>::max();
 	unsigned g_value;
 	Item *query_item;
 	string best = "";
@@ -88,37 +100,44 @@ void Curve_Projection_LSH::ANN(Curve *query_curve, unsigned threshhold, Query_Re
 
 	time_t time;
 	time = clock();
-	for (size_t i = start_row; i < end_row; i++) {
+	for (size_t row = start_row; row < end_row; row++) {
 		list<vector<Tuple*>*> relevant_traversals = 
 			table[start_row][table_column]->get_relevant_traversals();
 
     	vector<Hash_Table*> hash_tables =
 			table[start_row][table_column]->get_hash_tables();
 
+		vector<vector<unsigned>*> m_powers_array = 
+			table[start_row][table_column]->get_m_powers_array();
+
 		int h_i = 0;
 		for (vector<Tuple*> *relevant_traversal : relevant_traversals) {
 			convert_2d_curve_to_vector_by_projection(*relevant_traversal, G_matrix,
-				query_curve, K_matrix, curve_dimension, query_item);
-			g_value = g_hash_function(*(query_item->get_coordinates()), hash_table_dimension,
-				w, k, bits_of_each_hash, M, hash_tables[i]->get_s_array(), m_powers);
+				query_curve, K_matrix, curve_dimension, &query_item);
 
-			
-			ret = hash_tables[i]->get_map()->equal_range(g_value);
-			searched_items = 0;
-			for (it = ret.first; it != ret.second; ++it) {
-				if (searched_items >= threshhold) {
-					goto exit;
-				}
+			for (size_t j = 0; j < L; j++) {
+				g_value = g_hash_function(*(query_item->get_coordinates()),
+					hash_tables[h_i]->get_dimension(), w, k, bits_of_each_hash, M,
+					hash_tables[h_i]->get_s_array(),(*m_powers_array[h_i]));
 
-				unsigned cur_distance = Curve_Projection_LSH_distance(query_curve, it->second);
-				if (cur_distance < best_distance) {
-					best = it->second->get_name();
-					best_distance = cur_distance;
+				ret = hash_tables[h_i]->get_map()->equal_range(g_value);
+				searched_items = 0;
+				for (it = ret.first; it != ret.second; ++it) {
+					if (searched_items >= threshhold) {
+						delete query_item;
+						goto exit;
+					}
+
+					double cur_distance = Curve_Projection_LSH_distance(query_curve, it->second);
+					if (cur_distance < best_distance) {
+						best = it->second->get_name();
+						best_distance = cur_distance;
+					}
+					searched_items++;
 				}
-				searched_items++;
+				h_i++;
 			}
 			delete query_item;
-			h_i++;
 		}
 	}
 	exit:
@@ -143,7 +162,8 @@ unsigned long long int Curve_Projection_LSH::Curve_Projection_LSH_distance(Curve
 void Curve_Projection_LSH::print_hash_tables() {
 	for (size_t i = 0; i < table_size; i++) {
 		for (size_t j = 0; j < table_size; j++) {
-			table[i][j]->print_hash_tables();\
+			cout <<table[i][j]->get_num_of_traversals()<<" ";
 		}
+		cout <<endl;
 	}
 }

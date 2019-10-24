@@ -8,7 +8,7 @@
 using namespace std;
 
 #include "../item/item.hpp"
-#include "../hash_table/hash_table.hpp"
+#include "../hash_table_vector/hash_table_vector.hpp"
 #include "../helping_functions/helping_functions.hpp"
 #include "../query_result/query_result.hpp"
 #include "lsh.hpp"

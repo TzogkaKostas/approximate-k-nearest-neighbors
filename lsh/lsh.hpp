@@ -2,7 +2,7 @@
 #define LSH_H_
 
 #include "../query_result/query_result.hpp"
-#include "../hash_table/hash_table.hpp"
+#include "../hash_table_vector/hash_table_vector.hpp"
 #include <list>
 using namespace std;
 class LSH {

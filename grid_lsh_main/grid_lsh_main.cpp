@@ -19,9 +19,8 @@ using namespace std;
 
 #define L_DEFAULT 5
 #define K_DEFAULT 4
-#define W_DEFAULT 100
-#define SEARCH_THRESHOLD (L_DEFAULT*10)
-#define TABLE_SIZE_DIVIDED_BY 16 
+#define W_DEFAULT 400
+#define SEARCH_THRESHOLD (L_DEFAULT*100)
 #define CURVE_DIMENSION_DEFAULT 2
 #define CHECK_FOR_IDENTICAL_GRID_FLAG_DEFAULT false
 
@@ -31,15 +30,14 @@ int main(int argc, char *argv[]) {
 	int k = K_DEFAULT;
 	int w = W_DEFAULT;
 	int search_threshold = SEARCH_THRESHOLD;
-	int table_size_divived_by = TABLE_SIZE_DIVIDED_BY;
 	int curve_dimension = CURVE_DIMENSION_DEFAULT;
 	bool check_for_identical_grid_flag = CHECK_FOR_IDENTICAL_GRID_FLAG_DEFAULT;
 	int delta = -1;
 
-	//if (argc < 7 ) {
-	//	cout <<"usage: ./lsh –d <input file> –q <query file> –k <int> -L <int> -ο <output file>"<<endl;
-	//	return 1;
-	//}
+	if (argc < 5 ) {
+		cout <<"usage: ./lsh –d <input file> –q <query file> -ο <output file>"<<endl;
+		return 1;
+	}
 
 	//READ COMMAND LINE ARGUMENTS
 	string input_file, query_file, output_file;
@@ -52,7 +50,6 @@ int main(int argc, char *argv[]) {
 	read_2d_curves_from_file(input_file, input_curves, max_curve_length);
 
 	//INITIALIZE PARAMETERS
-	int table_size = max( (int)floor(input_curves.size()) / table_size_divived_by, table_size_divived_by );
 	int hash_table_dimension = curve_dimension*max_curve_length;
 	if (delta == - 1) {
 		delta = 4*curve_dimension*hash_table_dimension;
@@ -88,18 +85,23 @@ int main(int argc, char *argv[]) {
 	int found_nearest = 0;
 	int total_distances = 0;
 	int not_null = 0;
+	FILE *out = fopen(output_file.c_str(), "w");
 	for(Curve *query: queries) {
-		cout <<"Query:"<<query->get_name()<<endl;
-
 		//approximate nearest neighbor
 		grid_projection.ANN(query, search_threshold, ann_query_result, check_for_identical_grid_flag);
-		print_ann_results(ann_query_result);
 
 		//Exact nearest neighbor
 		exhaustive_curve_search(&input_curves, query, exhaustive_query_result);
-		print_exhaustive_search_results(exhaustive_query_result);
-		cout <<"-------------------------------------------------------"<<endl;
-		cout<<endl;
+
+		if (output_file != "") {
+			print_results_to_file(ann_query_result,"Grid", out ,exhaustive_query_result);
+		}
+		else {
+			cout <<"Query:"<<query->get_name()<<endl;
+			print_ann_results(ann_query_result);
+			print_exhaustive_search_results(exhaustive_query_result);
+			cout <<"--------------------------------------------------------"<<endl<<endl;
+		}
 
 		//statistics info for searches that succeeded
 		if (ann_query_result.get_time() != -1) {

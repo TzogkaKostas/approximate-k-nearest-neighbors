@@ -27,18 +27,36 @@ std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
 std::uniform_int_distribution<> dis(0, 1);
 
 void convert_2d_curve_to_vector_by_projection(vector<Tuple*>& U, float **G_matrix, Curve *curve,
-		int G_rows, int G_cols, Item *item) {
+		int G_rows, int G_cols, Item **item) {
 	matrix_multiplication(U, G_matrix, curve, G_rows, G_cols, item);
 }
 
 void matrix_multiplication(vector<Tuple*>& U, float **G_matrix, Curve *curve,
-		int G_rows, int G_cols, Item *item) {
+		int G_rows, int G_cols, Item **item) {
 
 	float sum;
 	int position_of_curve;
 	vector<Type> *results_points;
 
+	//cout <<"Grows: "<<G_rows<<endl;
+	//cout <<"G_cols: "<<G_cols<<endl;
+	//cout <<"u.size: "<<U.size()<<endl;
+	//curve->print();
+	//for(Tuple *t : U) {
+	//	cout <<"("<<t->get_x()<<", "<<t->get_y()<<") ";
+	//}
+	//cout <<endl;
+
+	//for (size_t i = 0; i < G_rows; i++) {
+	//	for (size_t j = 0; j < G_cols; j++) {
+	//		G_matrix[i][j] = 0.5;
+	//		cout <<G_matrix[i][j]<<" ";
+	//	}
+	//	cout << endl;
+	//}	
+
 	vector<Point*>points = curve->get_points();
+	results_points = new vector<Type>;
 	for (size_t U_i = 0; U_i < U.size(); U_i++) {
 		for(int i = 0; i < G_rows; ++i) { //for every row of G
         	for(int j = 0; j < 1; ++j) { //for every column of U
@@ -47,15 +65,19 @@ void matrix_multiplication(vector<Tuple*>& U, float **G_matrix, Curve *curve,
 					position_of_curve = U[U_i]->get_x();
 					sum += G_matrix[i][k] * points[position_of_curve]->get_coord(k);
 				}
-				results_points = new vector<Type>;
 				results_points->push_back(sum);
             }
 		}
 	}
 
-	item = new Item(results_points);
-}
+	//for (Type p : *results_points) {
+	//	cout <<p<<" ";
+	//}
+	//cout <<endl;
+	//cout <<"done"<<endl;
 
+	*item = new Item(results_points);
+}
 
 void convert_2d_curve_to_vector(Curve *curve, Point *t, int delta, int dimension,
 		int curve_dimension, Curve **grid_curve, Item **item) {
@@ -248,7 +270,7 @@ void get_snapped_point(Point *point, int delta, Point *t, Point **snapped_point)
 
 void fill_curve(Curve *curve, int pad_length) {
 	for (size_t i = 0; i < pad_length; i++) {
-		Point *point = new Point(0, 0);
+		Point *point = new Point(65536, 65536);
 		curve->insert_point(point);
 	}
 }
@@ -264,13 +286,12 @@ void zip_points(Curve *grid_curve, Item **item) {
 
 
 void _get_relative_traversals(int i, int j, int m, int n, int pi, Tuple *path,
-		list<vector<Tuple*>*>& relative_traversals) {
+		list<vector<Tuple*>*>& relative_traversals) { 
 
     // Reached the bottom of the matrix so we are left with
     // only option to move right
     if (i == m - 1) {
         for (int k = j; k < n; k++) {
-		    //path[pi + k - j] = mat[i*n + k];
 			path[pi + k - j].set_x(i);
 			path[pi + k - j].set_y(k);
 		}
@@ -288,7 +309,6 @@ void _get_relative_traversals(int i, int j, int m, int n, int pi, Tuple *path,
     // only the downward movement.
     if (j == n - 1) {
         for (int k = i; k < m; k++) {
-            //path[pi + k - i] = mat[k*n + j];
 			path[pi + k - i].set_x(k);
 			path[pi + k - i].set_y(j);
 		}
@@ -307,30 +327,39 @@ void _get_relative_traversals(int i, int j, int m, int n, int pi, Tuple *path,
 	path[pi].set_x(i);
 	path[pi].set_y(j);
 
+	int next_i = i + 1;
+	int next_j = j + 1;
+
     //get all the paths that are possible after moving down
-	if ( abs(i+1 - j) <= 1) {
-    	_get_relative_traversals(i+1, j, m, n, pi + 1, path, relative_traversals);
+	if (next_i     == j*m/n || j ==  next_i*n/m ) { 
+		//|| next_i + 1 == j*m/n || j == (next_i + 1)*n/m
+		//|| next_i - 1 == j*m/n || j == (next_i - 1)*n/m )  {
+    	_get_relative_traversals(i+1, j, m, n, pi + 1, path, relative_traversals); 
 	}
 
     //get all the paths that are possible after moving right
-	if ( abs(j+1 - i) <= 1) {
-    	_get_relative_traversals(i, j+1, m, n, pi + 1, path, relative_traversals);
+	if (i     == next_j*m/n || next_j == i*n/m ) {
+		//|| i + 1 == next_j*m/n || next_j == (i + 1)*n/m
+		//|| i - 1 == next_j*m/n || next_j == (i - 1)*n/m) {
+    	_get_relative_traversals(i, j+1, m, n, pi + 1, path, relative_traversals); 
 	}
-
-    //get all the paths that are possible after moving diagonal
-	if ( abs((j+1) - (i+1)) <= 1) {
-    	_get_relative_traversals(i+1, j+1, m, n, pi + 1, path, relative_traversals);
+  
+    //get all the paths that are possible after moving diagonal 
+	if (next_i     == next_j*m/n || next_j == next_i*n/m ) {
+		//|| next_i + 1 == next_j*m/n || next_j == (next_i + 1)*n/m
+		//|| next_i - 1 == next_j*m/n || next_j == (next_i - 1)*n/m) {
+    	_get_relative_traversals(i+1, j+1, m, n, pi + 1, path, relative_traversals); 
 	}
 }
 
 // The main function that gets all paths from top left to bottom right
 // in a matrix of size mXn
-void find_relevant_traversals(int m, int n,
-	list<vector<Tuple*>*>& relative_traverals) {
+void find_relevant_traversals(int m, int n, list<vector<Tuple*>*>& relative_traverals) {
 
 	Tuple *path = new Tuple[m + n];
     _get_relative_traversals(0, 0, m, n, 0, path, relative_traverals);
-}
+	delete[] path;
+} 
 
 
 void random_matrix(int K, int d, float **G, float from, float to) {
@@ -344,13 +373,14 @@ void random_matrix(int K, int d, float **G, float from, float to) {
 			double x = dis(gen);
 			if (x > from && x < to) {
 				G[i][j] = x;
+				j++;
 			}
 		}
 	}
 }
 
 void read_command_line_arguments(char *argv[], int& argc, string& input_file, string& query_file,
-	string& output_file, int& k, int& L, int& w, int& st, int& eps) {
+	string& output_file, int& k, int& L, int& w, int& st, float& eps, int& M_table) {
 	for (int i = 1; i < argc; i++) {
 		if (strcmp(argv[i], "-d") == 0) {
 			input_file = argv[i + 1];
@@ -375,6 +405,9 @@ void read_command_line_arguments(char *argv[], int& argc, string& input_file, st
 		}
 		else if (strcmp(argv[i], "--eps") == 0) {
 			eps = atoi(argv[i + 1]);
+		}
+		else if (strcmp(argv[i], "-M") == 0) {
+			M_table = atoi(argv[i + 1]);
 		}
 	}
 }
@@ -445,10 +478,53 @@ void delete_curves(list<Curve*> curves) {
 	}
 }
 
+int read_2d_curves_from_file(string file_name, list<Curve*>& curves, int& max_length, int M_table) {
+	string line, coordinate, name, tuple, part1, part2;
+	int length;
+	float x, y;
+	Point *point;
+	Curve *curve;
+	vector<Point*> *points;
+
+	ifstream inputfile(file_name.c_str());
+	if (inputfile.is_open() == false) {
+		cout <<"File opening error: "<<file_name<<endl;
+		return 1;
+	}
+	else {
+		max_length = -1;
+		while(getline(inputfile, line)) {
+			istringstream iss (line);
+			iss >> name;
+			iss >> length;
+			max_length = max(max_length, length);
+			if (length > M_table) {
+				iss.ignore();
+				continue;
+			}
+
+			points = new vector<Point*>;
+			while ( iss >> part1 >> part2) {
+				tuple = part1 + part2;
+				sscanf(tuple.c_str(), "(%f, %f)", &x, &y);
+				point = new Point();
+				point->insert_coordinate(x);
+				point->insert_coordinate(y);
+				points->push_back(point);
+			}
+			curve = new Curve(name, points);
+			curves.push_back(curve);
+			//cout << "READING \n";
+		}
+		inputfile.close();
+	}
+	return 0;
+}
+
 int read_2d_curves_from_file(string file_name, list<Curve*>& curves, int& max_length) {
 	string line, coordinate, name, tuple, part1, part2;
 	int length;
-	Type x, y;
+	float x, y;
 	Point *point;
 	Curve *curve;
 	vector<Point*> *points;
@@ -504,14 +580,24 @@ void print_range_results_to_file(list<Item*> items,FILE *out ,float range){
 		fprintf(out,  "%s\n",   item->get_name().c_str() );
 }
 
-Type DTW(vector<Point*> p, vector<Point*> q) {
+double DTW(vector<Point*>& p, vector<Point*>& q) {
 	int m1 = p.size();
 	int m2 = q.size();
 
-	Type dtw_array[m1][m2];
+	double dtw_array[m1][m2];
 
 	//initialize (0,0) point of the array
 	dtw_array[0][0] = euclidean_distance_2d(p[0], q[0]);
+
+	//cout <<"p_x:"<<p[0]->get_x()<<endl;
+	//cout <<"p_y:"<<p[0]->get_y()<<endl;
+	//cout <<"q_x:"<<q[0]->get_x()<<endl;
+	//cout <<"q_y:"<<q[0]->get_y()<<endl;
+//
+	//cout <<"diff:"<<p[0]->get_x() - q[0]->get_x()<<endl;
+//
+//
+	//cout <<"dtw00: "<<dtw_array[0][0]<<endl;
 
 	//initialize first row of the array
 	for (size_t j = 1; j < m2; j++) {
@@ -560,35 +646,14 @@ unsigned g_hash_function(vector<Type> x , int dimension, int w, int k,
 
 unsigned hash_function(vector<Type> x, int dimension, int w, unsigned M,
 	vector<float>& s, vector<unsigned>& m_powers) {
-	unsigned sum = 0;
+
 	vector<int> a;
+
 	for (size_t i = 0; i < dimension; i++) {
 		a.push_back( floor( (x[i] - s[i]) / w) );
 	}
-	/*
-	cout <<"x: ";
-	for (float xi : x) {
-		cout <<xi<<" ";
-	}
-	cout <<endl<<endl;
-	cout <<"s: ";
-	for (float si : s) {
-		cout <<si<<" ";
-	}
-	cout <<endl<<endl;
-	cout <<"a: ";
-	for (int ai : a) {
-		cout <<ai<<" ";
-	}
-	cout <<endl<<endl;
 
-	cout <<"m_p: "<<endl;
-	for (float mi : m_powers) {
-		cout << mi<<" ";
-	}
-	cout <<endl<<endl;
-	*/
-
+	unsigned sum = 0;
 	sum = mod( mul_mod(a[0], m_powers[dimension - 1 - 0], M), M);
 	for (size_t i = 1; i < a.size(); i++) {
 		sum = add_mod( mul_mod(a[i], m_powers[dimension - 1 - i], M), sum, M);
@@ -613,7 +678,10 @@ void print_results(Query_Result ann_result,string type,Query_Result exhaustive_r
 		cout <<"NOT FOUND"<<endl;
 		return;
 	}
-	printf("Query: %s \nNearest neighbor: %s \ndistance%s: %d\ndistanceTrue: %d\nt%s: %d \n\n\n",ann_result.get_name().c_str(),exhaustive_result.get_name().c_str(),type.c_str(),ann_result.get_best_distance(),exhaustive_result.get_best_distance(),type.c_str(),ann_result.get_time());
+	printf("Query: %s \nNearest neighbor: %s \ndistance%s: %f \ndistanceTrue: %f \n"
+		"t%s: %f \n\n\n",ann_result.get_name().c_str(),exhaustive_result.get_name().c_str(),
+		type.c_str(),ann_result.get_best_distance(),exhaustive_result.get_best_distance(),
+		type.c_str(),ann_result.get_time());
 }
 
 void print_results(Query_Result ann_result,string type,string hashing,Query_Result exhaustive_result){
@@ -627,7 +695,10 @@ void print_results_to_file(Query_Result ann_result,string type,FILE *out,Query_R
 		fprintf(stderr, "Error opening file '%s'\n", optarg);
 	}
 	//printf("Query: %s \nNearest neighbor: %s \ndistance%s: %ld\ndistanceTrue: %ld\nt%s: %ld \n\n\n",ann_result.get_name().c_str(),exhaustive_result.get_name().c_str(),type.c_str(),ann_result.get_best_distance(),exhaustive_result.get_best_distance(),type.c_str(),ann_result.get_time());
-	fprintf(out, "Query: %s \nNearest neighbor: %s \ndistance%s: %ld\ndistanceTrue: %ld\nt%s: %ld\n\n\n",ann_result.get_name().c_str(),exhaustive_result.get_name().c_str(),type.c_str(),ann_result.get_best_distance(),exhaustive_result.get_best_distance(),type.c_str(),ann_result.get_time());
+	fprintf(out, "Query: %s \nNearest neighbor: %s \ndistance%s: %f \ndistanceTrue: %f \n"
+	"t%s: %f \n\n\n",ann_result.get_name().c_str(),exhaustive_result.get_name().c_str(),
+	type.c_str(),ann_result.get_best_distance(),exhaustive_result.get_best_distance(),
+	type.c_str(),ann_result.get_time());
 	//fclose(out);
 }
 
@@ -647,6 +718,13 @@ void print_parameters(int L, int k, int w, int search_threshold, int dimension) 
 	cout <<"w: "<<w<<endl;
 	cout <<"search_threshold: "<<search_threshold<<endl;
 	cout <<"dimension: "<<dimension<<endl<<endl;;
+}
+
+void print_parameters(int L, int k, int w, int search_threshold) {
+	cout <<"L: "<<L<<endl;
+	cout <<"k: "<<k<<endl;
+	cout <<"w: "<<w<<endl;
+	cout <<"search_threshold: "<<search_threshold<<endl;
 }
 
 void print_parameters(int L, int k, int w, int search_threshold, int dimension, int delta) {
@@ -739,13 +817,13 @@ unsigned long long int manhattan_distance(vector<Type> x1, vector<Type> x2) {
 
 
 void exhaustive_curve_search(list<Curve*> *curves, Curve *query, Query_Result& query_result) {
-	unsigned best_distance = numeric_limits<unsigned>::max();
+	double best_distance = numeric_limits<double>::max();
 	string best = "";
 
 	time_t time;
 	time = clock();
 	for (Curve *curve : *curves) {
-		unsigned cur_distance = DTW(curve->get_points(), query->get_points());
+		double cur_distance = DTW(query->get_points(), curve->get_points());
 		if (cur_distance < best_distance) {
 			best = curve->get_name();
 			best_distance = cur_distance;

@@ -92,7 +92,7 @@ void Curve_Grid_LSH::insert_curve(Curve *curve, list<Curve*> *grid_curves) {
 void Curve_Grid_LSH::ANN(Curve *query_curve, unsigned threshhold, Query_Result& query_result,
 		bool check_for_identical_grid_flag) {
 	unsigned searched_items;
-	unsigned best_distance = numeric_limits<unsigned>::max();
+	double best_distance = numeric_limits<double>::max();
 	unsigned position, g_value;
 	Curve *query_grid_curve;
 	Item *query_item;
@@ -121,6 +121,8 @@ void Curve_Grid_LSH::ANN(Curve *query_curve, unsigned threshhold, Query_Result& 
 		searched_items = 0;
 		for (it = ret.first; it != ret.second; ++it) {
 			if (searched_items >= threshhold) {
+				delete query_grid_curve;
+				delete query_item;
 				goto exit;
 			}
 			if (check_for_identical_grid_flag == true) {
@@ -129,7 +131,8 @@ void Curve_Grid_LSH::ANN(Curve *query_curve, unsigned threshhold, Query_Result& 
 				}
 			}
 
-			unsigned cur_distance = Curve_Grid_LSH_distance(query_curve, it->second);
+			double cur_distance = Curve_Grid_LSH_distance(query_curve, it->second->get_corresponding_curve());
+			//cout <<"distance: "<<cur_distance<<endl;
 			if (cur_distance < best_distance) {
 				best = it->second->get_name();
 				best_distance = cur_distance;

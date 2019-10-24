@@ -14,13 +14,13 @@ using namespace std;
 #include "../query_result/query_result.hpp"
 #include "../item/item.hpp"
 #include "../lsh/lsh.hpp"
-#include "../hash_table/hash_table.hpp"
+#include "../hash_table_vector/hash_table_vector.hpp"
 #include "../helping_functions/helping_functions.hpp"
 
 #define L_DEFAULT 5
 #define K_DEFAULT 4
-#define W_DEFAULT 100
-#define SEARCH_THRESHOLD (L_DEFAULT*10)
+#define W_DEFAULT 4000
+#define SEARCH_THRESHOLD (L_DEFAULT*100)
 
 int main(int argc, char *argv[]) {
 	int L = L_DEFAULT;
@@ -29,13 +29,13 @@ int main(int argc, char *argv[]) {
 	int search_threshold = SEARCH_THRESHOLD;
 	float radious = -1.0;
 
-	if (argc < 3 ) {
+	if (argc < 5 ) {
 		cout <<"usage: ./lsh –d <input file> –q <query file> –k <int> -L <int> -ο <output file>"<<endl;
 		return 1;
 	}
 	
 	//READ COMMAND LINE ARGUMENTS
-	string input_file, query_file, output_file;
+	string input_file, query_file, output_file = "";
 	read_command_line_arguments(argv, argc, input_file, query_file, output_file,
 			k, L, w, search_threshold);
 
@@ -48,7 +48,6 @@ int main(int argc, char *argv[]) {
 
 	//CREATE THE LSH STRUCTURE
 	LSH lsh(L, dimension, w, k, m);
-
 	
 	//INSERT INPUT DATA
 	time_t time = clock();
@@ -62,7 +61,9 @@ int main(int argc, char *argv[]) {
 	//HANDLE QUERIES
 	list<Item*> queries;
 	read_vectors_from_file(query_file, queries, radious);
-	cout <<"Radious: "<<radious<<endl;
+	if (radious != -1) {
+		cout <<"Radious: "<<radious<<endl;
+	}
 
 	Query_Result ann_query_result, exhaustive_query_result;
 	Query_Result range_query_result;
@@ -74,16 +75,13 @@ int main(int argc, char *argv[]) {
 	int total_distances = 0;
 	int not_null = 0;
 	list<Item*> range_items;
+	FILE *out = fopen(output_file.c_str(), "w");
 	for(Item *query: queries) {
-		cout <<"Query:"<<query->get_name()<<endl;
-
 		//approximate nearest neighbor
 		lsh.ANN(query, search_threshold, ann_query_result);
-		print_ann_results(ann_query_result);
 
 		//Exact nearest neighbor
 		exhaustive_search(&input_items, query, exhaustive_query_result);
-		print_exhaustive_search_results(exhaustive_query_result);
 
 		//range search (Bonus)
 		if (radious > 0) {
@@ -91,13 +89,24 @@ int main(int argc, char *argv[]) {
 			print_range_results(range_items, radious);
 			range_items.clear();
 		}
-		cout <<"--------------------------------------------------------"<<endl;
+
+		if (output_file != "") {
+			print_results_to_file(ann_query_result,"LSH", out ,exhaustive_query_result);
+		}
+		else {
+			cout <<"Query:"<<query->get_name()<<endl;
+			print_ann_results(ann_query_result);
+			print_exhaustive_search_results(exhaustive_query_result);
+			cout <<"--------------------------------------------------------"<<endl<<endl;
+		}
 
 		//statistics info
 		if (ann_query_result.get_time() != -1) {
 			sum_query_time += ann_query_result.get_time();
-			max_rate = max(max_rate, (double)ann_query_result.get_best_distance()/exhaustive_query_result.get_best_distance());
-			sum_rate += ann_query_result.get_best_distance()/exhaustive_query_result.get_best_distance();
+			if (exhaustive_query_result.get_best_distance() != 0) { // division by zero
+				max_rate = max(max_rate, (double)ann_query_result.get_best_distance()/exhaustive_query_result.get_best_distance());
+				sum_rate += ann_query_result.get_best_distance()/exhaustive_query_result.get_best_distance();
+			}
 			if (ann_query_result.get_name() == exhaustive_query_result.get_name()) {
 				found_nearest++;
 			}
