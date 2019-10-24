@@ -12,6 +12,8 @@
 #include "../helping_functions/helping_functions.hpp"
 #include "../relevant_traversals_hypercube/relevant_traversals_hypercube.hpp"
 #include "../Tuple/tuple.hpp"
+#include "../curve_projection_hypercube/curve_projection_hypercube.hpp"
+
 
 class Curve_Projection_hypercube {
  public:

@@ -88,6 +88,7 @@ void Curve_Projection_hypercube::ANN(Curve *query_curve, unsigned probes, Query_
         int flag =-1;
     	time_t time;
     	time = clock();
+        int bucket_value=0;
         for (size_t row = start_row; row < end_row; row++) {
             list<vector<Tuple*>*> relevant_traversals =
     			table[start_row][table_column]->get_relevant_traversals();
@@ -98,10 +99,9 @@ void Curve_Projection_hypercube::ANN(Curve *query_curve, unsigned probes, Query_
     		vector<vector<unsigned>*> m_powers_array =
     			table[start_row][table_column]->get_m_powers_array();
             int h_i = 0;
-            int bucket_value=0;
             for (vector<Tuple*> *relevant_traversal : relevant_traversals) {
                 convert_2d_curve_to_vector_by_projection(*relevant_traversal, G_matrix,query_curve, K_matrix,
-                    curve_dimension, query_item);
+                    curve_dimension, &query_item);
                 P_value = hash_tables[h_i]->p(*(query_item->get_coordinates()),hash_tables[h_i]->get_dimension(), table_size, w, k, bits_of_each_hash, M,  m_powers);
                 int bucketes_checked=0;
                 ret = hash_tables[h_i]->get_f_values_map()->equal_range(P_value);
@@ -113,11 +113,6 @@ void Curve_Projection_hypercube::ANN(Curve *query_curve, unsigned probes, Query_
                     if(flag == 1){
                         break;
                     }
-        			if (check_for_identical_grid_flag == true) {
-        				if (it->second->get_corresponding_curve()->identical(query_curve) == false) {
-        					continue;
-        				}
-        			}
 
         			unsigned cur_distance = Curve_Grid_distance(query_curve, it->second);
         			if (cur_distance < best_distance) {
@@ -159,6 +154,6 @@ void Curve_Projection_hypercube::ANN(Curve *query_curve, unsigned probes, Query_
 }
 
 
-unsigned long long int Curve_Projection_hypercube::Curve_Projection_LSH_distance(Curve *curve1, Curve *curve2) {
+unsigned long long int Curve_Projection_hypercube::Curve_Grid_distance(Curve *curve1, Curve *curve2) {
 	return DTW(curve1->get_points(), curve2->get_points());
 }
