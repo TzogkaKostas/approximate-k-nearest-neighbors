@@ -28,6 +28,7 @@ public:
 		int bits_of_each_hash, unsigned M, vector<unsigned>& m_powers);
 	void print();
 	int get_table_size() {return table_size;}
+	int get_dimension(){return dimension;}
 	//vector<vector<float>*>& get_s_array(){return s_array;};
 	unordered_multimap<unsigned, Curve*>* get_f_values_map(){return &f_value;};
 
@@ -36,6 +37,7 @@ private:
 	vector< unordered_map<unsigned,int> *> g_value;
 	vector<vector < vector <float>* >* > s_array;
 	int table_size;//k comnd line
+	int dimension;
 };
 
 

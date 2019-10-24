@@ -88,7 +88,7 @@ void Curve_Grid_hypercube::insert_curve(Curve *curve, list<Curve*> *grid_curves)
 	}
 }
 
-void Curve_Grid_hypercube::ANN(Curve *query_curve, unsigned prompt, Query_Result& query_result,bool check_for_identical_grid_flag) {
+void Curve_Grid_hypercube::ANN(Curve *query_curve, unsigned probes, Query_Result& query_result,bool check_for_identical_grid_flag) {
     unsigned searched_items;
     unsigned best_distance = numeric_limits<unsigned>::max();
     unsigned P_value;
@@ -141,7 +141,7 @@ void Curve_Grid_hypercube::ANN(Curve *query_curve, unsigned prompt, Query_Result
 		}
         unsigned nbuckets=hash_tables[i]->get_f_values_map()->bucket_count();
         for (unsigned y=0; y<nbuckets; y++) {
-            if (searched_items >= M_f || bucketes_checked>=prompt) {
+            if (searched_items >= M_f || bucketes_checked>=probes) {
 				break;
 			}
             for (auto it = hash_tables[i]->get_f_values_map()->begin(y);it!= hash_tables[i]->get_f_values_map()->end(y);it++){
@@ -203,6 +203,7 @@ Hash_Table_Hypercube::Hash_Table_Hypercube(int table_size, int dimension, int w,
         }
         s_array.push_back(it1);
     }
+    this->dimension=dimension;
 }
 
 Hash_Table_Hypercube::~Hash_Table_Hypercube() {

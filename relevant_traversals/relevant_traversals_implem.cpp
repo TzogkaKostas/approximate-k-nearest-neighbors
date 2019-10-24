@@ -63,7 +63,7 @@ void Relevant_Traversals::insert(Curve *curve, int L, int w,
 			//cout <<"ite po:"<<item<<endl;
 			//item->print();
 			//cout <<"after pring"<<endl;
-			
+
 			//cout <<"w: "<<w<<endl;
 			//cout <<"hash_table_dimension: "<<hash_table_dimension<<endl;
 			//cout <<"M: "<<M<<endl;

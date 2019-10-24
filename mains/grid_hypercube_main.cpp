@@ -81,6 +81,8 @@ int main(int argc, char *argv[]) {
 	int found_nearest = 0;
 	int total_distances = 0;
 	int not_null = 0;
+    FILE *out;
+    out= fopen(output_file.c_str(), "w");
 	for(Curve *query: queries) {
 		//cout <<"Query:"<<query->get_name()<<endl;
 
