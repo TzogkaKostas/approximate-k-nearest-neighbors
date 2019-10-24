@@ -1,4 +1,4 @@
-//g++ projection_hypercube_main.cpp ../item/item_implem.cpp ../curve/curve_implem.cpp ../point/point_implem.cpp ../helping_functions/helping_functions.cpp ../relevant_traversals_hypercube/relevant_traversals_hypercube.cpp ../curve_projection_hypercube/curve_projection_hypercube.cpp
+// g++ projection_hypercube_main.cpp ../item/item_implem.cpp ../curve/curve_implem.cpp ../point/point_implem.cpp ../helping_functions/helping_functions.cpp ../relevant_traversals_hypercube/relevant_traversals_hypercube.cpp ../curve_projection_hypercube/curve_projection_hypercube.cpp ../curve_grid_hypercube/curve_grid_hypercube.cpp -g3
 #include <unordered_map>
 #include <math.h>
 #include <limits>
@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
     string input_file, query_file, output_file;
     int flag_defult=-1;
 
-    (argv, argc, input_file, query_file,table_size_hypercube,M,probes,eps,output_file,flag_defult);
+    read_command_line_arguments_hypercube_projection(argv, argc, input_file, query_file,table_size_hypercube,M,probes,eps,output_file,flag_defult);
 
     //READ ITEMS FROM THE INPUT FILE
     list<Curve*> input_curves;

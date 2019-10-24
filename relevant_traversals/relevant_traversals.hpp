@@ -31,7 +31,7 @@ private:
 	vector<vector<unsigned>*> m_powers_array;
 	int length_i;
 	int length_j;
-	int table_size_hypercube;
+	int L;
 };
 
 #endif

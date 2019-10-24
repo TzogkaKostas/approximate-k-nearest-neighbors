@@ -3,7 +3,7 @@
 
 #include "../query_result/query_result.hpp"
 #include "../hash_table/hash_table.hpp"
-#include "../relevant_traversals/Relevant_Traversals.hpp"
+#include "../relevant_traversals/relevant_traversals.hpp"
 
 class Curve_Projection_LSH {
 public:
