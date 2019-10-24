@@ -42,11 +42,11 @@ int main(int argc, char *argv[]) {
     list<Curve*> input_curves;
     int max_curve_length;
     //int table_size=k;//initilized after insert items
-    read_2d_curves_from_file(input_file, input_curves, max_curve_length);
+    read_2d_curves_from_file(input_file, input_curves, max_curve_length,M_table);
     //cout << "input_curves : "<<input_curves.size()<<endl;
     int hash_table_dimension = curve_dimension*max_curve_length;
     if (flag_defult==-1){
-        table_size_hypercube=log(input_curves.size());
+        table_size_hypercube=log2(input_curves.size());
     }
     unsigned m = numeric_limits<unsigned>::max() + 1 - 5;
     print_parameters(1, table_size_hypercube, w, probes, hash_table_dimension);

@@ -64,7 +64,7 @@ void Curve_Projection_hypercube::insert_curve(Curve *curve) {
 	unsigned g_value;
 
 	int table_row = curve->get_length() - 1;
-	//cout <<"table_row: "<<table_row<<endl;
+	//cout <<"\ntable_row\n: "<<table_row<<endl;
 	for (size_t j = 0; j < table_size; j++) {
 		//cout <<":-"<<table[table_row][j]->get_num_of_traversals() <<endl;
 		table[table_row][j]->insert(curve, table_size_hypercube, w, k,
@@ -102,7 +102,7 @@ void Curve_Projection_hypercube::ANN(Curve *query_curve, unsigned probes, Query_
             for (vector<Tuple*> *relevant_traversal : relevant_traversals) {
                 convert_2d_curve_to_vector_by_projection(*relevant_traversal, G_matrix,query_curve, K_matrix,
                     curve_dimension, &query_item);
-                P_value = hash_tables[h_i]->p(*(query_item->get_coordinates()),hash_tables[h_i]->get_dimension(), table_size, w, k, bits_of_each_hash, M,  m_powers);
+                P_value = hash_tables[h_i]->p(*(query_item->get_coordinates()),hash_tables[h_i]->get_dimension(), table_size, w, k, bits_of_each_hash, M,  *m_powers_array[h_i]);
                 int bucketes_checked=0;
                 ret = hash_tables[h_i]->get_f_values_map()->equal_range(P_value);
         		searched_items = 0;
