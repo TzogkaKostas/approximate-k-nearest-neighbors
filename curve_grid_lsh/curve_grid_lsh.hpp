@@ -7,7 +7,7 @@
 
 class Curve_Grid_LSH {
 public:
-	Curve_Grid_LSH(int L, int hash_table_dimension, int w, int k, int delta,
+	Curve_Grid_LSH(int L, int hash_table_dimension, int w, int k, float delta,
 			int curve_dimension, unsigned m);
 	~Curve_Grid_LSH();
 
@@ -21,7 +21,7 @@ public:
 	int get_dimension() {return hash_table_dimension;}
 
 private:
-	unsigned long long int Curve_Grid_LSH_distance(Curve *curve1, Curve *curve2);
+	double Curve_Grid_LSH_distance(Curve *curve1, Curve *curve2);
 
 	vector<Hash_Table*> hash_tables;
 	vector<Point*> grids; //Each grid is identified from the random Point t
@@ -31,7 +31,7 @@ private:
 	int L;
 	int bits_of_each_hash;
 	unsigned long M;
-	int delta;
+	float delta;
 	int curve_dimension; //2D in our case
 	unsigned m;
 	vector<unsigned> m_powers;

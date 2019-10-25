@@ -13,7 +13,7 @@ HEADERS = ../hash_table/hash_table.hpp ../item/item.hpp \
 all: projection_lsh_main
 
 projection_lsh_main: $(OBJECTS)
-	$(CC) -g $(OBJECTS) -o projection_lsh_main 
+	$(CC) $(OBJECTS) -o projection_lsh_main 
 
 projection_lsh_main.o: projection_lsh_main.cpp $(HEADERS)
 	$(CC) -g -c projection_lsh_main.cpp -o projection_lsh_main.o

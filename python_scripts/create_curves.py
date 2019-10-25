@@ -4,7 +4,7 @@ import sys
 
 #GENERATE RANDOM INPUT CURVES
 number_of_curves = int(sys.argv[1])
-max_curve_length = 4
+max_curve_length = 6
 start_random = -500.0
 end_random = 500.0
 
@@ -17,7 +17,7 @@ for i in range(0, number_of_curves):
 		points.append(tuple(point))
 	curves.append(points)
 
-outfile = open('../projection_lsh_main/in.txt', 'w+')
+outfile = open('../grid_lsh_main/in.txt', 'w+')
 
 i = 0
 max_input_length = - 1
@@ -44,7 +44,7 @@ for i in range(0, number_of_curves):
 		points.append(tuple(point))
 	curves.append(points)
 
-outfile = open('../projection_lsh_main/q.txt', 'w+')
+outfile = open('../grid_lsh_main/q.txt', 'w+')
 i = 0
 max_input_length = - 1
 for c in curves:

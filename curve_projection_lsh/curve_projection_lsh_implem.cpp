@@ -39,9 +39,15 @@ Curve_Projection_LSH::Curve_Projection_LSH(int L, int w, int k,
 	table = new Relevant_Traversals**[table_size];
 	for(int i = 0; i < table_size; ++i) {
 	    table[i] = new Relevant_Traversals*[table_size];
-
 	    for(int j = 0; j < table_size; ++j) {
 	        table[i][j] = new Relevant_Traversals(i, j, L, K_matrix, w, k, m, M);
+
+			//if ( abs(i - j) < 4) {
+	        //	table[i][j] = new Relevant_Traversals(i, j, L, K_matrix, w, k, m, M);
+			//}
+			//else {
+			//	table[i][j] = NULL;
+			//}
 	    }
 	}
 
@@ -110,6 +116,7 @@ void Curve_Projection_LSH::ANN(Curve *query_curve, unsigned threshhold, Query_Re
 		vector<vector<unsigned>*> m_powers_array = 
 			table[start_row][table_column]->get_m_powers_array();
 
+
 		int h_i = 0;
 		for (vector<Tuple*> *relevant_traversal : relevant_traversals) {
 			convert_2d_curve_to_vector_by_projection(*relevant_traversal, G_matrix,
@@ -118,7 +125,7 @@ void Curve_Projection_LSH::ANN(Curve *query_curve, unsigned threshhold, Query_Re
 			for (size_t j = 0; j < L; j++) {
 				g_value = g_hash_function(*(query_item->get_coordinates()),
 					hash_tables[h_i]->get_dimension(), w, k, bits_of_each_hash, M,
-					hash_tables[h_i]->get_s_array(),(*m_powers_array[h_i]));
+					hash_tables[h_i]->get_s_array(),(*m_powers_array[h_i/L]));
 
 				ret = hash_tables[h_i]->get_map()->equal_range(g_value);
 				searched_items = 0;
@@ -155,15 +162,18 @@ void Curve_Projection_LSH::ANN(Curve *query_curve, unsigned threshhold, Query_Re
 	}
 }
 
-unsigned long long int Curve_Projection_LSH::Curve_Projection_LSH_distance(Curve *curve1, Curve *curve2) {
+double Curve_Projection_LSH::Curve_Projection_LSH_distance(Curve *curve1, Curve *curve2) {
 	return DTW(curve1->get_points(), curve2->get_points());
 }
 
 void Curve_Projection_LSH::print_hash_tables() {
+	int num_of_traversals = 0;
 	for (size_t i = 0; i < table_size; i++) {
 		for (size_t j = 0; j < table_size; j++) {
 			cout <<table[i][j]->get_num_of_traversals()<<" ";
+			num_of_traversals += table[i][j]->get_num_of_traversals();
 		}
 		cout <<endl;
 	}
+	cout <<"Total Number of Relevant traversals: "<<num_of_traversals<<endl;
 }

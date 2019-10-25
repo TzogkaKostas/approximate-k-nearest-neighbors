@@ -18,14 +18,13 @@ using namespace std;
 #include "../lsh/lsh.hpp"
 #include "../curve_projection_lsh/curve_projection_lsh.hpp"
 
-#define L_DEFAULT 1
+#define L_DEFAULT 5
 #define K_DEFAULT 4
-#define W_DEFAULT 400
+#define W_DEFAULT 4000
 #define SEARCH_THRESHOLD (L_DEFAULT*100)
 #define CURVE_DIMENSION_DEFAULT 2
-#define CHECK_FOR_IDENTICAL_GRID_FLAG_DEFAULT false
 #define EPS_DEFAULT 0.5
-#define M_TABLE_DEFAULT 4
+#define M_TABLE_DEFAULT 6
 
 
 int main(int argc, char *argv[]) {
@@ -58,7 +57,7 @@ int main(int argc, char *argv[]) {
     int K_matrix = 0 - curve_dimension*log2(eps)/(eps*eps);
 
 	cout <<"K_matrix: "<<K_matrix<<endl;
-	cout <<"M: "<<M_table<<endl;
+	cout <<"M table: "<<M_table<<endl;
 	print_parameters(L, k, w, search_threshold);
 	cout <<"Max curve length: "<<max_curve_length<<endl;
 	cout <<"num of curves: "<<input_curves.size()<<endl;
@@ -67,6 +66,9 @@ int main(int argc, char *argv[]) {
 	Curve_Projection_LSH grid_projection(L, w, k,
 		curve_dimension, m, M_table, K_matrix);
 
+
+	grid_projection.print_hash_tables();
+
 	//INSERT INPUT DATA
 	time_t time = clock();
 	for(Curve *curve : input_curves) {
@@ -74,6 +76,9 @@ int main(int argc, char *argv[]) {
 	}
 	time = clock() - time;
 	cout <<"Data insertion time: "<< ((double)time) / CLOCKS_PER_SEC <<endl<<endl;
+
+	//grid_projection.print_hash_tables();
+	//return 0;
 
 	//READ QUERY CURVES FROM THE INPUT FILE
 	list<Curve*> queries;

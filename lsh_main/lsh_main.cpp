@@ -44,6 +44,9 @@ int main(int argc, char *argv[]) {
 	read_vectors_from_file(input_file, input_items);
 	int dimension = input_items.front()->get_coordinates()->size();
 	unsigned m = numeric_limits<unsigned>::max() + 1 - 5;
+	if (w == -1) {
+		w = calculate_w(input_items);
+	}
 	print_parameters(L, k, w, search_threshold, dimension);
 
 	//CREATE THE LSH STRUCTURE

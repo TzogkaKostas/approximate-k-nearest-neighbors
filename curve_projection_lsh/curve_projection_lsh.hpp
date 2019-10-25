@@ -17,7 +17,7 @@ public:
 	int get_w() {return w;}
 	int get_k() {return k;}
 private:
-	unsigned long long int Curve_Projection_LSH_distance(Curve *curve1, Curve *curve2);
+	double Curve_Projection_LSH_distance(Curve *curve1, Curve *curve2);
 	int w;
 	int k;
 	int L;

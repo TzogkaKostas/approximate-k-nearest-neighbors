@@ -9,6 +9,8 @@
     "files.associations": {
         "ostream": "cpp",
         "random": "cpp",
-        "*.tcc": "cpp"
+        "*.tcc": "cpp",
+        "functional": "cpp",
+        "istream": "cpp"
     }
 }

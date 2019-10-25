@@ -32,7 +32,7 @@ int main(int argc, char *argv[]) {
 	int search_threshold = SEARCH_THRESHOLD;
 	int curve_dimension = CURVE_DIMENSION_DEFAULT;
 	bool check_for_identical_grid_flag = CHECK_FOR_IDENTICAL_GRID_FLAG_DEFAULT;
-	int delta = -1;
+	float delta = -1;
 
 	if (argc < 5 ) {
 		cout <<"usage: ./lsh –d <input file> –q <query file> -ο <output file>"<<endl;
@@ -52,11 +52,13 @@ int main(int argc, char *argv[]) {
 	//INITIALIZE PARAMETERS
 	int hash_table_dimension = curve_dimension*max_curve_length;
 	if (delta == - 1) {
-		delta = 4*curve_dimension*hash_table_dimension;
+		delta = calculate_delta(input_curves);
 	}
+	
 	unsigned m = numeric_limits<unsigned>::max() + 1 - 5;
 	search_threshold = max(10*L, search_threshold);
-	print_parameters(L, k, w, search_threshold, hash_table_dimension, delta);
+	print_parameters(L, k, w, search_threshold, hash_table_dimension);
+	cout <<"delta: "<<delta<<endl;
 
 	//CREATE THE GRID STRUCTURE FOR CURVES WITH LSH 
 	Curve_Grid_LSH grid_projection(L, hash_table_dimension, w, k, delta, curve_dimension, m);
@@ -83,7 +85,7 @@ int main(int argc, char *argv[]) {
 	double max_rate = -1;
 	double sum_rate = 0;
 	int found_nearest = 0;
-	int total_distances = 0;
+	float total_distances = 0;
 	int not_null = 0;
 	FILE *out = fopen(output_file.c_str(), "w");
 	for(Curve *query: queries) {

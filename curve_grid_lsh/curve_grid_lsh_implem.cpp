@@ -15,7 +15,7 @@ using namespace std;
 #include "curve_grid_lsh.hpp"
 
 
-Curve_Grid_LSH::Curve_Grid_LSH(int L, int hash_table_dimension, int w, int k, int delta,
+Curve_Grid_LSH::Curve_Grid_LSH(int L, int hash_table_dimension, int w, int k, float delta,
 		int curve_dimension, unsigned m) {
 
 	for (size_t i = 0; i < L; i++) {
@@ -29,7 +29,7 @@ Curve_Grid_LSH::Curve_Grid_LSH(int L, int hash_table_dimension, int w, int k, in
 	//create a uniformly random vector t in [0,d)^d for each hash table
 	for (size_t i = 0; i < L; i++) {
 		random_vector = new vector<float>;
-		random_float_vector(0, delta, *random_vector, delta);
+		random_float_vector(0, delta, *random_vector, curve_dimension);
 
 		grid = new Point();
 		for (float rand_coord: *random_vector) {
@@ -80,6 +80,9 @@ void Curve_Grid_LSH::insert_curve(Curve *curve, list<Curve*> *grid_curves) {
 	for (size_t i = 0; i < L; i++) {
 		convert_2d_curve_to_vector(curve, grids[i], delta, hash_table_dimension, curve_dimension,
 			&grid_curve, &item);
+		//item->print();
+		//cout << "item size:"<<item->get_coordinates()->size()<<endl;
+		//getchar();
 		grid_curves->push_back(grid_curve);
 		g_value = g_hash_function(*(item->get_coordinates()), hash_table_dimension,
 			w, k, bits_of_each_hash, M, hash_tables[i]->get_s_array(), m_powers);
@@ -157,7 +160,7 @@ void Curve_Grid_LSH::ANN(Curve *query_curve, unsigned threshhold, Query_Result& 
 	}
 }
 
-unsigned long long int Curve_Grid_LSH::Curve_Grid_LSH_distance(Curve *curve1, Curve *curve2) {
+double Curve_Grid_LSH::Curve_Grid_LSH_distance(Curve *curve1, Curve *curve2) {
 	return DTW(curve1->get_points(), curve2->get_points());
 }
 

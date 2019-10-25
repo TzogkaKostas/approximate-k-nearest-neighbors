@@ -36,8 +36,6 @@ Curve_Projection_hypercube::Curve_Projection_hypercube(int w, int k,
     }
     random_matrix(K_matrix, curve_dimension, G_matrix, 0, 1);
     }
-
-
 }
 
 

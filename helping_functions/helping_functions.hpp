@@ -34,7 +34,7 @@ unsigned hash_function(vector<Type> x, int dimension, int w, unsigned M,
 void read_command_line_arguments(char *argv[], int& argc, string& input_file, string& query_file,
 	string& output_file, int& k, int& L, int& w, int& st);
 void read_command_line_arguments(char *argv[], int& argc, string& input_file, string& query_file,
-	string& output_file, int& k, int& L, int& w, int& st, bool& check_for_identical_grid_flag, int& delta);
+	string& output_file, int& k, int& L, int& w, int& st, bool& check_for_identical_grid_flag, float& delta);
 void read_command_line_arguments(char *argv[], int& argc, string& input_file, string& query_file,
 	string& output_file, int& k, int& L, int& w, int& st, float& eps, int& M_table);
 unsigned long long int manhattan_distance(vector<Type> x1, vector<Type> x2);
@@ -44,7 +44,6 @@ void print_results_to_file(Query_Result ann_result,string type,FILE *out,Query_R
 void print_exhaustive_search_results(Query_Result exhaustive_result);
 void print_parameters(int L, int k, int w, int search_threshold, int dimension);
 void print_parameters(int L, int k, int w, int search_threshold);
-void print_parameters(int L, int k, int w, int search_threshold, int dimension, int delta);
 void print_parameters(int L, int k, int w, int search_threshold, int dimension, float range);
 void get_vector_from_line(string line, Item& item);
 void read_vectors_from_file(string file_name, list<Item*>& items);
@@ -60,11 +59,11 @@ void exhaustive_curve_search(list<Curve*> *curves, Curve *query, Query_Result& q
 double DTW(vector<Point*>& p, vector<Point*>& q);
 float manhattan_distance_2d(Point *p, Point *q);
 float euclidean_distance_2d(Point *p, Point *q);
-void snap_curve(Curve *curve, Point *t, Curve **snapped_curve, int delta);
-void get_snapped_point(Point *point, int delta, Point *t, Point **snapped_point);
+void snap_curve(Curve *curve, Point *t, Curve **snapped_curve, float delta);
+void get_snapped_point(Point *point, float delta, Point *t, Point **snapped_point);
 void zip_points(Curve *snapped_curve, Item **item);
 void fill_curve(Curve *curve, int pad_length);
-void convert_2d_curve_to_vector(Curve *curve, Point *t, int delta, int hash_table_dimesion,
+void convert_2d_curve_to_vector(Curve *curve, Point *t, float delta, int hash_table_dimesion,
 	int curve_dimension, Curve **snapped_curve, Item **item);
 void random_matrix(int K, int d, float **G, float from, float to);
 void print_range_results(list<Item*> items, float range);
@@ -82,4 +81,6 @@ int hammingDistance(unsigned n1, unsigned n2);
 void read_command_line_arguments_hypercube_grid(char *argv[], int& argc,string& input_file, string& query_file,
 	string& output_file, int& k, int& M,int& probes,int &L,int &flag );
 void read_command_line_arguments_hypercube_projection(char* argv[],int &argc,string &input_file,string &query_file,int& k, int& M,int & probes,float &e,string &output_file,int &flag);
+float calculate_delta(list<Curve*> curves);
+int calculate_w(list<Item*> items);
 #endif

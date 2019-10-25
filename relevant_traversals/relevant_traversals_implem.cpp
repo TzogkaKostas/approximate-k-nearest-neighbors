@@ -52,31 +52,21 @@ void Relevant_Traversals::insert(Curve *curve, int L, int w,
 	Item *item = NULL;
 	unsigned g_value;
 
-	//cout <<"kostas133"<<endl;
 	//cout <<"rel size:"<<relevant_traversals.size()<<endl;
 	int rel_indx = 0;
+	//cout <<"hash size:" <<hash_tables.size()<<endl;
 	for (vector<Tuple*> *relevant_traversal : relevant_traversals) {
 		convert_2d_curve_to_vector_by_projection(*relevant_traversal, G_matrix,
 			curve, K_matrix, curve_dimension, &item);
 		for (size_t i = 0; i < L; i++) {
-			//cout <<"kostas2421"<<endl;
-			//cout <<"ite po:"<<item<<endl;
-			//item->print();
-			//cout <<"after pring"<<endl;
-
-			//cout <<"w: "<<w<<endl;
-			//cout <<"hash_table_dimension: "<<hash_table_dimension<<endl;
-			//cout <<"M: "<<M<<endl;
-			//cout <<"w: "<<w<<endl;
-
 			g_value = g_hash_function(*(item->get_coordinates()), hash_tables[rel_indx]->get_dimension(),
-				w, k, bits_of_each_hash, M, hash_tables[rel_indx]->get_s_array(), *(m_powers_array[rel_indx]));
+				w, k, bits_of_each_hash, M, hash_tables[rel_indx]->get_s_array(), *(m_powers_array[rel_indx/L]));
 			//cout <<"g: "<<g_value<<endl;
 			hash_tables[rel_indx]->insert(curve, g_value);
-			//cout <<"11kostas2421"<<endl;
-			delete item;
+			//cout <<"22"<<endl;
 			rel_indx++;
 		}
+		delete item;
 	}
 }
 

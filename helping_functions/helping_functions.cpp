@@ -79,9 +79,10 @@ void matrix_multiplication(vector<Tuple*>& U, float **G_matrix, Curve *curve,
 	*item = new Item(results_points);
 }
 
-void convert_2d_curve_to_vector(Curve *curve, Point *t, int delta, int dimension,
+void convert_2d_curve_to_vector(Curve *curve, Point *t, float delta, int dimension,
 		int curve_dimension, Curve **grid_curve, Item **item) {
 	snap_curve(curve, t, grid_curve, delta);
+	//cout <<"length gridc*2 = "<<(*grid_curve)->get_length()*2<<endl;
 	fill_curve(*grid_curve, dimension/curve_dimension - (*grid_curve)->get_length()); //padding
 	(*grid_curve)->set_corresponding_curve(curve);
 	zip_points(*grid_curve, item);
@@ -204,7 +205,7 @@ unsigned f_hash_function(vector<Type> x , int dimension,int w, int k,
 
 }
 
-void snap_curve(Curve *curve, Point *t, Curve **grid_curve, int delta) {
+void snap_curve(Curve *curve, Point *t, Curve **grid_curve, float delta) {
 
 	Point *snapped_point = NULL;
 
@@ -232,7 +233,7 @@ void snap_curve(Curve *curve, Point *t, Curve **grid_curve, int delta) {
 
 }
 
-void get_snapped_point(Point *point, int delta, Point *t, Point **snapped_point) {
+void get_snapped_point(Point *point, float delta, Point *t, Point **snapped_point) {
 	/*
 			one cell, shifted by t, of the big Grid
 		up_left -------------- up_right
@@ -242,62 +243,10 @@ void get_snapped_point(Point *point, int delta, Point *t, Point **snapped_point)
 				|  / d3	  \d4|
 		down_left ------------- down_left
 	*/
-	//cout <<"t_x: "<<t->get_x()<<endl;
-	//cout <<"t_y: "<<t->get_y()<<endl;
-	//cout <<"point_x: "<<point->get_x()/delta<<endl;
-	//cout <<"point_y: "<<point->get_y()/delta<<endl;
-	//cout <<"delta: "<<delta<<endl;
 
+	float best_x = round( (point->get_x() - t->get_x())/delta)*delta + t->get_x();
+	float best_y = round( (point->get_y() - t->get_y())/delta)*delta + t->get_y();
 
-	float up_left_x = floor( point->get_x()/delta )*delta + t->get_x();
-	float up_left_y = ceil( point->get_y()/delta )*delta + t->get_y();
-	//cout <<"up_left_x: "<<up_left_x<<endl;
-	//cout <<"up_left_y: "<<up_left_y<<endl;
-
-	float up_right_x = ceil( point->get_x()/delta)*delta + t->get_x();
-	float up_right_y = ceil( point->get_y()/delta)*delta + t->get_y();
-	//cout <<"up_right_x: "<<up_right_x<<endl;
-	//cout <<"up_right_y: "<<up_right_y<<endl;
-
-	float down_left_x = floor( point->get_x()/delta)*delta + t->get_x();
-	float down_left_y = floor( point->get_y()/delta)*delta + t->get_y();
-
-	//cout <<"down_left_x: "<<down_left_x<<endl;
-	//cout <<"down_left_y: "<<down_left_y<<endl;
-
-	float down_right_x = ceil( point->get_x()/delta)*delta + t->get_x();
-	float down_right_y = floor( point->get_y()/delta)*delta + t->get_y();
-
-	//cout <<"down_right_x: "<<down_right_x<<endl;
-	//cout <<"down_right_y: "<<down_right_y<<endl;
-
-	//maxhattan distances
-	float d1 = abs(up_left_x - point->get_x()) + abs(up_left_y - point->get_y());
-	float d2 = abs(up_right_x - point->get_x()) + abs(up_right_y - point->get_y());
-	float d3 = abs(down_left_x - point->get_x()) + abs(down_left_y - point->get_y());
-	float d4 = abs(down_right_x - point->get_x()) + abs(down_right_y - point->get_y());
-
-	float min_d = d1;
-	float best_x = up_left_x;
-	float best_y = up_left_y;
-
-	if (d2 < min_d) {
-		min_d = d2;
-		best_x = up_right_x;
-		best_y = up_right_y;
-	}
-
-	if (d3 < min_d) {
-		min_d = d3;
-		best_x = down_left_x;
-		best_y = down_left_y;
-	}
-
-	if (d4 < min_d) {
-		min_d = d4;
-		best_x = down_right_x;
-		best_y = down_right_y;
-	}
 	*snapped_point = new Point(best_x, best_y);
 }
 
@@ -364,22 +313,22 @@ void _get_relative_traversals(int i, int j, int m, int n, int pi, Tuple *path,
 	int next_j = j + 1;
 
     //get all the paths that are possible after moving down
-	if (next_i     == j*m/n || j ==  next_i*n/m ) {
-		//|| next_i + 1 == j*m/n || j == (next_i + 1)*n/m
+	if (next_i     == j*m/n || j ==  next_i*n/m 
+		|| next_i + 1 == j*m/n || j == (next_i + 1)*n/m) {
 		//|| next_i - 1 == j*m/n || j == (next_i - 1)*n/m )  {
     	_get_relative_traversals(i+1, j, m, n, pi + 1, path, relative_traversals);
 	}
 
     //get all the paths that are possible after moving right
-	if (i     == next_j*m/n || next_j == i*n/m ) {
-		//|| i + 1 == next_j*m/n || next_j == (i + 1)*n/m
+	if (i     == next_j*m/n || next_j == i*n/m 
+		|| i + 1 == next_j*m/n || next_j == (i + 1)*n/m) {
 		//|| i - 1 == next_j*m/n || next_j == (i - 1)*n/m) {
     	_get_relative_traversals(i, j+1, m, n, pi + 1, path, relative_traversals);
 	}
 
     //get all the paths that are possible after moving diagonal
-	if (next_i     == next_j*m/n || next_j == next_i*n/m ) {
-		//|| next_i + 1 == next_j*m/n || next_j == (next_i + 1)*n/m
+	if (next_i     == next_j*m/n || next_j == next_i*n/m
+		|| next_i + 1 == next_j*m/n || next_j == (next_i + 1)*n/m) {
 		//|| next_i - 1 == next_j*m/n || next_j == (next_i - 1)*n/m) {
     	_get_relative_traversals(i+1, j+1, m, n, pi + 1, path, relative_traversals);
 	}
@@ -404,10 +353,8 @@ void random_matrix(int K, int d, float **G, float from, float to) {
 	for (size_t i = 0; i < K; i++) {
 		for (size_t j = 0; j < d;) {
 			double x = dis(gen);
-			if (x > from && x < to) {
 				G[i][j] = x;
 				j++;
-			}
 		}
 	}
 }
@@ -446,7 +393,7 @@ void read_command_line_arguments(char *argv[], int& argc, string& input_file, st
 }
 
 void read_command_line_arguments(char *argv[], int& argc, string& input_file, string& query_file,
-	string& output_file, int& k, int& L, int& w, int& st, bool& check_for_identical_grid_flag, int& delta) {
+	string& output_file, int& k, int& L, int& w, int& st, bool& check_for_identical_grid_flag, float& delta) {
 	for (int i = 1; i < argc; i++) {
 		if (strcmp(argv[i], "-d") == 0) {
 			input_file = argv[i + 1];
@@ -470,10 +417,10 @@ void read_command_line_arguments(char *argv[], int& argc, string& input_file, st
 			st = atoi(argv[i + 1]);
 		}
 		else if (strcmp(argv[i], "--identical") == 0) {
-			check_for_identical_grid_flag = atoi(argv[i + 1]);
+			check_for_identical_grid_flag = true;
 		}
 		else if (strcmp(argv[i], "--delta") == 0) {
-			delta = atoi(argv[i + 1]);
+			delta = atof(argv[i + 1]);
 		}
 	}
 }
@@ -750,7 +697,7 @@ void print_parameters(int L, int k, int w, int search_threshold, int dimension) 
 	cout <<"k: "<<k<<endl;
 	cout <<"w: "<<w<<endl;
 	cout <<"search_threshold: "<<search_threshold<<endl;
-	cout <<"dimension: "<<dimension<<endl<<endl;;
+	cout <<"dimension: "<<dimension<<endl;
 }
 
 void print_parameters(int L, int k, int w, int search_threshold) {
@@ -758,11 +705,6 @@ void print_parameters(int L, int k, int w, int search_threshold) {
 	cout <<"k: "<<k<<endl;
 	cout <<"w: "<<w<<endl;
 	cout <<"search_threshold: "<<search_threshold<<endl;
-}
-
-void print_parameters(int L, int k, int w, int search_threshold, int dimension, int delta) {
-	cout <<"delta: "<<delta<<endl;
-	print_parameters(L, k, w, search_threshold, dimension);
 }
 
 void print_parameters(int L, int k, int w, int search_threshold, int dimension, float range) {
@@ -1202,4 +1144,38 @@ int hammingDistance(unsigned n1, unsigned n2) {
     }
 
     return setBits;
+}
+
+float calculate_delta(list<Curve*> curves) {
+
+	double total_sum = 0;
+	for (Curve *curve : curves) {
+		vector<Point*> points = curve->get_points();
+		double sum = 0;
+		for (size_t i = 0; i < points.size() - 1; i++) {
+			sum += euclidean_distance_2d(points[i], points[i + 1]);
+
+		}
+		total_sum += sum/points.size();
+	}
+	return total_sum/curves.size();
+}
+
+int calculate_w(list<Item*> items) {
+	double cur_distance;
+	double best_distance = numeric_limits<double>::max();
+
+	double sum = 0;
+	for(Item *item1 : items) {
+
+		for(Item *item2 : items) {
+			cur_distance = manhattan_distance(*(item1->get_coordinates()),
+				(*item2->get_coordinates()));
+			if (cur_distance < best_distance) {
+				best_distance = cur_distance;
+			}
+		}
+		sum += cur_distance;
+	}
+	return sum/items.size();
 }
