@@ -8,7 +8,7 @@ HEADERS =  ../point/point.hpp  ../item/item.hpp ../query_result/query_result.hpp
 
 #------------------------------------------------- #
 
-all  : cube
+all  : cube curve_grid_hypercube
 
 curve_implem.o : ../curve/curve_implem.cpp $(HEADERS)
 	$(CC) $(DEBUG) $(FLAGS) ../curve/curve_implem.cpp -o curve_implem.o

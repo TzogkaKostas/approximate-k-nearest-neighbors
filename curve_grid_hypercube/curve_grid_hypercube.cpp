@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Curve_Grid_hypercube::Curve_Grid_hypercube(int L, int hash_table_dimension, int w, int k, int delta,
+Curve_Grid_hypercube::Curve_Grid_hypercube(int L, int hash_table_dimension, int w, int k, float delta,
         int curve_dimension, unsigned m,unsigned M ,int table_size,int probes){
     //printf("\n %d %d %d %d %d %d %ld %d \n", L,hash_table_size,  curve_dimension, w, k, delta,m,M);
     for (int i = 0; i < L; i++) {
@@ -230,6 +230,6 @@ unsigned Hash_Table_Hypercube::p(vector<Type> x , int dimension, int table_size,
 	}
 	return result;
 }
-unsigned long long int Curve_Grid_hypercube::Curve_Grid_distance(Curve *curve1, Curve *curve2) {
+double Curve_Grid_hypercube::Curve_Grid_distance(Curve *curve1, Curve *curve2) {
 	return DTW(curve1->get_points(), curve2->get_points());
 }

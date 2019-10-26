@@ -43,7 +43,7 @@ private:
 
 class Curve_Grid_hypercube {
  public:
-    Curve_Grid_hypercube(int L, int hash_table_dimension, int w, int k, int delta,
+    Curve_Grid_hypercube(int L, int hash_table_dimension, int w, int k, float delta,
 			int curve_dimension, unsigned m,unsigned M ,int table_size,int probes);
     ~Curve_Grid_hypercube();
     void insert_curve(Curve *curve,list<Curve*> *grid_curves);
@@ -53,7 +53,7 @@ class Curve_Grid_hypercube {
 	void print_hash_tables();
 	void ANN(Curve *query_curve, unsigned threshhold, Query_Result& query_result,
 			bool check_for_identical_grid_flag);
-	unsigned long long int Curve_Grid_distance(Curve *curve1, Curve *curve2);
+	double Curve_Grid_distance(Curve *curve1, Curve *curve2);
 private:
     vector<Hash_Table_Hypercube*>  hash_tables;
     vector<Point*> grids; //Each grid is identified from the random Point t
@@ -67,7 +67,7 @@ private:
 	unsigned m;
   	unsigned bits_of_each_hash;
 	vector<unsigned> m_powers;
-    int delta;
+    double delta;
 	int curve_dimension; //2D in our case
 };
 

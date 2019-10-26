@@ -120,9 +120,9 @@ void read_command_line_arguments_hypercube(char *argv[], int& argc,string& input
 }
 
 void read_command_line_arguments_hypercube_grid(char *argv[], int& argc,string& input_file, string& query_file,
-	string& output_file, int& k, int& M,int& probes,int &L,int &flag ){
+	string& output_file, int& k, int& M,int& probes,int &L,float &delta,int &flag ){
 	int opt;
-	while((opt = getopt(argc, argv, "d:q:o:k:M:p:L:")) != -1)
+	while((opt = getopt(argc, argv, "d:q:o:k:M:p:L:D:")) != -1)
     {
       switch(opt){
           case 'd':
@@ -134,20 +134,23 @@ void read_command_line_arguments_hypercube_grid(char *argv[], int& argc,string& 
 		  case 'o':
 		  		output_file=optarg;
 		  break;
-          case 'k':
-               	k=atoi(optarg);
+      case 'k':
+       	k=atoi(optarg);
 				flag=1;
-          break;
-          case 'M':{
+      break;
+      case 'M':{
 		  		M=atoi(optarg);
-		  }
-          break;
-          case 'p':
+		  		}
+      break;
+      case 'p':
 		  		probes=atoi(optarg);
           break;
 		  case 'L':
 		  		L=atoi(optarg);
           break;
+			case 'D' :
+					delta=atof(optarg);
+			break;
       }
   }
 
@@ -313,14 +316,14 @@ void _get_relative_traversals(int i, int j, int m, int n, int pi, Tuple *path,
 	int next_j = j + 1;
 
     //get all the paths that are possible after moving down
-	if (next_i     == j*m/n || j ==  next_i*n/m 
+	if (next_i     == j*m/n || j ==  next_i*n/m
 		|| next_i + 1 == j*m/n || j == (next_i + 1)*n/m) {
 		//|| next_i - 1 == j*m/n || j == (next_i - 1)*n/m )  {
     	_get_relative_traversals(i+1, j, m, n, pi + 1, path, relative_traversals);
 	}
 
     //get all the paths that are possible after moving right
-	if (i     == next_j*m/n || next_j == i*n/m 
+	if (i     == next_j*m/n || next_j == i*n/m
 		|| i + 1 == next_j*m/n || next_j == (i + 1)*n/m) {
 		//|| i - 1 == next_j*m/n || next_j == (i - 1)*n/m) {
     	_get_relative_traversals(i, j+1, m, n, pi + 1, path, relative_traversals);

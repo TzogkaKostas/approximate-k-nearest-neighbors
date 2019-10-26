@@ -79,7 +79,7 @@ unsigned f_hash_function(vector<Type> x , int dimension,int w, int k,
 		int bits_of_each_hash, unsigned M, vector<unsigned>& m_powers,vector<vector<float>*>& s_array,vector< unordered_map<unsigned,int> *>&g_value,int f);
 int hammingDistance(unsigned n1, unsigned n2);
 void read_command_line_arguments_hypercube_grid(char *argv[], int& argc,string& input_file, string& query_file,
-	string& output_file, int& k, int& M,int& probes,int &L,int &flag );
+	string& output_file, int& k, int& M,int& probes,int &L,float &delta ,int &flag );
 void read_command_line_arguments_hypercube_projection(char* argv[],int &argc,string &input_file,string &query_file,int& k, int& M,int & probes,float &e,string &output_file,int &flag);
 float calculate_delta(list<Curve*> curves);
 int calculate_w(list<Item*> items);

@@ -27,13 +27,13 @@ int main(int argc, char *argv[]) {
     int M = M_DEFAULT;
     int probes = PROBES_DEFAULT;
     int L=L_DEFAULT;
-    int delta = -1;
+    float delta = -1;
     bool check_for_identical_grid_flag = CHECK_FOR_IDENTICAL_GRID_FLAG_DEFAULT;
     int curve_dimension = CURVE_DIMENSION_DEFAULT;
     //READ COMMAND LINE ARGUMENTS
     string input_file, query_file, output_file;
     int flag_defult=-1;
-    read_command_line_arguments_hypercube_grid(argv, argc, input_file, query_file,output_file,k,M,probes,L,flag_defult);
+    read_command_line_arguments_hypercube_grid(argv, argc, input_file, query_file,output_file,k,M,probes,L,delta,flag_defult);
 
     //READ ITEMS FROM THE INPUT FILE
     list<Curve*> input_curves;
