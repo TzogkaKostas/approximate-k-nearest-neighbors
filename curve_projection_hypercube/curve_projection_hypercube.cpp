@@ -98,8 +98,8 @@ void Curve_Projection_hypercube::ANN(Curve *query_curve, unsigned probes, Query_
     			table[start_row][table_column]->get_m_powers_array();
             int h_i = 0;
             for (vector<Tuple*> *relevant_traversal : relevant_traversals) {
-                convert_2d_curve_to_vector_by_projection(*relevant_traversal, G_matrix,query_curve, K_matrix,
-                    curve_dimension, &query_item);
+                convert_2d_curve_to_vector_by_projection(*relevant_traversal, 1, G_matrix,
+          				query_curve, K_matrix, curve_dimension, &query_item);
                 P_value = hash_tables[h_i]->p(*(query_item->get_coordinates()),hash_tables[h_i]->get_dimension(), table_size, w, k, bits_of_each_hash, M,  *m_powers_array[h_i]);
                 int bucketes_checked=0;
                 ret = hash_tables[h_i]->get_f_values_map()->equal_range(P_value);
@@ -150,8 +150,6 @@ void Curve_Projection_hypercube::ANN(Curve *query_curve, unsigned probes, Query_
             }
         }
 }
-
-
-unsigned long long int Curve_Projection_hypercube::Curve_Grid_distance(Curve *curve1, Curve *curve2) {
+double Curve_Projection_hypercube::Curve_Grid_distance(Curve *curve1, Curve *curve2) {
 	return DTW(curve1->get_points(), curve2->get_points());
 }

@@ -20,7 +20,7 @@ Relevant_Traversals_hypercube::Relevant_Traversals_hypercube(int i, int j, int t
         }
         m_powers_array.push_back(m_powers);
     }
-    
+
     this->length_i = i;
     this->length_j = j;
     this->table_size_hypercube =table_size_hypercube;
@@ -56,7 +56,7 @@ void Relevant_Traversals_hypercube::insert(Curve *curve, int Hash_Table_Hypercub
     //cout << "\n BOOM \n";
 	int rel_indx = 0;
 	for (vector<Tuple*> *relevant_traversal : relevant_traversals) {
-		convert_2d_curve_to_vector_by_projection(*relevant_traversal, G_matrix,
+		convert_2d_curve_to_vector_by_projection(*relevant_traversal, 0,G_matrix,
 		curve, K_matrix, curve_dimension, &item);
 
 		//cout <<"ite po:"<<item<<endl;
