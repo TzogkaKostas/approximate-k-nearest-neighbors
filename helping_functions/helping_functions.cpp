@@ -1118,6 +1118,12 @@ void print_vector(vector<float> my_list) {
 	cout <<endl;
 }
 
+void print_vector(vector<double> my_list) {
+	for (double i : my_list) {
+		cout << i << " ";
+	}
+	cout <<endl;
+}
 
 void print_list(list<float> my_list) {
 	for (float i : my_list) {

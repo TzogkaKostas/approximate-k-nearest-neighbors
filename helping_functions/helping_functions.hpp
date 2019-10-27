@@ -85,4 +85,5 @@ void print_results(string query,Query_Result ann_result,string type,Query_Result
 void print_results_to_file(string query,Query_Result ann_result,string type,FILE *out,Query_Result exhaustive_result);
 void print_results(string query,Query_Result ann_result,string type,string hashing,Query_Result exhaustive_result);
 void print_results_to_file(string query,Query_Result ann_result,string type,string hashing,FILE *out,Query_Result exhaustive_result);
+void print_vector(vector<double> my_list);
 #endif

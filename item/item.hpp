@@ -5,7 +5,7 @@
 #include <string>
 using namespace std;
 
-typedef float Type;
+typedef double Type;
 
 class Item {
 public:
