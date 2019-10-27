@@ -119,7 +119,7 @@ void Curve_Projection_LSH::ANN(Curve *query_curve, unsigned threshhold, Query_Re
 
 		int h_i = 0;
 		for (vector<Tuple*> *relevant_traversal : relevant_traversals) {
-			convert_2d_curve_to_vector_by_projection(*relevant_traversal, G_matrix,
+			convert_2d_curve_to_vector_by_projection(*relevant_traversal, 1, G_matrix,
 				query_curve, K_matrix, curve_dimension, &query_item);
 
 			for (size_t j = 0; j < L; j++) {

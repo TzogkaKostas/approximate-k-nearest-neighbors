@@ -69,9 +69,9 @@ void random_matrix(int K, int d, float **G, float from, float to);
 void print_range_results(list<Item*> items, float range);
 void find_relevant_traversals(int m, int n, list<vector<Tuple*>*>& relative_traverals);
 void print_range_results_to_file(list<Item*> items,FILE *out ,float range);
-void convert_2d_curve_to_vector_by_projection(vector<Tuple*>& U, float **G_matrix, Curve *curve,
+void convert_2d_curve_to_vector_by_projection(vector<Tuple*>& traversal, int U_or_V, float **G_matrix, Curve *curve,
 		int G_rows, int G_cols, Item **item);
-void matrix_multiplication(vector<Tuple*>& U, float **G_matrix, Curve *curve,
+void matrix_multiplication(vector<Tuple*>& traversal, int U_or_V, float **G_matrix, Curve *curve,
 		int G_rows, int G_cols, Item **item);
 void read_command_line_arguments_hypercube(char *argv[], int& argc,string& input_file, string& query_file,
 	string& output_file, int& k, int& M,int& probes,int &flag);

@@ -56,7 +56,7 @@ void Relevant_Traversals::insert(Curve *curve, int L, int w,
 	int rel_indx = 0;
 	//cout <<"hash size:" <<hash_tables.size()<<endl;
 	for (vector<Tuple*> *relevant_traversal : relevant_traversals) {
-		convert_2d_curve_to_vector_by_projection(*relevant_traversal, G_matrix,
+		convert_2d_curve_to_vector_by_projection(*relevant_traversal, 0, G_matrix,
 			curve, K_matrix, curve_dimension, &item);
 		for (size_t i = 0; i < L; i++) {
 			g_value = g_hash_function(*(item->get_coordinates()), hash_tables[rel_indx]->get_dimension(),

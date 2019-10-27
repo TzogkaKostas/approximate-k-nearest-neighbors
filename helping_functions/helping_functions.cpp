@@ -26,12 +26,12 @@ std::random_device rd;  //Will be used to obtain a seed for the random number en
 std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
 std::uniform_int_distribution<> dis(0, 1);
 
-void convert_2d_curve_to_vector_by_projection(vector<Tuple*>& U, float **G_matrix, Curve *curve,
+void convert_2d_curve_to_vector_by_projection(vector<Tuple*>& traversal, int U_or_V, float **G_matrix, Curve *curve,
 		int G_rows, int G_cols, Item **item) {
-	matrix_multiplication(U, G_matrix, curve, G_rows, G_cols, item);
+	matrix_multiplication(traversal, U_or_V, G_matrix, curve, G_rows, G_cols, item);
 }
 
-void matrix_multiplication(vector<Tuple*>& U, float **G_matrix, Curve *curve,
+void matrix_multiplication(vector<Tuple*>& traversal, int U_or_V, float **G_matrix, Curve *curve,
 		int G_rows, int G_cols, Item **item) {
 
 	float sum;
@@ -57,12 +57,12 @@ void matrix_multiplication(vector<Tuple*>& U, float **G_matrix, Curve *curve,
 
 	vector<Point*>points = curve->get_points();
 	results_points = new vector<Type>;
-	for (size_t U_i = 0; U_i < U.size(); U_i++) {
+	for (size_t U_i = 0; U_i < traversal.size(); U_i++) {
 		for(int i = 0; i < G_rows; ++i) { //for every row of G
         	for(int j = 0; j < 1; ++j) { //for every column of U
 				sum = 0.0;
             	for(int k = 0; k < G_cols; ++k) {
-					position_of_curve = U[U_i]->get_x();
+					position_of_curve = traversal[U_i]->get_coord(U_or_V);
 					sum += G_matrix[i][k] * points[position_of_curve]->get_coord(k);
 				}
 				results_points->push_back(sum);
@@ -669,7 +669,8 @@ void print_results(Query_Result ann_result,string type,Query_Result exhaustive_r
 
 void print_results(Query_Result ann_result,string type,string hashing,Query_Result exhaustive_result){
 
-	printf("Query: %s \nMethod: %s \nHashFunction: %s\nFound Nearest: %s",ann_result.get_name().c_str(),type.c_str(),hashing.c_str());
+	printf("Query: %s \nMethod: %s \nHashFunction: %s\nFound Nearest: %s", 
+		ann_result.get_name().c_str(), type.c_str(), hashing.c_str());
 }
 
 void print_results_to_file(Query_Result ann_result,string type,FILE *out,Query_Result exhaustive_result){
