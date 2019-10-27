@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Curve_Grid_hypercube::Curve_Grid_hypercube(int L, int hash_table_dimension, int w, int k, float delta,
+Curve_Grid_hypercube::Curve_Grid_hypercube(int L, int hash_table_dimension, int w, int k, double delta,
         int curve_dimension, unsigned m,unsigned M ,int table_size,int probes){
     //printf("\n %d %d %d %d %d %d %ld %d \n", L,hash_table_size,  curve_dimension, w, k, delta,m,M);
     for (int i = 0; i < L; i++) {
@@ -119,12 +119,12 @@ void Curve_Grid_hypercube::ANN(Curve *query_curve, unsigned probes, Query_Result
 
         ret = hash_tables[i]->get_f_values_map()->equal_range(P_value);
 		searched_items = 0;
-        for (it = ret.first; it != ret.second; ++it) {
+    for (it = ret.first; it != ret.second; ++it) {
 			if (searched_items >= M_f) {
 				flag =1;
 			}
-            if(flag == 1){
-                break;
+      if(flag == 1){
+        break;
             }
 			if (check_for_identical_grid_flag == true) {
 				if (it->second->get_corresponding_curve()->identical(query_curve) == false) {
@@ -132,7 +132,7 @@ void Curve_Grid_hypercube::ANN(Curve *query_curve, unsigned probes, Query_Result
 				}
 			}
 
-			double cur_distance = Curve_Grid_distance(query_curve, it->second);
+			double cur_distance = Curve_Grid_distance(query_curve, it->second->get_corresponding_curve());
 			if (cur_distance < best_distance) {
 				best = it->second->get_name();
 				best_distance = cur_distance;
@@ -156,7 +156,7 @@ void Curve_Grid_hypercube::ANN(Curve *query_curve, unsigned probes, Query_Result
 					if (searched_items >= M_f) {
 						break;
 					}
-					double cur_distance = Curve_Grid_distance((query_curve), (it->second));//apostasi querry apo ta alla pou iparxoun sto bucket
+					double cur_distance = Curve_Grid_distance((query_curve), (it->second->get_corresponding_curve()));//apostasi querry apo ta alla pou iparxoun sto bucket
 					if (cur_distance < best_distance) {
 						best = it->second->get_name();
 						best_distance = cur_distance;

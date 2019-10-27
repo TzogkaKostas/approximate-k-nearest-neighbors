@@ -11,7 +11,7 @@
 
 using namespace std;
 
-typedef float Type;
+typedef double Type;
 
 
 class Hash_Table {

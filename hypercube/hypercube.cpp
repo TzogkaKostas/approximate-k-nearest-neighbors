@@ -3,7 +3,7 @@
 
 using namespace std;
 
-typedef float Type;
+typedef double Type;
 
 
 Hash_Table::Hash_Table(int table_size, int dimension, int w, int k){

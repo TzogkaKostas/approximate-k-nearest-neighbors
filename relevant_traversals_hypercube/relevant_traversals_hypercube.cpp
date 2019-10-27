@@ -2,7 +2,7 @@
 #include "../helping_functions//helping_functions.hpp"
 #include "../curve_grid_hypercube/curve_grid_hypercube.hpp"
 using namespace std;
-class Hash_Table_Hypercube;
+//class Hash_Table_Hypercube;
 Relevant_Traversals_hypercube::Relevant_Traversals_hypercube(int i, int j, int table_size_hypercube, int K_matrix, int w, int k,int m,int M){
 
     find_relevant_traversals(i + 1, j + 1, relevant_traversals);

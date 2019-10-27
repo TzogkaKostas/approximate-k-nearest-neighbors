@@ -12,7 +12,7 @@
 #include <cstdio>
 
 using namespace std;
-typedef float Type;
+typedef double Type;
 
 #include "../hypercube/hypercube.hpp"
 #include "../helping_functions/helping_functions.hpp"

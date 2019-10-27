@@ -15,7 +15,7 @@
 #include "../Tuple/tuple.hpp"
 
 
-typedef float Type;
+typedef double Type;
 
 
 class Hash_Table_Hypercube {
@@ -43,7 +43,7 @@ private:
 
 class Curve_Grid_hypercube {
  public:
-    Curve_Grid_hypercube(int L, int hash_table_dimension, int w, int k, float delta,
+    Curve_Grid_hypercube(int L, int hash_table_dimension, int w, int k, double delta,
 			int curve_dimension, unsigned m,unsigned M ,int table_size,int probes);
     ~Curve_Grid_hypercube();
     void insert_curve(Curve *curve,list<Curve*> *grid_curves);
