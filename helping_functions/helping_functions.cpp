@@ -34,9 +34,9 @@ void convert_2d_curve_to_vector_by_projection(vector<Tuple*>& traversal, int U_o
 void matrix_multiplication(vector<Tuple*>& traversal, int U_or_V, float **G_matrix, Curve *curve,
 		int G_rows, int G_cols, Item **item) {
 
-	float sum;
+	double sum;
 	int position_of_curve;
-	vector<Type> *results_points;
+	vector<double> *results_points;
 
 	//cout <<"Grows: "<<G_rows<<endl;
 	//cout <<"G_cols: "<<G_cols<<endl;
@@ -56,7 +56,7 @@ void matrix_multiplication(vector<Tuple*>& traversal, int U_or_V, float **G_matr
 	//}
 
 	vector<Point*>points = curve->get_points();
-	results_points = new vector<Type>;
+	results_points = new vector<double>;
 	for (size_t U_i = 0; U_i < traversal.size(); U_i++) {
 		for(int i = 0; i < G_rows; ++i) { //for every row of G
         	for(int j = 0; j < 1; ++j) { //for every column of U
@@ -603,13 +603,13 @@ double DTW(vector<Point*>& p, vector<Point*>& q) {
 	return dtw_array[m1 - 1][m2 - 2];
 }
 
-float manhattan_distance_2d(Point *p, Point *q) {
+double manhattan_distance_2d(Point *p, Point *q) {
 	return abs(p->get_x() - q->get_x()) + abs(p->get_y() - q->get_y());
 }
 
-float euclidean_distance_2d(Point *p, Point *q) {
-	return (p->get_x() - q->get_x())*(p->get_x() - q->get_x() ) +
-	(p->get_y() - q->get_y())*(p->get_y() - q->get_y());
+double euclidean_distance_2d(Point *p, Point *q) {
+	return sqrt( (p->get_x() - q->get_x())*(p->get_x() - q->get_x() ) +
+	(p->get_y() - q->get_y())*(p->get_y() - q->get_y()) );
 }
 
 unsigned g_hash_function(vector<Type> x , int dimension, int w, int k,
@@ -1161,7 +1161,9 @@ float calculate_delta(list<Curve*> curves) {
 			sum += euclidean_distance_2d(points[i], points[i + 1]);
 
 		}
-		total_sum += sum/points.size();
+		if (points.size() != 1) {
+			total_sum += sum/(points.size() - 1);
+		}
 	}
 	return total_sum/curves.size();
 }

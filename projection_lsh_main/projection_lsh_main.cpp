@@ -66,8 +66,8 @@ int main(int argc, char *argv[]) {
 	Curve_Projection_LSH grid_projection(L, w, k,
 		curve_dimension, m, M_table, K_matrix);
 
-
 	grid_projection.print_hash_tables();
+	return 0;
 
 	//INSERT INPUT DATA
 	time_t time = clock();
