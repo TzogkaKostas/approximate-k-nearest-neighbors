@@ -131,26 +131,27 @@ void read_command_line_arguments_hypercube_grid(char *argv[], int& argc,string& 
           case 'q':
             	query_file=optarg;
           break;
-		  case 'o':
-		  		output_file=optarg;
-		  break;
-      case 'k':
-       	k=atoi(optarg);
-				flag=1;
-      break;
-      case 'M':{
-		  		M=atoi(optarg);
+		  		case 'o':
+		  				output_file=optarg;
+		  		break;
+      		case 'k':
+       				k=atoi(optarg);
+							flag=1;
+      		break;
+      		case 'M':{
+		  				M=atoi(optarg);
 		  		}
-      break;
-      case 'p':
-		  		probes=atoi(optarg);
+      		break;
+      		case 'p':
+		  				probes=atoi(optarg);
           break;
-		  case 'L':
-		  		L=atoi(optarg);
+		  		case 'L':
+		  				L=atoi(optarg);
           break;
-			case 'D' :
-					delta=atof(optarg);
-			break;
+					case 'D' :
+							delta=atof(optarg);
+							flag++;
+					break;
       }
   }
 
@@ -669,7 +670,7 @@ void print_results(Query_Result ann_result,string type,Query_Result exhaustive_r
 
 void print_results(Query_Result ann_result,string type,string hashing,Query_Result exhaustive_result){
 
-	printf("Query: %s \nMethod: %s \nHashFunction: %s\nFound Nearest: %s", 
+	printf("Query: %s \nMethod: %s \nHashFunction: %s\nFound Nearest: %s",
 		ann_result.get_name().c_str(), type.c_str(), hashing.c_str());
 }
 

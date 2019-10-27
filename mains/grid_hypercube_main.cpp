@@ -45,11 +45,12 @@ int main(int argc, char *argv[]) {
     if (flag_defult==-1){
         table_size=log2(input_curves.size());
     }
+    else if(flag_defult==0 || flag_defult ==2){
+        delta =  calculate_delta(input_curves);
+    }
     unsigned m = numeric_limits<unsigned>::max() + 1 - 5;
     print_parameters(L, table_size, w, probes, hash_table_dimension);
-    if (delta == - 1) {
-        delta= 4*hash_table_dimension*table_size;
-    }
+
     //cout <<"m :" << m;
     //CREATE THE HYPERCUBE STRUCTURE
     Curve_Grid_hypercube h_curve_grid(L,hash_table_dimension,w,k_s_g,delta,curve_dimension,m,M,table_size,probes);

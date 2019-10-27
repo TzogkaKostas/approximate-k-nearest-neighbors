@@ -25,9 +25,9 @@ public:
 	int get_num_of_traversals() {return relevant_traversals.size();}
 
 private:
-    list<vector<Tuple*>*> relevant_traversals;
+  list<vector<Tuple*>*> relevant_traversals;
 	//vector<Hash_Table_Hypercube*>  hash_tables_R;
-    vector<Hash_Table_Hypercube*> hash_tables;
+  vector<Hash_Table_Hypercube*> hash_tables;
 	vector<vector<unsigned>*> m_powers_array;
 
 	int table_size_hypercube;
