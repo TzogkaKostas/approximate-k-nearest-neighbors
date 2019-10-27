@@ -37,6 +37,7 @@ Hash_Table::~Hash_Table() {
 
 void Hash_Table::insert(Item*item,int dimension, int w, int k,int bits_of_each_hash, unsigned M,vector<unsigned> m_powers) {
 	unsigned index =p(*item->get_coordinates(),dimension,table_size,w,k,bits_of_each_hash,M,m_powers);
+	//cout << "P: "<<index<<endl;
 	f_value.insert(pair<unsigned, Item*>(index,item) );
 
 }
@@ -44,13 +45,13 @@ void Hash_Table::insert(Item*item,int dimension, int w, int k,int bits_of_each_h
 unsigned Hash_Table::p(vector<Type> x , int dimension, int table_size, int w, int k,
 	int bits_of_each_hash, unsigned M, vector<unsigned>& m_powers){
 	int result=0;
-	int p=0;
+	int p;
+	//cout << "table_size "<<table_size<<endl;
 	for (int i = 0; i < table_size; i++) {
-
 		p = f_hash_function(x,dimension,w,k,bits_of_each_hash,M,m_powers,*s_array[i],g_value,i);
-		result = result ^ p;
-		result = result <<1;
+		result |= p << (table_size -i -1);
 	}
+	//cout << "result "<< result<< endl;
 	return result;
 }
 

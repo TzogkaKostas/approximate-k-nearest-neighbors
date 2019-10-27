@@ -39,8 +39,6 @@ void read_command_line_arguments(char *argv[], int& argc, string& input_file, st
 	string& output_file, int& k, int& L, int& w, int& st, float& eps, int& M_table);
 unsigned long long int manhattan_distance(vector<Type> x1, vector<Type> x2);
 void print_ann_results(Query_Result ann_result);
-void print_results(Query_Result ann_result,string type,Query_Result exhaustive_result);
-void print_results_to_file(Query_Result ann_result,string type,FILE *out,Query_Result exhaustive_result);
 void print_exhaustive_search_results(Query_Result exhaustive_result);
 void print_parameters(int L, int k, int w, int search_threshold, int dimension);
 void print_parameters(int L, int k, int w, int search_threshold);
@@ -83,4 +81,8 @@ void read_command_line_arguments_hypercube_grid(char *argv[], int& argc,string& 
 void read_command_line_arguments_hypercube_projection(char* argv[],int &argc,string &input_file,string &query_file,int& k, int& M,int & probes,float &e,string &output_file,int &flag);
 float calculate_delta(list<Curve*> curves);
 int calculate_w(list<Item*> items);
+void print_results(string query,Query_Result ann_result,string type,Query_Result exhaustive_result);
+void print_results_to_file(string query,Query_Result ann_result,string type,FILE *out,Query_Result exhaustive_result);
+void print_results(string query,Query_Result ann_result,string type,string hashing,Query_Result exhaustive_result);
+void print_results_to_file(string query,Query_Result ann_result,string type,string hashing,FILE *out,Query_Result exhaustive_result);
 #endif

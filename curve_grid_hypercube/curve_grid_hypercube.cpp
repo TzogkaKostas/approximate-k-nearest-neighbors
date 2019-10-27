@@ -90,7 +90,7 @@ void Curve_Grid_hypercube::insert_curve(Curve *curve, list<Curve*> *grid_curves)
 
 void Curve_Grid_hypercube::ANN(Curve *query_curve, unsigned probes, Query_Result& query_result,bool check_for_identical_grid_flag) {
     unsigned searched_items;
-    unsigned best_distance = numeric_limits<unsigned>::max();
+    double best_distance = numeric_limits<double>::max();
     unsigned P_value;
     Curve *query_grid_curve;
     Item *query_item;
@@ -132,7 +132,7 @@ void Curve_Grid_hypercube::ANN(Curve *query_curve, unsigned probes, Query_Result
 				}
 			}
 
-			unsigned cur_distance = Curve_Grid_distance(query_curve, it->second);
+			double cur_distance = Curve_Grid_distance(query_curve, it->second);
 			if (cur_distance < best_distance) {
 				best = it->second->get_name();
 				best_distance = cur_distance;
@@ -156,7 +156,7 @@ void Curve_Grid_hypercube::ANN(Curve *query_curve, unsigned probes, Query_Result
 					if (searched_items >= M_f) {
 						break;
 					}
-					unsigned cur_distance = Curve_Grid_distance((query_curve), (it->second));//apostasi querry apo ta alla pou iparxoun sto bucket
+					double cur_distance = Curve_Grid_distance((query_curve), (it->second));//apostasi querry apo ta alla pou iparxoun sto bucket
 					if (cur_distance < best_distance) {
 						best = it->second->get_name();
 						best_distance = cur_distance;
@@ -223,10 +223,8 @@ unsigned Hash_Table_Hypercube::p(vector<Type> x , int dimension, int table_size,
 	int result=0;
 	int p=0;
 	for (int i = 0; i < table_size; i++) {
-
 		p = f_hash_function(x,dimension,w,k,bits_of_each_hash,M,m_powers,*s_array[i],g_value,i);
-		result = result ^ p;
-		result = result <<1;
+		result |= p << (table_size -i -1);
 	}
 	return result;
 }

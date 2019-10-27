@@ -657,34 +657,42 @@ void print_ann_results(Query_Result ann_result) {
 	cout <<"tLSH:"<<ann_result.get_time()<<endl;
 }
 
-void print_results(Query_Result ann_result,string type,Query_Result exhaustive_result){
+void print_results(string query,Query_Result ann_result,string type,Query_Result exhaustive_result){
 	if (ann_result.get_name() == "NULL") {
 		cout <<"NOT FOUND"<<endl;
 		return;
 	}
-	printf("Query: %s \nNearest neighbor: %s \ndistance%s: %f \ndistanceTrue: %f \n"
-		"t%s: %f \n\n\n",ann_result.get_name().c_str(),exhaustive_result.get_name().c_str(),
+	printf("Query: %s \nNearest neighbor: %s\nTrue Nearest neighbor: %s \ndistance%s: %lf \ndistanceTrue: %lf \n"
+		"t%s: %f\n tTrue: %f\n\n\n",query.c_str(),ann_result.get_name().c_str(),exhaustive_result.get_name().c_str(),
 		type.c_str(),ann_result.get_best_distance(),exhaustive_result.get_best_distance(),
-		type.c_str(),ann_result.get_time());
+		type.c_str(),ann_result.get_time(),exhaustive_result.get_time());
 }
 
-void print_results(Query_Result ann_result,string type,string hashing,Query_Result exhaustive_result){
-
-	printf("Query: %s \nMethod: %s \nHashFunction: %s\nFound Nearest: %s",
-		ann_result.get_name().c_str(), type.c_str(), hashing.c_str());
+void print_results(string query,Query_Result ann_result,string type,string hashing,Query_Result exhaustive_result){
+	printf("Query: %s \nMethod: %s \nHashFunction: %s\nFound Nearest neighbor: %s\nTrue Nearest neighbor: %s\ndistanceFound: %lf \ndistanceTrue: %lf \nt%s: %lf\ntTrue: %lf\n\n\n",
+		query.c_str(), type.c_str(), hashing.c_str(),ann_result.get_name().c_str(),exhaustive_result.get_name().c_str(),ann_result.get_best_distance(),exhaustive_result.get_best_distance(),type.c_str(),ann_result.get_time(),exhaustive_result.get_time());
 }
 
-void print_results_to_file(Query_Result ann_result,string type,FILE *out,Query_Result exhaustive_result){
+void print_results_to_file(string query,Query_Result ann_result,string type,FILE *out,Query_Result exhaustive_result){
 
 	if (out==NULL){
 		fprintf(stderr, "Error opening file '%s'\n", optarg);
 	}
 	//printf("Query: %s \nNearest neighbor: %s \ndistance%s: %ld\ndistanceTrue: %ld\nt%s: %ld \n\n\n",ann_result.get_name().c_str(),exhaustive_result.get_name().c_str(),type.c_str(),ann_result.get_best_distance(),exhaustive_result.get_best_distance(),type.c_str(),ann_result.get_time());
-	fprintf(out, "Query: %s \nNearest neighbor: %s \ndistance%s: %f \ndistanceTrue: %f \n"
-	"t%s: %f \n\n\n",ann_result.get_name().c_str(),exhaustive_result.get_name().c_str(),
-	type.c_str(),ann_result.get_best_distance(),exhaustive_result.get_best_distance(),
-	type.c_str(),ann_result.get_time());
-	//fclose(out);
+	fprintf(out,"Query: %s \nNearest neighbor: %s\nTrue Nearest neighbor: %s\ndistance%s: %lf\ndistanceTrue: %lf \n"
+		"t%s: %f\n tTrue: %f\n\n\n",query.c_str(),ann_result.get_name().c_str(),exhaustive_result.get_name().c_str(),
+		type.c_str(),ann_result.get_best_distance(),exhaustive_result.get_best_distance(),
+		type.c_str(),ann_result.get_time(),exhaustive_result.get_time());
+}
+
+void print_results_to_file(string query,Query_Result ann_result,string type,string hashing,FILE *out,Query_Result exhaustive_result){
+	if (out==NULL){
+		fprintf(stderr, "Error opening file '%s'\n", optarg);
+	}
+
+	fprintf(out,"Query: %s \nMethod: %s \nHashFunction: %s\nFound Nearest neighbor: %s\nTrue Nearest neighbor: %s\ndistanceFound: %lf \ndistanceTrue: %lf\nt%s: %lf\n tTrue: %lf\n\n\n",
+		query.c_str(), type.c_str(), hashing.c_str(),ann_result.get_name().c_str(),exhaustive_result.get_name().c_str(),ann_result.get_best_distance(),exhaustive_result.get_best_distance(),type.c_str(),ann_result.get_time(),exhaustive_result.get_time());
+
 }
 
 void print_exhaustive_search_results(Query_Result exhaustive_result) {

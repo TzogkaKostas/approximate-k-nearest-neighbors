@@ -104,7 +104,7 @@ void Curve_Projection_hypercube::ANN(Curve *query_curve, unsigned probes, Query_
                 int bucketes_checked=0;
                 ret = hash_tables[h_i]->get_f_values_map()->equal_range(P_value);
         		searched_items = 0;
-                for (it = ret.first; it != ret.second; ++it) {
+              for (it = ret.first; it != ret.second; ++it) {
         			if (searched_items >= M_f) {
         				flag =1;
         			}
