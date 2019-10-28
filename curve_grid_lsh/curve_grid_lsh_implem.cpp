@@ -16,7 +16,7 @@ using namespace std;
 
 
 Curve_Grid_LSH::Curve_Grid_LSH(int L, int hash_table_dimension, int w, int k, float delta,
-		int curve_dimension, unsigned m) {
+		int curve_dimension, unsigned m, double max_coord) {
 
 	for (size_t i = 0; i < L; i++) {
 		Hash_Table *hash_table = new Hash_Table(hash_table_dimension, w, k);
@@ -39,6 +39,7 @@ Curve_Grid_LSH::Curve_Grid_LSH(int L, int hash_table_dimension, int w, int k, fl
 		delete random_vector;
 	}
 
+	this->max_coord = max_coord;
 	this->L = L;
 	this->hash_table_dimension = hash_table_dimension;
 	this->curve_dimension = curve_dimension;
@@ -79,7 +80,7 @@ void Curve_Grid_LSH::insert_curve(Curve *curve, list<Curve*> *grid_curves) {
 
 	for (size_t i = 0; i < L; i++) {
 		convert_2d_curve_to_vector(curve, grids[i], delta, hash_table_dimension, curve_dimension,
-			&grid_curve, &item);
+			&grid_curve, &item, max_coord);
 		//item->print();
 		//cout << "item size:"<<item->get_coordinates()->size()<<endl;
 		//getchar();
@@ -110,7 +111,7 @@ void Curve_Grid_LSH::ANN(Curve *query_curve, unsigned threshhold, Query_Result& 
 		//query_curve->print();
 
 		convert_2d_curve_to_vector(query_curve, grids[i], delta, hash_table_dimension,
-		curve_dimension, &query_grid_curve, &query_item);
+		curve_dimension, &query_grid_curve, &query_item, max_coord);
 		//cout <<"grid curve: "<<endl;
 		//query_grid_curve->print();
 		//cout <<"item: "<<endl;

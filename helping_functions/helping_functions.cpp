@@ -26,12 +26,12 @@ std::random_device rd;  //Will be used to obtain a seed for the random number en
 std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
 std::uniform_int_distribution<> dis(0, 1);
 
-void convert_2d_curve_to_vector_by_projection(vector<Tuple*>& traversal, int U_or_V, float **G_matrix, Curve *curve,
+void convert_2d_curve_to_vector_by_projection(vector<Tuple*>& traversal, int U_or_V, double **G_matrix, Curve *curve,
 		int G_rows, int G_cols, Item **item) {
 	matrix_multiplication(traversal, U_or_V, G_matrix, curve, G_rows, G_cols, item);
 }
 
-void matrix_multiplication(vector<Tuple*>& traversal, int U_or_V, float **G_matrix, Curve *curve,
+void matrix_multiplication(vector<Tuple*>& traversal, int U_or_V, double **G_matrix, Curve *curve,
 		int G_rows, int G_cols, Item **item) {
 
 	double sum;
@@ -80,12 +80,13 @@ void matrix_multiplication(vector<Tuple*>& traversal, int U_or_V, float **G_matr
 }
 
 void convert_2d_curve_to_vector(Curve *curve, Point *t, float delta, int dimension,
-		int curve_dimension, Curve **grid_curve, Item **item) {
+		int curve_dimension, Curve **grid_curve, Item **item, double max_coord) {
 	snap_curve(curve, t, grid_curve, delta);
 	//cout <<"length gridc*2 = "<<(*grid_curve)->get_length()*2<<endl;
-	fill_curve(*grid_curve, dimension/curve_dimension - (*grid_curve)->get_length()); //padding
+	//fill_curve(*grid_curve, dimension/curve_dimension - (*grid_curve)->get_length()); //padding
+	zip_points2(*grid_curve, item, dimension/curve_dimension - (*grid_curve)->get_length(),
+		max_coord);
 	(*grid_curve)->set_corresponding_curve(curve);
-	zip_points(*grid_curve, item);
 }
 
 void read_command_line_arguments_hypercube(char *argv[], int& argc,string& input_file, string& query_file,
@@ -256,7 +257,7 @@ void get_snapped_point(Point *point, float delta, Point *t, Point **snapped_poin
 
 void fill_curve(Curve *curve, int pad_length) {
 	for (size_t i = 0; i < pad_length; i++) {
-		Point *point = new Point(65536, 65536);
+		Point *point = new Point(60, 60);
 		curve->insert_point(point);
 	}
 }
@@ -267,9 +268,9 @@ void zip_points(Curve *grid_curve, Item **item) {
 		coordinates->push_back(point->get_x());
 		coordinates->push_back(point->get_y());
 	}
+
 	*item = new Item(coordinates);
 }
-
 
 void _get_relative_traversals(int i, int j, int m, int n, int pi, Tuple *path,
 		list<vector<Tuple*>*>& relative_traversals) {
@@ -348,12 +349,11 @@ void find_relevant_traversals(int m, int n, list<vector<Tuple*>*>& relative_trav
 }
 
 
-void random_matrix(int K, int d, float **G, float from, float to) {
+void random_matrix(int K, int d, double **G, float mean, float deviation ) {
  	random_device rd{};
     mt19937 gen{rd()};
-	normal_distribution<float> dis(0.5, 1);
+	normal_distribution<double> dis(mean, deviation);
 
-	float U, V, S;
 	for (size_t i = 0; i < K; i++) {
 		for (size_t j = 0; j < d;) {
 			double x = dis(gen);
@@ -388,7 +388,7 @@ void read_command_line_arguments(char *argv[], int& argc, string& input_file, st
 			st = atoi(argv[i + 1]);
 		}
 		else if (strcmp(argv[i], "--eps") == 0) {
-			eps = atoi(argv[i + 1]);
+			eps = atof(argv[i + 1]);
 		}
 		else if (strcmp(argv[i], "-M") == 0) {
 			M_table = atoi(argv[i + 1]);
@@ -465,7 +465,7 @@ void delete_curves(list<Curve*> curves) {
 int read_2d_curves_from_file(string file_name, list<Curve*>& curves, int& max_length, int M_table) {
 	string line, coordinate, name, tuple, part1, part2;
 	int length;
-	float x, y;
+	double x, y;
 	Point *point;
 	Curve *curve;
 	vector<Point*> *points;
@@ -481,16 +481,16 @@ int read_2d_curves_from_file(string file_name, list<Curve*>& curves, int& max_le
 			istringstream iss (line);
 			iss >> name;
 			iss >> length;
-			max_length = max(max_length, length);
 			if (length > M_table) {
 				iss.ignore();
 				continue;
 			}
+			max_length = max(max_length, length);
 
 			points = new vector<Point*>;
 			while ( iss >> part1 >> part2) {
 				tuple = part1 + part2;
-				sscanf(tuple.c_str(), "(%f, %f)", &x, &y);
+				sscanf(tuple.c_str(), "(%lf, %lf)", &x, &y);
 				point = new Point();
 				point->insert_coordinate(x);
 				point->insert_coordinate(y);
@@ -505,10 +505,10 @@ int read_2d_curves_from_file(string file_name, list<Curve*>& curves, int& max_le
 	return 0;
 }
 
-int read_2d_curves_from_file(string file_name, list<Curve*>& curves, int& max_length) {
+int read_2d_curves_from_file(string file_name, list<Curve*>& curves, int& max_length, double& max_coord) {
 	string line, coordinate, name, tuple, part1, part2;
 	int length;
-	float x, y;
+	double x, y;
 	Point *point;
 	Curve *curve;
 	vector<Point*> *points;
@@ -529,7 +529,8 @@ int read_2d_curves_from_file(string file_name, list<Curve*>& curves, int& max_le
 			points = new vector<Point*>;
 			while ( iss >> part1 >> part2) {
 				tuple = part1 + part2;
-				sscanf(tuple.c_str(), "(%f, %f)", &x, &y);
+				sscanf(tuple.c_str(), "(%lf, %lf)", &x, &y);
+				max_coord = max(max(x, y), max_coord);
 				point = new Point();
 				point->insert_coordinate(x);
 				point->insert_coordinate(y);
@@ -573,15 +574,6 @@ double DTW(vector<Point*>& p, vector<Point*>& q) {
 	//initialize (0,0) point of the array
 	dtw_array[0][0] = euclidean_distance_2d(p[0], q[0]);
 
-	//cout <<"p_x:"<<p[0]->get_x()<<endl;
-	//cout <<"p_y:"<<p[0]->get_y()<<endl;
-	//cout <<"q_x:"<<q[0]->get_x()<<endl;
-	//cout <<"q_y:"<<q[0]->get_y()<<endl;
-//
-	//cout <<"diff:"<<p[0]->get_x() - q[0]->get_x()<<endl;
-//
-//
-	//cout <<"dtw00: "<<dtw_array[0][0]<<endl;
 
 	//initialize first row of the array
 	for (size_t j = 1; j < m2; j++) {
@@ -600,6 +592,10 @@ double DTW(vector<Point*>& p, vector<Point*>& q) {
 				min({dtw_array[i - 1][j - 1], dtw_array[i][j - 1], dtw_array[i - 1][j]});
 		}
 	}
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1bfdff7ddf73c82d6c21d7b449fc81cb8f09fada
 	return dtw_array[m1 - 1][m2 - 1];
 }
 
@@ -619,12 +615,8 @@ unsigned g_hash_function(vector<Type> x , int dimension, int w, int k,
 	for (int i = 0; i < k; ++i) {
 		hash_value = 0;
 		hash_value = hash_function(x, dimension, w, M, *(s_array[i]), m_powers);
-		//cout <<"hash: "<<hash_value<<endl;
 		total_hash_value |= hash_value << (32 - (i + 1)*bits_of_each_hash);
 	}
-
-	//cout <<"total_hash_value: "<<total_hash_value<<endl;
-
 	return total_hash_value;
 }
 
@@ -1199,4 +1191,22 @@ int calculate_w(list<Item*> items) {
 		sum += cur_distance;
 	}
 	return sum/items.size();
+}
+
+void zip_points2(Curve *grid_curve, Item **item, int pad_length, double max_coord) {
+	vector<Type> *coordinates = new vector<Type>;
+	for(Point *point : grid_curve->get_points() ) {
+		coordinates->push_back(point->get_x());
+		coordinates->push_back(point->get_y());
+	}
+
+	//padding
+	for (size_t i = 0; i < pad_length; i++) {
+		Point *point = new Point(max_coord, max_coord);
+		grid_curve->insert_point(point);
+		coordinates->push_back(point->get_x());
+		coordinates->push_back(point->get_y());
+	}
+
+	*item = new Item(coordinates);
 }

@@ -46,7 +46,7 @@ Relevant_Traversals::~Relevant_Traversals() {
 }
 
 void Relevant_Traversals::insert(Curve *curve, int L, int w,
-		int k, int bits_of_each_hash, int M, float **G_matrix, int K_matrix,
+		int k, int bits_of_each_hash, int M, double **G_matrix, int K_matrix,
 		int curve_dimension) {
 
 	Item *item = NULL;

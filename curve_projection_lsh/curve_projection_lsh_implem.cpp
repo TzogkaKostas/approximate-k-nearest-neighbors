@@ -53,9 +53,9 @@ Curve_Projection_LSH::Curve_Projection_LSH(int L, int w, int k,
 
 
 	//CREATE RANDOM G MATRIX ~N(0, 1)
-	G_matrix = new float*[K_matrix];
+	G_matrix = new double*[K_matrix];
 	for (size_t i = 0; i < K_matrix; i++) {
-		G_matrix[i] = new float[curve_dimension];
+		G_matrix[i] = new double[curve_dimension];
 	}
 	random_matrix(K_matrix, curve_dimension, G_matrix, 0, 1);
 }

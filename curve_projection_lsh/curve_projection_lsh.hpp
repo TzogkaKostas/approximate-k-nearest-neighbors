@@ -27,7 +27,7 @@ private:
 	unsigned m;
 	int table_size;
 	Relevant_Traversals ***table;
-	float **G_matrix;
+	double **G_matrix;
 	int K_matrix;
 };
 
