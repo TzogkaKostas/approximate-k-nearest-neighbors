@@ -19,7 +19,7 @@ using namespace std;
 
 #define L_DEFAULT 5
 #define K_DEFAULT 4
-#define W_DEFAULT 400
+#define W_DEFAULT 40
 #define SEARCH_THRESHOLD (L_DEFAULT*100)
 #define CURVE_DIMENSION_DEFAULT 2
 #define CHECK_FOR_IDENTICAL_GRID_FLAG_DEFAULT false
@@ -33,6 +33,7 @@ int main(int argc, char *argv[]) {
 	int curve_dimension = CURVE_DIMENSION_DEFAULT;
 	bool check_for_identical_grid_flag = CHECK_FOR_IDENTICAL_GRID_FLAG_DEFAULT;
 	float delta = -1;
+	double max_coord;
 
 	if (argc < 5 ) {
 		cout <<"usage: ./lsh –d <input file> –q <query file> -ο <output file>"<<endl;
@@ -47,7 +48,7 @@ int main(int argc, char *argv[]) {
 	//READ CURVES FROM THE INPUT FILE
 	list<Curve*> input_curves;
 	int max_curve_length;
-	read_2d_curves_from_file(input_file, input_curves, max_curve_length);
+	read_2d_curves_from_file(input_file, input_curves, max_curve_length, max_coord);
 
 	//INITIALIZE PARAMETERS
 	int hash_table_dimension = curve_dimension*max_curve_length;
@@ -56,12 +57,13 @@ int main(int argc, char *argv[]) {
 	}
 	
 	unsigned m = numeric_limits<unsigned>::max() + 1 - 5;
-	search_threshold = max(10*L, search_threshold);
+	search_threshold = max((int)input_curves.size()/10, search_threshold);
 	print_parameters(L, k, w, search_threshold, hash_table_dimension);
 	cout <<"delta: "<<delta<<endl;
 
 	//CREATE THE GRID STRUCTURE FOR CURVES WITH LSH 
-	Curve_Grid_LSH grid_projection(L, hash_table_dimension, w, k, delta, curve_dimension, m);
+	Curve_Grid_LSH grid_projection(L, hash_table_dimension, w, k, delta, curve_dimension,
+		m, max_coord);
 
 	//INSERT INPUT DATA
 	list<Curve*> grid_curves;
@@ -76,7 +78,7 @@ int main(int argc, char *argv[]) {
 
 	//READ QUERY CURVES FROM THE INPUT FILE
 	list<Curve*> queries;
-	read_2d_curves_from_file(query_file, queries, max_curve_length);
+	read_2d_curves_from_file(query_file, queries, max_curve_length, max_coord);
 
 	//HANDLE QUERIES
 	Query_Result ann_query_result, exhaustive_query_result;
@@ -96,13 +98,10 @@ int main(int argc, char *argv[]) {
 		exhaustive_curve_search(&input_curves, query, exhaustive_query_result);
 
 		if (output_file != "") {
-			print_results_to_file(ann_query_result,"Grid", out ,exhaustive_query_result);
+			print_results_to_file(query->get_name(), ann_query_result, "Grid", "LSH", out ,exhaustive_query_result);
 		}
 		else {
-			cout <<"Query:"<<query->get_name()<<endl;
-			print_ann_results(ann_query_result);
-			print_exhaustive_search_results(exhaustive_query_result);
-			cout <<"--------------------------------------------------------"<<endl<<endl;
+			print_results(query->get_name(), ann_query_result, "Grid", "LSH", exhaustive_query_result);
 		}
 
 		//statistics info for searches that succeeded
@@ -124,8 +123,8 @@ int main(int argc, char *argv[]) {
 	cout <<endl;
 	cout <<"Handling of queries time: "<< ((double)time) / CLOCKS_PER_SEC<<endl;
 	cout << "Average query time: "<<sum_query_time/not_null<<endl;
-	cout << "Max rate: "<<max_rate<<endl;
-	cout << "Average rate: "<<sum_rate/not_null<<endl;
+	cout << "Max AF: "<<max_rate<<endl;
+	cout << "Average AF: "<<sum_rate/not_null<<endl;
 	cout << "Found "<<not_null<<"/"<<queries.size()<<" approximate nearest neighbors"<<endl;
 	cout << "Found "<<found_nearest<<"/"<<queries.size()<<" exact nearest neighbors"<<endl;
 	cout << "Average distance: "<<total_distances/queries.size()<<endl;

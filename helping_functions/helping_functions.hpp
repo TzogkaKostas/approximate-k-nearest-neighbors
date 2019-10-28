@@ -49,7 +49,7 @@ void read_vectors_from_file(string file_name, list<Item*>& items, float& range);
 unsigned long long int manhattan_distance(vector<Type> x1, vector<Type> x2);
 void exhaustive_search(list<Item*> *items, Item *query, Query_Result& query_result);
 void delete_items(list<Item*> items);
-int read_2d_curves_from_file(string file_name, list<Curve*>& curves, int& max_length);
+int read_2d_curves_from_file(string file_name, list<Curve*>& curves, int& max_length, double& max_coord);
 int read_2d_curves_from_file(string file_name, list<Curve*>& curves, int& max_length, int M_table);
 void print_curves(list<Curve*> curves);
 void delete_curves(list<Curve*> curves);
@@ -62,14 +62,14 @@ void get_snapped_point(Point *point, float delta, Point *t, Point **snapped_poin
 void zip_points(Curve *snapped_curve, Item **item);
 void fill_curve(Curve *curve, int pad_length);
 void convert_2d_curve_to_vector(Curve *curve, Point *t, float delta, int hash_table_dimesion,
-	int curve_dimension, Curve **snapped_curve, Item **item);
-void random_matrix(int K, int d, float **G, float from, float to);
+	int curve_dimension, Curve **snapped_curve, Item **item, double max_coord);
+void random_matrix(int K, int d, double **G, float mean, float deviation);
 void print_range_results(list<Item*> items, float range);
 void find_relevant_traversals(int m, int n, list<vector<Tuple*>*>& relative_traverals);
 void print_range_results_to_file(list<Item*> items,FILE *out ,float range);
-void convert_2d_curve_to_vector_by_projection(vector<Tuple*>& traversal, int U_or_V, float **G_matrix, Curve *curve,
+void convert_2d_curve_to_vector_by_projection(vector<Tuple*>& traversal, int U_or_V, double **G_matrix, Curve *curve,
 		int G_rows, int G_cols, Item **item);
-void matrix_multiplication(vector<Tuple*>& traversal, int U_or_V, float **G_matrix, Curve *curve,
+void matrix_multiplication(vector<Tuple*>& traversal, int U_or_V, double **G_matrix, Curve *curve,
 		int G_rows, int G_cols, Item **item);
 void read_command_line_arguments_hypercube(char *argv[], int& argc,string& input_file, string& query_file,
 	string& output_file, int& k, int& M,int& probes,int &flag);
@@ -86,4 +86,5 @@ void print_results_to_file(string query,Query_Result ann_result,string type,FILE
 void print_results(string query,Query_Result ann_result,string type,string hashing,Query_Result exhaustive_result);
 void print_results_to_file(string query,Query_Result ann_result,string type,string hashing,FILE *out,Query_Result exhaustive_result);
 void print_vector(vector<double> my_list);
+void zip_points2(Curve *grid_curve, Item **item, int pad_length, double max_coord);
 #endif

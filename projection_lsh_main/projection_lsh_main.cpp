@@ -20,7 +20,7 @@ using namespace std;
 
 #define L_DEFAULT 5
 #define K_DEFAULT 4
-#define W_DEFAULT 4000
+#define W_DEFAULT 40
 #define SEARCH_THRESHOLD (L_DEFAULT*100)
 #define CURVE_DIMENSION_DEFAULT 2
 #define EPS_DEFAULT 0.5
@@ -53,21 +53,19 @@ int main(int argc, char *argv[]) {
 
 	//INITIALIZE PARAMETERS
 	unsigned m = numeric_limits<unsigned>::max() + 1 - 5;
-	search_threshold = max(100*L, search_threshold);
+	search_threshold = max((int)input_curves.size()/10, search_threshold);
     int K_matrix = 0 - curve_dimension*log2(eps)/(eps*eps);
 
 	cout <<"K_matrix: "<<K_matrix<<endl;
 	cout <<"M table: "<<M_table<<endl;
+	cout <<"epsilon: "<<eps<<endl;
 	print_parameters(L, k, w, search_threshold);
-	cout <<"Max curve length: "<<max_curve_length<<endl;
 	cout <<"num of curves: "<<input_curves.size()<<endl;
 
 	//CREATE THE GRID STRUCTURE FOR CURVES WITH LSH
 	Curve_Projection_LSH grid_projection(L, w, k,
 		curve_dimension, m, M_table, K_matrix);
 
-	grid_projection.print_hash_tables();
-	return 0;
 
 	//INSERT INPUT DATA
 	time_t time = clock();
@@ -102,13 +100,12 @@ int main(int argc, char *argv[]) {
 		exhaustive_curve_search(&input_curves, query, exhaustive_query_result);
 
 		if (output_file != "") {
-			print_results_to_file(ann_query_result,"Projection", out ,exhaustive_query_result);
+			print_results_to_file(query->get_name(), ann_query_result, "Projection",
+				"LSH", out ,exhaustive_query_result);
 		}
 		else {
-			cout <<"Query:"<<query->get_name()<<endl;
-			print_ann_results(ann_query_result);
-			print_exhaustive_search_results(exhaustive_query_result);
-			cout <<"--------------------------------------------------------"<<endl<<endl;
+			print_results(query->get_name(), ann_query_result, "Grid", "LSH",
+				exhaustive_query_result);
 		}
 
 		//statistics info for searches that succeeded
@@ -130,8 +127,8 @@ int main(int argc, char *argv[]) {
 	cout <<endl;
 	cout <<"Handling of queries time: "<< ((double)time) / CLOCKS_PER_SEC<<endl;
 	cout << "Average query time: "<<sum_query_time/not_null<<endl;
-	cout << "Max rate: "<<max_rate<<endl;
-	cout << "Average rate: "<<sum_rate/not_null<<endl;
+	cout << "Max AF: "<<max_rate<<endl;
+	cout << "Average AF: "<<sum_rate/not_null<<endl;
 	cout << "Found "<<not_null<<"/"<<queries.size()<<" approximate nearest neighbors"<<endl;
 	cout << "Found "<<found_nearest<<"/"<<queries.size()<<" exact nearest neighbors"<<endl;
 	cout << "Average distance: "<<total_distances/queries.size()<<endl;

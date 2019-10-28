@@ -8,7 +8,7 @@
 class Curve_Grid_LSH {
 public:
 	Curve_Grid_LSH(int L, int hash_table_dimension, int w, int k, float delta,
-			int curve_dimension, unsigned m);
+			int curve_dimension, unsigned m, double max_coord);
 	~Curve_Grid_LSH();
 
 	void insert_curve(Curve *curve, list<Curve*> *grid_curves);
@@ -34,6 +34,7 @@ private:
 	float delta;
 	int curve_dimension; //2D in our case
 	unsigned m;
+	double max_coord;
 	vector<unsigned> m_powers;
 };
 

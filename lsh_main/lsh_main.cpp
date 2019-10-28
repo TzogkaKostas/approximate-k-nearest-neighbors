@@ -44,6 +44,7 @@ int main(int argc, char *argv[]) {
 	read_vectors_from_file(input_file, input_items);
 	int dimension = input_items.front()->get_coordinates()->size();
 	unsigned m = numeric_limits<unsigned>::max() + 1 - 5;
+	search_threshold = max((int)input_items.size()/10, search_threshold);
 	if (w == -1) {
 		w = calculate_w(input_items);
 	}
@@ -94,12 +95,12 @@ int main(int argc, char *argv[]) {
 		}
 
 		if (output_file != "") {
-			print_results_to_file(ann_query_result,"LSH", out ,exhaustive_query_result);
+			print_results_to_file(query->get_name(), ann_query_result, "LSH",
+				out ,exhaustive_query_result);
 		}
 		else {
-			cout <<"Query:"<<query->get_name()<<endl;
-			print_ann_results(ann_query_result);
-			print_exhaustive_search_results(exhaustive_query_result);
+			print_results(query->get_name(), ann_query_result, "LSH",
+				exhaustive_query_result);
 			cout <<"--------------------------------------------------------"<<endl<<endl;
 		}
 
@@ -121,8 +122,8 @@ int main(int argc, char *argv[]) {
 	time = clock() - time;
 	cout <<"Handling of queries(ann and enn) total time: "<< ((double)time) / CLOCKS_PER_SEC<<endl;
 	cout << "Average query time: "<<sum_query_time/not_null<<endl;
-	cout << "Max rate: "<<max_rate<<endl;
-	cout << "Average rate: "<<sum_rate/not_null<<endl;
+	cout << "Max AF: "<<max_rate<<endl;
+	cout << "Average AF: "<<sum_rate/not_null<<endl;
 	cout << "Found "<<not_null<<"/"<<queries.size()<<" approximate nearest neighbors"<<endl;
 	cout << "Found "<<found_nearest<<"/"<<queries.size()<<" exact nearest neighbors"<<endl;
 	cout << "Average distance: "<<total_distances/queries.size()<<endl;
