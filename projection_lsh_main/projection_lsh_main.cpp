@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
 	int M_table = M_TABLE_DEFAULT;
 
 	if (argc < 5 ) {
-		cout <<"usage: ./lsh –d <input file> –q <query file> –k <int> -L <int> -ο <output file>"<<endl;
+		cout <<"usage: ./projection_lsh_main –d <input file> –q <query file> –k <int> -L <int> -ο <output file>"<<endl;
 		return 1;
 	}
 

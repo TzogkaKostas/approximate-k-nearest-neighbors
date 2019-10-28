@@ -110,7 +110,7 @@ void Curve_Projection_LSH::ANN(Curve *query_curve, unsigned threshhold, Query_Re
 		list<vector<Tuple*>*> relevant_traversals = 
 			table[start_row][table_column]->get_relevant_traversals();
 
-    	vector<Hash_Table*> hash_tables =
+    	Hash_Table** hash_tables =
 			table[start_row][table_column]->get_hash_tables();
 
 		vector<vector<unsigned>*> m_powers_array = 

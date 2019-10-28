@@ -42,7 +42,7 @@ private:
 	vector<unsigned> m_powers;
 	int curve_dimension; //2D in our case
     Relevant_Traversals_hypercube ***table;
-    float **G_matrix;
+    double **G_matrix;
 	int K_matrix;
 };
 #endif
