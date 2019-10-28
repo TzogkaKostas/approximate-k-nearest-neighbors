@@ -51,7 +51,7 @@ int main(int argc, char *argv[]) {
     if (flag_defult==-1){
         table_size=log2(input_curves.size());
     }
-    if(flag_defult==-1||flag_defult==0 || flag_defult ==1){
+    if(flag_defult==-1 || flag_defult==0 || flag_defult ==1){
       //cout <<"aaaaaaaa\n";
       delta =  calculate_delta(input_curves);
     }

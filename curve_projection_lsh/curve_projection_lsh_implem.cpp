@@ -40,7 +40,8 @@ Curve_Projection_LSH::Curve_Projection_LSH(int L, int w, int k,
 	for(int i = 0; i < table_size; ++i) {
 	    table[i] = new Relevant_Traversals*[table_size];
 	    for(int j = 0; j < table_size; ++j) {
-	        table[i][j] = new Relevant_Traversals(i, j, L, K_matrix, w, k, m, M);
+	        //table[i][j] = new Relevant_Traversals(i, j, L, K_matrix, w, k, m, M);
+	        table[i][j] = NULL;
 	    }
 	}
 
@@ -75,6 +76,9 @@ void Curve_Projection_LSH::insert_curve(Curve *curve) {
 
 	int table_row = curve->get_length() - 1;
 	for (size_t j = 0; j < table_size; j++) {
+		if (table[table_row][j] == NULL) {
+	        table[table_row][j] = new Relevant_Traversals(table_row, j, L, K_matrix, w, k, m, M);
+		}
 		table[table_row][j]->insert(curve, L, w, k,
 			bits_of_each_hash, M, G_matrix, K_matrix, curve_dimension);
 	}
@@ -97,14 +101,17 @@ void Curve_Projection_LSH::ANN(Curve *query_curve, unsigned threshhold, Query_Re
 	time_t time;
 	time = clock();
 	for (size_t row = start_row; row < end_row; row++) {
-		list<vector<Tuple*>*> relevant_traversals =
-			table[start_row][table_column]->get_relevant_traversals();
+		if (table[row][table_column] == NULL) {
+			continue;
+		}
+		list<vector<Tuple*>*> relevant_traversals = 
+			table[row][table_column]->get_relevant_traversals();
 
     	Hash_Table** hash_tables =
-			table[start_row][table_column]->get_hash_tables();
+			table[row][table_column]->get_hash_tables();
 
-		vector<vector<unsigned>*> m_powers_array =
-			table[start_row][table_column]->get_m_powers_array();
+		vector<vector<unsigned>*> m_powers_array = 
+			table[row][table_column]->get_m_powers_array();
 
 
 		int h_i = 0;

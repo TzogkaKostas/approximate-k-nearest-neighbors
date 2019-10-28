@@ -15,7 +15,7 @@
 
 #define M_DEFAULT 500
 #define K_DEFAULT 4
-#define W_DEFAULT 4000
+#define W_DEFAULT 1
 #define PROBES_DEFAULT 2
 #define CHECK_FOR_IDENTICAL_GRID_FLAG_DEFAULT false
 #define CURVE_DIMENSION_DEFAULT 2
@@ -59,6 +59,7 @@ int main(int argc, char *argv[]) {
     //CREATE THE GRID STRUCTURE FOR CURVES WITH HYPERCUBE
     Curve_Projection_hypercube grid_projection(w,k_s_g,curve_dimension,m,M,K_matrix,table_size_hypercube,probes,M_table);
 
+
     //INSERT INPUT DATA
     time_t time = clock();
     for(Curve *curve : input_curves) {
@@ -67,8 +68,6 @@ int main(int argc, char *argv[]) {
     time = clock() - time;
     cout <<"Data insertion time: "<< ((double)time) / CLOCKS_PER_SEC <<endl<<endl;
 
-    //grid_projection.print_hash_tables();
-    return 0;
 
     //READ QUERY CURVES FROM THE INPUT FILE
 	list<Curve*> queries;

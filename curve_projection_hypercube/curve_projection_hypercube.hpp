@@ -25,9 +25,9 @@ class Curve_Projection_hypercube {
     int get_w() {return w;}
 	int get_k() {return k;}
 	int get_dimension() {return curve_dimension;}
-	void print_hash_tables();
 	void ANN(Curve *query_curve, unsigned probes, Query_Result& query_result);
 	double Curve_Grid_distance(Curve *curve1, Curve *curve2);
+	void print_hash_tables();
 private:
 
     vector<Point*> grids; //Each grid is identified from the random Point t

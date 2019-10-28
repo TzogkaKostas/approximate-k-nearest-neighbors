@@ -16,7 +16,7 @@ Relevant_Traversals::Relevant_Traversals(int i, int j, int L, int K_matrix, int 
 	for (vector<Tuple*>* rel_trav : relevant_traversals ) {
 		hash_table_dimension = rel_trav->size()*K_matrix;
 		for (size_t i = 0; i < L; i++) {
-			hash_tables[rel_indx] = NULL;
+			hash_tables[rel_indx] = new Hash_Table(hash_table_dimension, w, k);
 			rel_indx++;
 		}
 		vector<unsigned> *m_powers = new vector<unsigned>;
@@ -61,11 +61,6 @@ void Relevant_Traversals::insert(Curve *curve, int L, int w,
 
 		int hash_table_dimension = relevant_traversal->size()*K_matrix;		
 		for (size_t i = 0; i < L; i++) {
-			if (hash_tables[rel_indx] == NULL) {
-				hash_tables[rel_indx] = new Hash_Table(hash_table_dimension, w, k);
-			}
-
-
 			g_value = g_hash_function(*(item->get_coordinates()),
 				hash_tables[rel_indx]->get_dimension(), w, k, bits_of_each_hash,
 				M, hash_tables[rel_indx]->get_s_array(), *(m_powers_array[rel_indx/L]));
