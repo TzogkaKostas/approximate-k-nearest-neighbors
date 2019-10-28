@@ -7,7 +7,7 @@ OBJECTS = projection_lsh_main.o hash_table_implem.o item_implem.o \
 HEADERS = ../hash_table/hash_table.hpp ../item/item.hpp \
 		../helping_functions/helping_functions.hpp ../curve/curve.hpp \
 		../point/point.hpp ../query_result/query_result.hpp \
-		../relevant_traversals/relevant_traversals.hpp ../tuple/tuple.hpp \
+		../relevant_traversals/relevant_traversals.hpp ../Tuple/tuple.hpp \
 		../curve_projection_lsh/curve_projection_lsh.hpp
 
 all: projection_lsh_main

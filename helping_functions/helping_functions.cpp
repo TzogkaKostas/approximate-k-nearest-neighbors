@@ -592,10 +592,6 @@ double DTW(vector<Point*>& p, vector<Point*>& q) {
 				min({dtw_array[i - 1][j - 1], dtw_array[i][j - 1], dtw_array[i - 1][j]});
 		}
 	}
-<<<<<<< HEAD
-=======
-
->>>>>>> 1bfdff7ddf73c82d6c21d7b449fc81cb8f09fada
 	return dtw_array[m1 - 1][m2 - 1];
 }
 
