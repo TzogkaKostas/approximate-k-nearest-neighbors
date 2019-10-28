@@ -16,7 +16,7 @@ typedef double Type;
 #include "../helping_functions/helping_functions.hpp"
 #include "../query_result/query_result.hpp"
 #include "../item/item.hpp"
-#define M_DEFAULT 500
+#define M_DEFAULT 5000
 #define K_DEFAULT 4
 #define W_DEFAULT 4000
 #define PROBES_DEFAULT 14
@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
 		int w = W_DEFAULT;
 		int M = M_DEFAULT;
 		int probes = PROBES_DEFAULT;
-		float radious = 1000;
+		float radious = -1;
 		int PRINT_ON_SCREAN=0;
 
 	    //READ COMMAND LINE ARGUMENTS
@@ -69,9 +69,9 @@ int main(int argc, char *argv[]) {
 		//HANDLE QUERIES
 		list<Item*> queries;
 		read_vectors_from_file(query_file, queries, radious);
-		cout <<"Radious: "<<radious<<endl;
-
-
+		if (radious != -1) {
+			cout <<"Radious: "<<radious<<endl;
+		}
 
 		Query_Result ann_query_result, exhaustive_query_result,range_query_result;
 		time = clock();
@@ -93,11 +93,22 @@ int main(int argc, char *argv[]) {
 			exhaustive_search(&input_items, query, exhaustive_query_result);
 			//print_exhaustive_search_results(exhaustive_query_result);
 			if(PRINT_ON_SCREAN==1)
-					print_results(query->get_name(),ann_query_result,"Cube", exhaustive_query_result);
+				print_results(query->get_name(),ann_query_result,"Cube", exhaustive_query_result);
 			else
-					print_results_to_file(query->get_name(),ann_query_result,"Cube",out ,exhaustive_query_result);
+				print_results_to_file(query->get_name(),ann_query_result,"Cube",out ,exhaustive_query_result);
 
-			//cout<<endl;
+			//range search (Bonus)
+			if (radious > 0) {
+				hypercube.range_search(query, 1000000, radious, range_items, range_query_result);
+
+				if(PRINT_ON_SCREAN ==1) {
+					print_range_results(range_items, radious);
+				}
+				else {
+					print_range_results_to_file(range_items, out,radious);
+				}
+				range_items.clear();
+			}
 
 
 			//cout <<"--------------------------------------------------------"<<endl;
@@ -115,26 +126,12 @@ int main(int argc, char *argv[]) {
 			//cout <<"\nEND \n";
 
 		}
-		if(PRINT_ON_SCREAN ==1)
-				cout <<"R-near neighbors :"<<radious<<endl;
-		else
-				fprintf(out,"R-near neighbors : %lf\n", radious);
 
-		for(Item *query: queries) {
-			if (radious > 0) {
-				hypercube.range_search(query, probes, radious, range_items, range_query_result);
-				if(PRINT_ON_SCREAN ==1)
-						print_range_results(range_items, radious);
-				else
-						print_range_results_to_file(range_items, out,radious);
-				range_items.clear();
-			}
-		}
 		time = clock() - time;
 		cout <<"Handling of queries(ann and enn) total time: "<< ((double)time) / CLOCKS_PER_SEC<<endl;
 		cout << "Average query time: "<<sum_query_time/not_null<<endl;
-		cout << "Max rate: "<<max_rate<<endl;
-		cout << "Average rate: "<<sum_rate/not_null<<endl;
+		cout << "Max AF: "<<max_rate<<endl;
+		cout << "Average AF: "<<sum_rate/not_null<<endl;
 		cout << "Found "<<not_null<<"/"<<queries.size()<<" approximate nearest neighbors"<<endl;
 		cout << "Found "<<found_nearest<<"/"<<queries.size()<<" exact nearest neighbors"<<endl;
 		cout << "Average distance: "<<total_distances/queries.size()<<endl;

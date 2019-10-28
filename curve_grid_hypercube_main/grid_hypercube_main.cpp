@@ -39,32 +39,25 @@ int main(int argc, char *argv[]) {
     read_command_line_arguments_hypercube_grid(argv, argc, input_file, query_file,output_file,k,M,probes,L,delta,flag_defult);
 
     if(output_file==""){
-				PRINT_ON_SCREAN=1;
-		}
+		PRINT_ON_SCREAN=1;
+	}
     //READ ITEMS FROM THE INPUT FILE
     list<Curve*> input_curves;
     int max_curve_length;
     int table_size=k;//initilized after insert items
     read_2d_curves_from_file(input_file, input_curves, max_curve_length,max_coord);
-    //cout << "input_curves : "<<input_curves.size()<<endl;
     int hash_table_dimension = curve_dimension*max_curve_length;
     if (flag_defult==-1){
         table_size=log2(input_curves.size());
     }
     if(flag_defult==-1 || flag_defult==0 || flag_defult ==1){
-      //cout <<"aaaaaaaa\n";
       delta =  calculate_delta(input_curves);
     }
     unsigned m = numeric_limits<unsigned>::max() + 1 - 5;
-
-    cout << "L "<< L<<endl;
-    cout << "k "<< k_s_g<<endl;
-    cout << "Probes "<< probes<<endl;
-    cout << "delta " << delta<<endl;
+    cout <<"delta: "<<delta<<endl;
 
     //CREATE THE HYPERCUBE STRUCTURE
     Curve_Grid_hypercube h_curve_grid(L,hash_table_dimension,w,k_s_g,delta,curve_dimension,m,M,table_size,probes,max_coord);
-    //cout << "ARGS " << input_file << " " << query_file << " " << output_file ;
 
     //INSERT INPUT DATA
     list<Curve*> grid_curves;
@@ -76,8 +69,6 @@ int main(int argc, char *argv[]) {
 
     time = clock() - time;
 	cout <<"Data insertion time: "<< ((double)time) / CLOCKS_PER_SEC <<endl<<endl;
-
-    //grid_projection.print_hash_tables_names();
 
 	//READ QUERY CURVES FROM THE INPUT FILE
 	list<Curve*> queries;
@@ -102,10 +93,10 @@ int main(int argc, char *argv[]) {
 		//Exact nearest neighbor
 		exhaustive_curve_search(&input_curves, query, exhaustive_query_result);
 
-    if(PRINT_ON_SCREAN==1)
-        print_results(query->get_name(),ann_query_result,"Grid","Cube", exhaustive_query_result);
-    else
-        print_results_to_file(query->get_name(),ann_query_result,"Grid","Cube",out ,exhaustive_query_result);
+        if(PRINT_ON_SCREAN==1)
+            print_results(query->get_name(),ann_query_result,"Grid","Cube", exhaustive_query_result);
+        else
+            print_results_to_file(query->get_name(),ann_query_result,"Grid","Cube",out ,exhaustive_query_result);
 
 		//cout <<"-------------------------------------------------------"<<endl;
 		//cout<<endl;

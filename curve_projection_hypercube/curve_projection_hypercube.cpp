@@ -139,22 +139,21 @@ void Curve_Projection_hypercube::ANN(Curve *query_curve, unsigned probes, Query_
 
         		searched_items = 0;
              	for (it = ret.first; it != ret.second; ++it) {
-					//cout <<"kostas"<<endl;
-        			//if (searched_items >= M_f) {
-        			//	flag =1;
-        			//}
-                    //if(flag == 1){
-                    //    break;
-                    //}
+        			if (searched_items >= M_f) {
+        				flag =1;
+        			}
+                    if(flag == 1){
+                        break;
+                    }
 
-        			unsigned cur_distance = Curve_Grid_distance(query_curve, it->second);
+        			double cur_distance = Curve_Grid_distance(query_curve, it->second);
         			if (cur_distance < best_distance) {
         				best = it->second->get_name();
         				best_distance = cur_distance;
         			}
         			searched_items++;
         		}
-				/*
+				
                 unsigned nbuckets=hash_tables[h_i]->get_f_values_map()->bucket_count();
                 for (unsigned y=0; y<nbuckets; y++) {
                     if (searched_items >= M_f || bucketes_checked>=probes) {
@@ -172,7 +171,7 @@ void Curve_Projection_hypercube::ANN(Curve *query_curve, unsigned probes, Query_
         					if (searched_items >= M_f) {
         						break;
         					}
-        					unsigned cur_distance = Curve_Grid_distance((query_curve), (it->second));//apostasi querry apo ta alla pou iparxoun sto bucket
+        					double cur_distance = Curve_Grid_distance((query_curve), (it->second));//apostasi querry apo ta alla pou iparxoun sto bucket
         					if (cur_distance < best_distance) {
         						best = it->second->get_name();
         						best_distance = cur_distance;
@@ -180,9 +179,8 @@ void Curve_Projection_hypercube::ANN(Curve *query_curve, unsigned probes, Query_
         					searched_items++;
         				}
         			}
-
                 }
-				*/
+				
                 h_i++;
 				delete query_item;
             }

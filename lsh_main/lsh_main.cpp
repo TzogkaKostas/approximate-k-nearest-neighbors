@@ -18,7 +18,7 @@ using namespace std;
 #include "../helping_functions/helping_functions.hpp"
 
 #define L_DEFAULT 5
-#define K_DEFAULT 2
+#define K_DEFAULT 4
 #define W_DEFAULT 4300
 #define SEARCH_THRESHOLD (L_DEFAULT*100)
 
@@ -27,8 +27,8 @@ int main(int argc, char *argv[]) {
 	int k = K_DEFAULT;
 	int w = W_DEFAULT;
 	int search_threshold = SEARCH_THRESHOLD;
-	float radious = 1000;
-	int PRINT_ON_SCREAN=0;
+	float radious = -1;
+	int PRINT_ON_SCREAN = 0;
 
 	if (argc < 5 ) {
 		cout <<"usage: ./lsh –d <input file> –q <query file> –k <int> -L <int> -ο <output file>"<<endl;
@@ -40,8 +40,8 @@ int main(int argc, char *argv[]) {
 	read_command_line_arguments(argv, argc, input_file, query_file, output_file,
 			k, L, w, search_threshold);
 
-	if(output_file==""){
-				PRINT_ON_SCREAN=1;
+	if( output_file == "" ){
+		PRINT_ON_SCREAN = 1;
 	}
 	//READ ITEMS FROM THE INPUT FILE
 	list<Item*> input_items;
@@ -92,12 +92,26 @@ int main(int argc, char *argv[]) {
 		exhaustive_search(&input_items, query, exhaustive_query_result);
 
 		if(PRINT_ON_SCREAN==1){
-				print_results(query->get_name(), ann_query_result, "LSH",
-					exhaustive_query_result);
+			print_results(query->get_name(), ann_query_result, "LSH",
+				exhaustive_query_result);
 		}
 		else {
-				print_results_to_file(query->get_name(), ann_query_result, "LSH",
-					out ,exhaustive_query_result);
+			print_results_to_file(query->get_name(), ann_query_result, "LSH",
+				out ,exhaustive_query_result);
+		}
+
+		//range search (Bonus)
+		if (radious > 0) {
+			lsh.range_search(query, search_threshold, radious, range_items, range_query_result);
+
+			if(PRINT_ON_SCREAN ==1) {
+				print_range_results(range_items, radious);
+			}
+			else {
+				print_range_results_to_file(range_items, out,radious);
+			}
+
+			range_items.clear();
 		}
 
 		//statistics info
@@ -115,21 +129,7 @@ int main(int argc, char *argv[]) {
 		}
 
 	}
-	if(PRINT_ON_SCREAN ==1)
-			cout <<"R-near neighbors :"<<radious<<endl;
-	else
-			fprintf(out,"R-near neighbors : %lf\n", radious);
 
-	for(Item *query: queries) {
-		if (radious > 0) {
-			lsh.range_search(query, search_threshold, radious, range_items, range_query_result);
-			if(PRINT_ON_SCREAN ==1)
-					print_range_results(range_items, radious);
-			else
-					print_range_results_to_file(range_items, out,radious);
-			range_items.clear();
-		}
-	}
 	time = clock() - time;
 	cout <<"Handling of queries(ann and enn) total time: "<< ((double)time) / CLOCKS_PER_SEC<<endl;
 	cout << "Average query time: "<<sum_query_time/not_null<<endl;

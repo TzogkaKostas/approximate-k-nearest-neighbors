@@ -343,7 +343,7 @@ void read_command_line_arguments(char *argv[], int& argc, string& input_file, st
 		else if (strcmp(argv[i], "-o") == 0) {
 			output_file = argv[i + 1];
 		}
-		else if (strcmp(argv[i], "-–k_vec") == 0) {
+		else if (strcmp(argv[i], "-k_vec") == 0) {
 			k = atoi(argv[i + 1]);
 		}
 		else if (strcmp(argv[i], "-L_grid") == 0) {
