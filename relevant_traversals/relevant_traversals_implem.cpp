@@ -59,8 +59,9 @@ void Relevant_Traversals::insert(Curve *curve, int L, int w,
 		convert_2d_curve_to_vector_by_projection(*relevant_traversal, 0, G_matrix,
 			curve, K_matrix, curve_dimension, &item);
 		for (size_t i = 0; i < L; i++) {
-			g_value = g_hash_function(*(item->get_coordinates()), hash_tables[rel_indx]->get_dimension(),
-				w, k, bits_of_each_hash, M, hash_tables[rel_indx]->get_s_array(), *(m_powers_array[rel_indx/L]));
+			g_value = g_hash_function(*(item->get_coordinates()),
+				hash_tables[rel_indx]->get_dimension(), w, k, bits_of_each_hash,
+				M, hash_tables[rel_indx]->get_s_array(), *(m_powers_array[rel_indx/L]));
 			//cout <<"g: "<<g_value<<endl;
 			hash_tables[rel_indx]->insert(curve, g_value);
 			//cout <<"22"<<endl;

@@ -79,7 +79,7 @@ int hammingDistance(unsigned n1, unsigned n2);
 void read_command_line_arguments_hypercube_grid(char *argv[], int& argc,string& input_file, string& query_file,
 	string& output_file, int& k, int& M,int& probes,int &L,float &delta ,int &flag );
 void read_command_line_arguments_hypercube_projection(char* argv[],int &argc,string &input_file,string &query_file,int& k, int& M,int & probes,float &e,string &output_file,int &flag);
-float calculate_delta(list<Curve*> curves);
+double calculate_delta(list<Curve*> curves);
 int calculate_w(list<Item*> items);
 void print_results(string query,Query_Result ann_result,string type,Query_Result exhaustive_result);
 void print_results_to_file(string query,Query_Result ann_result,string type,FILE *out,Query_Result exhaustive_result);

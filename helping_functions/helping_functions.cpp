@@ -249,8 +249,8 @@ void get_snapped_point(Point *point, float delta, Point *t, Point **snapped_poin
 		down_left ------------- down_left
 	*/
 
-	float best_x = round( (point->get_x() - t->get_x())/delta)*delta + t->get_x();
-	float best_y = round( (point->get_y() - t->get_y())/delta)*delta + t->get_y();
+	double best_x = round( (point->get_x() - t->get_x())/delta)*delta + t->get_x();
+	double best_y = round( (point->get_y() - t->get_y())/delta)*delta + t->get_y();
 
 	*snapped_point = new Point(best_x, best_y);
 }
@@ -1157,7 +1157,7 @@ int hammingDistance(unsigned n1, unsigned n2) {
     return setBits;
 }
 
-float calculate_delta(list<Curve*> curves) {
+double calculate_delta(list<Curve*> curves) {
 
 	double total_sum = 0;
 	for (Curve *curve : curves) {
