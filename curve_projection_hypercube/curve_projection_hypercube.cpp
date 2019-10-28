@@ -30,9 +30,9 @@ Curve_Projection_hypercube::Curve_Projection_hypercube(int w, int k,
         }
 
     //CREATE RANDOM G MATRIX ~N(0, 1)
-    G_matrix = new float*[K_matrix];
+    G_matrix = new double*[K_matrix];
     for (size_t i = 0; i < K_matrix; i++) {
-        G_matrix[i] = new float[curve_dimension];
+        G_matrix[i] = new double[curve_dimension];
     }
     random_matrix(K_matrix, curve_dimension, G_matrix, 0, 1);
     }
@@ -122,34 +122,36 @@ void Curve_Projection_hypercube::ANN(Curve *query_curve, unsigned probes, Query_
                 unsigned nbuckets=hash_tables[h_i]->get_f_values_map()->bucket_count();
                 for (unsigned y=0; y<nbuckets; y++) {
                     if (searched_items >= M_f || bucketes_checked>=probes) {
-        				break;
-        			}
+        				          break;
+        			     }
                     for (auto it = hash_tables[h_i]->get_f_values_map()->begin(y);it!= hash_tables[h_i]->get_f_values_map()->end(y);it++){
-        	        	//std::cout << "[" << hash_table->get_f_values_map()->begin(i)->first << ":" << it->second->get_name() << "] ";
-        				bucket_value=hash_tables[h_i]->get_f_values_map()->begin(y)->first;
-        				break;
-        	    	}
-                    if (hammingDistance(P_value, bucket_value)==1){
-        				bucketes_checked++;
-        				ret = hash_tables[h_i]->get_f_values_map()->equal_range(bucket_value);
-        				for (it = ret.first; it != ret.second; ++it) {
-        					if (searched_items >= M_f) {
-        						break;
-        					}
-        					unsigned cur_distance = Curve_Grid_distance((query_curve), (it->second));//apostasi querry apo ta alla pou iparxoun sto bucket
-        					if (cur_distance < best_distance) {
-        						best = it->second->get_name();
-        						best_distance = cur_distance;
-        					}
-        					searched_items++;
-        				}
-        			}
+            	        	//std::cout << "[" << hash_table->get_f_values_map()->begin(i)->first << ":" << it->second->get_name() << "] ";
+            				bucket_value=hash_tables[h_i]->get_f_values_map()->begin(y)->first;
+            				break;
+            	    	}
+                        if (hammingDistance(P_value, bucket_value)==1){
+            				bucketes_checked++;
+            				ret = hash_tables[h_i]->get_f_values_map()->equal_range(bucket_value);
+            				for (it = ret.first; it != ret.second; ++it) {
+            					if (searched_items >= M_f) {
+            						break;
+            					}
+            					unsigned cur_distance = Curve_Grid_distance((query_curve), (it->second));//apostasi querry apo ta alla pou iparxoun sto bucket
+            					if (cur_distance < best_distance) {
+            						best = it->second->get_name();
+            						best_distance = cur_distance;
+            					}
+            					searched_items++;
+            				}
+            			}
 
-                }
-                h_i++;
+                    }
+                    h_i++;
             }
+            delete query_item;
         }
 }
+
 double Curve_Projection_hypercube::Curve_Grid_distance(Curve *curve1, Curve *curve2) {
 	return DTW(curve1->get_points(), curve2->get_points());
 }

@@ -46,8 +46,8 @@ cube : ../hypercube_main/hypercube_main.cpp $(OBJECTS) $(HEADERS)
 curve_grid_hypercube : $(OBJECTS) ../curve_grid_hypercube_main/grid_hypercube_main.cpp
 	$(CC) $(DEBUG) $(OBJECTS) ../curve_grid_hypercube_main/grid_hypercube_main.cpp -o curve_grid_hypercube
 
-curve_projection_hypercube : $(OBJECTS) ../curve_grid_hypercube_main/grid_hypercube_main.cpp
-	$(CC) $(DEBUG) $(OBJECTS) ../curve_grid_hypercube_main/grid_hypercube_main.cpp -o curve_projection_hypercube
+curve_projection_hypercube : $(OBJECTS) ../curve_projection_main/projection_hypercube_main.cpp
+	$(CC) $(DEBUG) $(OBJECTS) ../curve_projection_main/projection_hypercube_main.cpp -o curve_projection_hypercube
 
 # Cleaning Files
 clean:
