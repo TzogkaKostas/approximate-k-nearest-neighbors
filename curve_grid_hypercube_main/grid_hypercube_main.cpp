@@ -12,13 +12,13 @@
 
 using namespace std;
 #define M_DEFAULT 500
-#define K_DEFAULT 4
-#define W_DEFAULT 50
+#define K_DEFAULT 2
+#define W_DEFAULT 4000
 #define PROBES_DEFAULT 14
 #define L_DEFAULT 4
 #define CHECK_FOR_IDENTICAL_GRID_FLAG_DEFAULT false
 #define CURVE_DIMENSION_DEFAULT 2
-//k =2
+
 
 int main(int argc, char *argv[]) {
     int k;

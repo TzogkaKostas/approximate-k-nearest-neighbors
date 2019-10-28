@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
     int M = M_DEFAULT;
     int probes = PROBES_DEFAULT;
     int curve_dimension = CURVE_DIMENSION_DEFAULT;
-    float eps =EPS_DEFAULT;
+    double eps =EPS_DEFAULT;
     int M_table = M_TABLE_DEFAULT;
     int PRINT_ON_SCREAN=0;
 

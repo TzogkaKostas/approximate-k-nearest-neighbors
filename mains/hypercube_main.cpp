@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
 		int w = W_DEFAULT;
 		int M = M_DEFAULT;
 		int probes = PROBES_DEFAULT;
-		float radious = -1000;
+		double radious = -1000;
 
 	    //READ COMMAND LINE ARGUMENTS
 	    string input_file, query_file, output_file;

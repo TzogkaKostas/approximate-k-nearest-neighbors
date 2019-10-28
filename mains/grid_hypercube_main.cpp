@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
     int M = M_DEFAULT;
     int probes = PROBES_DEFAULT;
     int L=L_DEFAULT;
-    float delta = -1;
+    double delta = -1;
     bool check_for_identical_grid_flag = CHECK_FOR_IDENTICAL_GRID_FLAG_DEFAULT;
     int curve_dimension = CURVE_DIMENSION_DEFAULT;
     //READ COMMAND LINE ARGUMENTS
