@@ -8,7 +8,7 @@ HEADERS =  ../hash_table/hash_table.hpp ../curve_projection_hypercube/curve_proj
 
 #------------------------------------------------- #
 
-all  : cube curve_grid_hypercube curve_projection_hypercube lsh curve_grid_lsh curve_projection_lsh
+all  : cube curve_grid_hypercube lsh curve_grid_lsh curve_projection_lsh
 
 curve_implem.o : ../curve/curve_implem.cpp $(HEADERS)
 	$(CC) $(DEBUG) $(FLAGS) ../curve/curve_implem.cpp -o curve_implem.o
@@ -55,8 +55,8 @@ lsh :  ../lsh_main/lsh_main.cpp ../hash_table_vector/hash_table_vector_implem.cp
 curve_grid_lsh : ../grid_lsh_main/grid_lsh_main.cpp ../curve_grid_lsh/curve_grid_lsh_implem.cpp ../hash_table/hash_table_implem.cpp $(OBJECTS)
 	$(CC) $(DEBUG) $(OBJECTS)	../grid_lsh_main/grid_lsh_main.cpp ../curve_grid_lsh/curve_grid_lsh_implem.cpp ../hash_table/hash_table_implem.cpp -o curve_grid_lsh
 
-curve_projection_lsh : $(OBJECTS) ../curve_projection_main/projection_hypercube_main.cpp ../curve_projection_lsh/curve_projection_lsh_implem.cpp ../relevant_traversals/relevant_traversals_implem.cpp ../hash_table/hash_table_implem.cpp
-	$(CC) $(DEBUG) $(OBJECTS) ../curve_projection_main/projection_hypercube_main.cpp ../curve_projection_lsh/curve_projection_lsh_implem.cpp ../relevant_traversals/relevant_traversals_implem.cpp ../hash_table/hash_table_implem.cpp -o curve_projection_lsh
+curve_projection_lsh : $(OBJECTS)  ../projection_lsh_main/projection_lsh_main.cpp ../curve_projection_lsh/curve_projection_lsh_implem.cpp ../relevant_traversals/relevant_traversals_implem.cpp ../hash_table/hash_table_implem.cpp
+	$(CC) $(DEBUG) $(OBJECTS) ../projection_lsh_main/projection_lsh_main.cpp ../curve_projection_lsh/curve_projection_lsh_implem.cpp ../relevant_traversals/relevant_traversals_implem.cpp ../hash_table/hash_table_implem.cpp -o curve_projection_lsh
 
 # Cleaning Files
 clean:
