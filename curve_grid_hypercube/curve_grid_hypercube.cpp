@@ -213,6 +213,12 @@ Hash_Table_Hypercube::~Hash_Table_Hypercube() {
 		delete g_value[i];
 	}
 
+	for (vector < vector <float>* >* vv: s_array) {
+		for (vector <float>* v : *vv) {
+			delete v;
+		}
+		delete vv;
+	}
 }
 
 

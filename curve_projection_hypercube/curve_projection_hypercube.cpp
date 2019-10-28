@@ -184,6 +184,7 @@ void Curve_Projection_hypercube::ANN(Curve *query_curve, unsigned probes, Query_
                 }
 				*/
                 h_i++;
+				delete query_item;
             }
         }
 		time = clock() - time;
