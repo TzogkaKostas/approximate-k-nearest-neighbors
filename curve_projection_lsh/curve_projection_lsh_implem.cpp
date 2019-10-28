@@ -104,6 +104,7 @@ void Curve_Projection_LSH::ANN(Curve *query_curve, unsigned threshhold, Query_Re
 		if (table[row][table_column] == NULL) {
 			continue;
 		}
+
 		list<vector<Tuple*>*> relevant_traversals = 
 			table[row][table_column]->get_relevant_traversals();
 
