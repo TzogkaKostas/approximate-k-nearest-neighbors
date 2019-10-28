@@ -11,10 +11,7 @@ Hash_Table::Hash_Table(int table_size, int dimension, int w, int k){
 	for (int i = 0; i < table_size; i++) {
 		unordered_map<unsigned,int> *it=new unordered_map<unsigned,int>;
 		g_value.push_back(it);
-
-		//<vector < vector <float> > *it2 = new <vector < vector <float> >;
 	}
-
 
 	for (size_t y = 0; y < table_size; y++) {
 		vector < vector <float>* > *it1 =new vector < vector <float>* >;
@@ -32,12 +29,18 @@ Hash_Table::~Hash_Table() {
 		delete g_value[i];
 	}
 
+	for (vector < vector <float>* >* vv: s_array) {
+		for (vector <float>* v : *vv) {
+			delete v;
+		}
+		delete vv;
+	}
+
 }
 
 
 void Hash_Table::insert(Item*item,int dimension, int w, int k,int bits_of_each_hash, unsigned M,vector<unsigned> m_powers) {
 	unsigned index =p(*item->get_coordinates(),dimension,table_size,w,k,bits_of_each_hash,M,m_powers);
-	//cout << "P: "<<index<<endl;
 	f_value.insert(pair<unsigned, Item*>(index,item) );
 
 }
@@ -46,12 +49,10 @@ unsigned Hash_Table::p(vector<Type> x , int dimension, int table_size, int w, in
 	int bits_of_each_hash, unsigned M, vector<unsigned>& m_powers){
 	int result=0;
 	int p;
-	//cout << "table_size "<<table_size<<endl;
 	for (int i = 0; i < table_size; i++) {
 		p = f_hash_function(x,dimension,w,k,bits_of_each_hash,M,m_powers,*s_array[i],g_value,i);
 		result |= p << (table_size -i -1);
 	}
-	//cout << "result "<< result<< endl;
 	return result;
 }
 
@@ -121,7 +122,6 @@ void Hypercube::ANN(Item *query, unsigned probes, Query_Result& query_result){
 			}
 
 	  	  	for (auto it = hash_table->get_f_values_map()->begin(i);it!= hash_table->get_f_values_map()->end(i);it++){
-	        	//std::cout << "[" << hash_table->get_f_values_map()->begin(i)->first << ":" << it->second->get_name() << "] ";
 				bucket_value=hash_table->get_f_values_map()->begin(i)->first;
 				break;
 	    	}
@@ -195,7 +195,6 @@ void Hypercube::range_search(Item *query, unsigned prompt, float radious,
 				}
 
 		  	  	for (auto it = hash_table->get_f_values_map()->begin(i);it!= hash_table->get_f_values_map()->end(i);it++){
-		        	//std::cout << "[" << hash_table->get_f_values_map()->begin(i)->first << ":" << it->second->get_name() << "] ";
 					bucket_value=hash_table->get_f_values_map()->begin(i)->first;
 					break;
 		    	}

@@ -19,16 +19,15 @@ Curve_Grid_hypercube::Curve_Grid_hypercube(int L, int hash_table_dimension, int 
         grid = new Point();
         for (float rand_coord: *random_vector) {
             grid->insert_coordinate(rand_coord);
-            //cout << "boom \n";
         }
         grids.push_back(grid);
         delete random_vector;
     }
 
-  this->max_coord=max_coord;
-  this->L = L;
+  	this->max_coord=max_coord;
+  	this->L = L;
 	this->table_size = table_size;
-  this->hash_table_dimension = hash_table_dimension;
+  	this->hash_table_dimension = hash_table_dimension;
 	this->curve_dimension = curve_dimension;
 	this->w = w;
 	this->k = k;
@@ -96,12 +95,12 @@ void Curve_Grid_hypercube::ANN(Curve *query_curve, unsigned probes, Query_Result
 
         ret = hash_tables[i]->get_f_values_map()->equal_range(P_value);
 		searched_items = 0;
-    for (it = ret.first; it != ret.second; ++it) {
+    	for (it = ret.first; it != ret.second; ++it) {
 			if (searched_items >= M_f) {
-				flag =1;
+				flag = 1;
 			}
-      if(flag == 1){
-        break;
+      		if(flag == 1){
+        		break;
             }
 			if (check_for_identical_grid_flag == true) {
 				if (it->second->get_corresponding_curve()->identical(query_curve) == false) {
@@ -140,13 +139,12 @@ void Curve_Grid_hypercube::ANN(Curve *query_curve, unsigned probes, Query_Result
 					searched_items++;
 				}
 			}
-
         }
+		delete query_grid_curve;
+		delete query_item;
 
     }
     time = clock() - time;
-    delete query_grid_curve;
-    delete query_item;
 	if (best != "") {
 		query_result.set_best_distance(best_distance);
 		query_result.set_time( ((double)time) / CLOCKS_PER_SEC );
@@ -159,9 +157,6 @@ void Curve_Grid_hypercube::ANN(Curve *query_curve, unsigned probes, Query_Result
 	}
 
 }
-
-
-
 
 
 Hash_Table_Hypercube::Hash_Table_Hypercube(int table_size, int dimension, int w, int k){

@@ -15,7 +15,7 @@ using namespace std;
 #define K_DEFAULT 4
 #define W_DEFAULT 1
 #define PROBES_DEFAULT 14
-#define L_DEFAULT 4
+#define L_DEFAULT 5
 #define CHECK_FOR_IDENTICAL_GRID_FLAG_DEFAULT false
 #define CURVE_DIMENSION_DEFAULT 2
 
