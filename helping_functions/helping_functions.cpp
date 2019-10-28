@@ -172,7 +172,9 @@ unsigned f_hash_function(vector<Type> x , int dimension,int w, int k,
 	srand(time(0));
 	unsigned g;
 	g=0;
+	//cout <<"f sarr:_ize: "<<s_array.size()<<endl;
 	g=g_hash_function(x , dimension, w,  k,bits_of_each_hash,  M,s_array,m_powers);
+	//cout <<"g vgike"<<endl;
 	//cout << g_value[f]->find(g)->first<<endl;
 	if(g_value[f]->find(g) == g_value[f]->end()){// not found
 		y=dis(gen);
@@ -182,8 +184,6 @@ unsigned f_hash_function(vector<Type> x , int dimension,int w, int k,
 	else{
 		return g_value[f]->find(g)->second;
 	}
-
-
 }
 
 void snap_curve(Curve *curve, Point *t, Curve **grid_curve, float delta) {
@@ -574,9 +574,15 @@ unsigned g_hash_function(vector<Type> x , int dimension, int w, int k,
 	int bits_of_each_hash, unsigned M, vector<vector<float>*>& s_array, vector<unsigned>& m_powers) {
 
 	unsigned hash_value, total_hash_value = 0;
+	//cout <<"s size: "<<s_array.size()<<endl;
+	//cout <<"s0 size: "<< s_array[0]->size()<<endl;
+	//cout <<"m size: "<<m_powers.size()<<endl;
+	//cout <<"g mpike"<<endl;
+	//getchar();
 	for (int i = 0; i < k; ++i) {
 		hash_value = 0;
 		hash_value = hash_function(x, dimension, w, M, *(s_array[i]), m_powers);
+		//cout <<"h vgike"<<endl;
 		total_hash_value |= hash_value << (32 - (i + 1)*bits_of_each_hash);
 	}
 	return total_hash_value;

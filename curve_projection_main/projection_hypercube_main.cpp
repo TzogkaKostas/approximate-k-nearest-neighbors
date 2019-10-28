@@ -20,7 +20,7 @@
 #define CHECK_FOR_IDENTICAL_GRID_FLAG_DEFAULT false
 #define CURVE_DIMENSION_DEFAULT 2
 #define EPS_DEFAULT 0.5
-#define M_TABLE_DEFAULT 4
+#define M_TABLE_DEFAULT 6
 
 int main(int argc, char *argv[]) {
     int k_s_g = K_DEFAULT;

@@ -13,7 +13,7 @@ Relevant_Traversals_hypercube::Relevant_Traversals_hypercube(int i, int j, int t
 	int rel_indx = 0;
     for (vector<Tuple*>* rel_trav : relevant_traversals ) {
         hash_table_dimension = rel_trav->size()*K_matrix;
-
+		
 		hash_tables[rel_indx] = new Hash_Table_Hypercube(table_size_hypercube, hash_table_dimension, w, k);
 		rel_indx++;
 

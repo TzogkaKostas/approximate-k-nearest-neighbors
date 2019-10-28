@@ -191,6 +191,8 @@ void Curve_Grid_hypercube::ANN(Curve *query_curve, unsigned probes, Query_Result
 
 Hash_Table_Hypercube::Hash_Table_Hypercube(int table_size, int dimension, int w, int k){
 	this->table_size=table_size;
+    this->dimension = dimension;
+
 	for (int i = 0; i < table_size; i++) {
 		unordered_map<unsigned,int> *it=new unordered_map<unsigned,int>;
 		g_value.push_back(it);
@@ -204,7 +206,6 @@ Hash_Table_Hypercube::Hash_Table_Hypercube(int table_size, int dimension, int w,
         }
         s_array.push_back(it1);
     }
-    this->dimension=dimension;
 }
 
 Hash_Table_Hypercube::~Hash_Table_Hypercube() {
@@ -223,7 +224,11 @@ unsigned Hash_Table_Hypercube::p(vector<Type> x , int dimension, int table_size,
 	int bits_of_each_hash, unsigned M, vector<unsigned>& m_powers) {
 	int result=0;
 	int p=0;
+	//cout <<"total s_array size:"<<s_array.size()<<endl;
+	//cout <<"table size"<<table_size<<endl;
+	//getchar();
 	for (int i = 0; i < table_size; i++) {
+		//cout <<" p sa_ray size: "<<s_array[i]->size()<<endl;
 		p = f_hash_function(x,dimension,w,k,bits_of_each_hash,M,m_powers,*s_array[i],g_value,i);
 		result |= p << (table_size -i -1);
 	}

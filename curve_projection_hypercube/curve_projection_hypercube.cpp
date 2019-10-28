@@ -65,7 +65,8 @@ void Curve_Projection_hypercube::insert_curve(Curve *curve) {
 	//cout <<"\ntable_row\n: "<<table_row<<endl;
 	for (size_t j = 0; j < table_size; j++) {
 		if (table[table_row][j] == NULL) {
-            table[table_row][j] = new Relevant_Traversals_hypercube(table_row, j,table_size_hypercube ,K_matrix, w, k, m, M);			
+			//cout <<"new: "<<table_row<<", "<<j<<endl;
+            table[table_row][j] = new Relevant_Traversals_hypercube(table_row, j, table_size_hypercube, K_matrix, w, k, m, M);			
 		}
 
 		table[table_row][j]->insert(curve, w, k,
@@ -95,11 +96,11 @@ void Curve_Projection_hypercube::ANN(Curve *query_curve, unsigned probes, Query_
 			if (table[row][table_column] == NULL) {
 				continue;
 			}
-			cout <<"kostas"<<endl;
-			cout <<"row:"<<row<<endl;
-			cout <<"table col:"<<table_column<<endl;
+			//cout <<"kostas"<<endl;
+			//cout <<"row:"<<row<<endl;
+			//cout <<"table col:"<<table_column<<endl;
 
-			getchar();
+			//getchar();
 
             list<vector<Tuple*>*> relevant_traversals =
     			table[row][table_column]->get_relevant_traversals();
@@ -115,29 +116,30 @@ void Curve_Projection_hypercube::ANN(Curve *query_curve, unsigned probes, Query_
                 convert_2d_curve_to_vector_by_projection(*relevant_traversal, 1, G_matrix,
           				query_curve, K_matrix, curve_dimension, &query_item);
 
-				cout <<"hashtable p :"<<hash_tables[h_i]<<endl;
-				cout <<"quer size: "<<query_item->get_coordinates()->size()<<endl;
-				cout <<"hashtable dimn :"<<hash_tables[h_i]->get_dimension()<<endl;
-				cout <<"table_size :"<<table_size<<endl;
-				cout <<"k :"<<w<<endl;
-				cout <<"M :"<<M<<endl;
-				cout <<"bits_of_each_hash :"<<bits_of_each_hash<<endl;
-				query_item->print();
+				//cout <<"hashtable p :"<<hash_tables[h_i]<<endl;
+				//cout <<"quer size: "<<query_item->get_coordinates()->size()<<endl;
+				//cout <<"hashtable dimn :"<<hash_tables[h_i]->get_dimension()<<endl;
+				//cout <<"table_size :"<<table_size<<endl;
+				//cout <<"k :"<<w<<endl;
+				//cout <<"M :"<<M<<endl;
+				//cout <<"bits_of_each_hash :"<<bits_of_each_hash<<endl;
+				//query_item->print();
+				//cout <<"size:"<<m_powers_array[h_i]->size()<<endl;
 
-				getchar();
+				//getchar();
                 P_value = hash_tables[h_i]->p(*(query_item->get_coordinates()), 
-					hash_tables[h_i]->get_dimension(), table_size, w, k,
+					hash_tables[h_i]->get_dimension(), table_size_hypercube, w, k,
 					bits_of_each_hash, M,  *(m_powers_array[h_i]));
 
-				cout <<"p_: "<<P_value<<endl;
+				//cout <<"p_: "<<P_value<<endl;
                 int bucketes_checked=0;
                 ret = hash_tables[h_i]->get_f_values_map()->equal_range(P_value);
-				cout <<"num of :"<<hash_tables[h_i]->get_f_values_map()->size()<<endl;
+				//cout <<"num of :"<<hash_tables[h_i]->get_f_values_map()->size()<<endl;
 
 
         		searched_items = 0;
              	for (it = ret.first; it != ret.second; ++it) {
-					cout <<"kostas"<<endl;
+					//cout <<"kostas"<<endl;
         			//if (searched_items >= M_f) {
         			//	flag =1;
         			//}
@@ -184,7 +186,19 @@ void Curve_Projection_hypercube::ANN(Curve *query_curve, unsigned probes, Query_
                 h_i++;
             }
         }
+		time = clock() - time;
+		if (best != "") {
+			query_result.set_best_distance(best_distance);
+			query_result.set_time( ((double)time) / CLOCKS_PER_SEC );
+			query_result.set_best_item(best);
+		}
+		else {
+			query_result.set_best_distance(-1);
+			query_result.set_time(-1);
+			query_result.set_best_item("NULL");
+		}
 }
+
 double Curve_Projection_hypercube::Curve_Grid_distance(Curve *curve1, Curve *curve2) {
 	return DTW(curve1->get_points(), curve2->get_points());
 }

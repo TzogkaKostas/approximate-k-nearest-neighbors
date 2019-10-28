@@ -8,7 +8,7 @@ HEADERS =  ../hash_table/hash_table.hpp ../curve_projection_hypercube/curve_proj
 
 #------------------------------------------------- #
 
-all  : cube curve_grid_hypercube curve_projection_hypercube lsh curve_grid_lsh curve_projection_lsh
+all  : cube curve_grid_hypercube lsh curve_grid_lsh curve_projection_lsh curve_projection_hypercube
 
 curve_implem.o : ../curve/curve_implem.cpp $(HEADERS)
 	$(CC) $(DEBUG) $(FLAGS) ../curve/curve_implem.cpp -o curve_implem.o
