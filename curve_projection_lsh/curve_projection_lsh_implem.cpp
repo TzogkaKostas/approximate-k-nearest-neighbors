@@ -13,7 +13,7 @@ using namespace std;
 #include "../hash_table/hash_table.hpp"
 #include "../helping_functions/helping_functions.hpp"
 #include "../relevant_traversals/relevant_traversals.hpp"
-#include "../tuple/tuple.hpp"
+#include "../Tuple/tuple.hpp"
 #include "curve_projection_lsh.hpp"
 
 
@@ -24,7 +24,7 @@ Curve_Projection_LSH::Curve_Projection_LSH(int L, int w, int k,
 	this->table_size = M_table;
 	this->L = L;
 	this->curve_dimension = curve_dimension;
-	this->w = w;    
+	this->w = w;
 	this->k = k;
 	this->bits_of_each_hash = 32/k;
 	if (k == 1) {
@@ -97,13 +97,13 @@ void Curve_Projection_LSH::ANN(Curve *query_curve, unsigned threshhold, Query_Re
 	time_t time;
 	time = clock();
 	for (size_t row = start_row; row < end_row; row++) {
-		list<vector<Tuple*>*> relevant_traversals = 
+		list<vector<Tuple*>*> relevant_traversals =
 			table[start_row][table_column]->get_relevant_traversals();
 
     	Hash_Table** hash_tables =
 			table[start_row][table_column]->get_hash_tables();
 
-		vector<vector<unsigned>*> m_powers_array = 
+		vector<vector<unsigned>*> m_powers_array =
 			table[start_row][table_column]->get_m_powers_array();
 
 

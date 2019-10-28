@@ -67,7 +67,7 @@ int main(int argc, char *argv[]) {
     time = clock() - time;
     cout <<"Data insertion time: "<< ((double)time) / CLOCKS_PER_SEC <<endl<<endl;
 
-    grid_projection.print_hash_tables();
+    //grid_projection.print_hash_tables();
     return 0;
 
     //READ QUERY CURVES FROM THE INPUT FILE

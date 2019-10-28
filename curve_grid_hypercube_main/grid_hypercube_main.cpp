@@ -13,7 +13,7 @@
 using namespace std;
 #define M_DEFAULT 500
 #define K_DEFAULT 4
-#define W_DEFAULT 20
+#define W_DEFAULT 1
 #define PROBES_DEFAULT 14
 #define L_DEFAULT 4
 #define CHECK_FOR_IDENTICAL_GRID_FLAG_DEFAULT false
