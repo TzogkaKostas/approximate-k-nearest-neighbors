@@ -600,7 +600,7 @@ double DTW(vector<Point*>& p, vector<Point*>& q) {
 				min({dtw_array[i - 1][j - 1], dtw_array[i][j - 1], dtw_array[i - 1][j]});
 		}
 	}
-	return dtw_array[m1 - 1][m2 - 2];
+	return dtw_array[m1 - 1][m2 - 1];
 }
 
 double manhattan_distance_2d(Point *p, Point *q) {
