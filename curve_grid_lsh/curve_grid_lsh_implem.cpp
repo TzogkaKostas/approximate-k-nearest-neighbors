@@ -55,14 +55,7 @@ Curve_Grid_LSH::Curve_Grid_LSH(int L, int hash_table_dimension, int w, int k, fl
 	}
 	this->m = m;
 	for (size_t i = 0; i < hash_table_dimension; i++) {
-		//cout <<"m: "<<m<<endl;
-		//cout <<"i: "<<i<<endl;
-		//cout <<"M: "<<M<<endl;
-
 		m_powers.push_back( pow_mod(m, i, M) );
-		//cout << pow(m, i)<<endl;
-		//cout << m_powers[i]<<endl;
-		//getchar();
 	}
 }
 
@@ -81,14 +74,10 @@ void Curve_Grid_LSH::insert_curve(Curve *curve, list<Curve*> *grid_curves) {
 	for (size_t i = 0; i < L; i++) {
 		convert_2d_curve_to_vector(curve, grids[i], delta, hash_table_dimension, curve_dimension,
 			&grid_curve, &item, max_coord);
-		//item->print();
-		//cout << "item size:"<<item->get_coordinates()->size()<<endl;
-		//getchar();
 		grid_curves->push_back(grid_curve);
 		g_value = g_hash_function(*(item->get_coordinates()), hash_table_dimension,
 			w, k, bits_of_each_hash, M, hash_tables[i]->get_s_array(), m_powers);
 		hash_tables[i]->insert(grid_curve, g_value);
-		//cout <<"g_value: "<<g_value<<endl;
 		delete item;
 	}
 }
@@ -107,19 +96,11 @@ void Curve_Grid_LSH::ANN(Curve *query_curve, unsigned threshhold, Query_Result& 
 	time_t time;
 	time = clock();
 	for (size_t i = 0; i < L; i++) {
-		//cout <<"curve: "<<endl;
-		//query_curve->print();
-
 		convert_2d_curve_to_vector(query_curve, grids[i], delta, hash_table_dimension,
-		curve_dimension, &query_grid_curve, &query_item, max_coord);
-		//cout <<"grid curve: "<<endl;
-		//query_grid_curve->print();
-		//cout <<"item: "<<endl;
-		//query_item->print();
+			curve_dimension, &query_grid_curve, &query_item, max_coord);
+
 		g_value = g_hash_function(*(query_item->get_coordinates()),
 				hash_table_dimension, w, k, bits_of_each_hash, M, hash_tables[i]->get_s_array(), m_powers);
-
-		//cout <<"g_value: "<< g_value<<endl;
 
 		ret = hash_tables[i]->get_map()->equal_range(g_value);
 		searched_items = 0;
@@ -136,7 +117,6 @@ void Curve_Grid_LSH::ANN(Curve *query_curve, unsigned threshhold, Query_Result& 
 			}
 
 			double cur_distance = Curve_Grid_LSH_distance(query_curve, it->second->get_corresponding_curve());
-			//cout <<"distance: "<<cur_distance<<endl;
 			if (cur_distance < best_distance) {
 				best = it->second->get_name();
 				best_distance = cur_distance;

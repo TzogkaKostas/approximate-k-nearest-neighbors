@@ -10,11 +10,6 @@ Point::Point(Type x, Type y) {
 	this->coordinates.push_back(x);
 	this->coordinates.push_back(y);
 }
-
-//Point::Point(const Point &p) {
-//	this->coordinates = p.get_coordinates();
-//}
-
 vector<Type>& Point::get_coordinates()  {
 	return coordinates;
 }
