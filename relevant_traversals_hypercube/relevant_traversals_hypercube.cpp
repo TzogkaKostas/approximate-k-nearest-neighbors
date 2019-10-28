@@ -47,7 +47,7 @@ Relevant_Traversals_hypercube::~Relevant_Traversals_hypercube() {
 
 void Relevant_Traversals_hypercube::insert(Curve *curve, int Hash_Table_Hypercube, int w,
     int k, int bits_of_each_hash, int M,
-    float **G_matrix, int K_matrix, int curve_dimension) {
+    double **G_matrix, int K_matrix, int curve_dimension) {
 
 	Item *item = NULL;
 	unsigned P_value;

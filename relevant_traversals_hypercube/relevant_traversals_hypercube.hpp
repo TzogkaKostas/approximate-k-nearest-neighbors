@@ -16,7 +16,7 @@ public:
 
 	void insert(Curve *curve, int table_size_hypercube, int w,
 		int k, int bits_of_each_hash, int M,
-		float **G_matrix, int K_matrix, int curve_dimensinion);
+		double **G_matrix, int K_matrix, int curve_dimensinion);
 	void print_hash_tables();
 
 	list<vector<Tuple*>*>& get_relevant_traversals() {return relevant_traversals;}
