@@ -3,7 +3,7 @@
 using namespace std;
 
 Curve_Grid_hypercube::Curve_Grid_hypercube(int L, int hash_table_dimension, int w, int k, double delta,
-        int curve_dimension, unsigned m,unsigned M ,int table_size,int probes){
+        int curve_dimension, unsigned m,unsigned M ,int table_size,int probes, double max_coord){
     //printf("\n %d %d %d %d %d %d %ld %d \n", L,hash_table_size,  curve_dimension, w, k, delta,m,M);
     for (int i = 0; i < L; i++) {
         Hash_Table_Hypercube *hash_table = new Hash_Table_Hypercube(table_size,hash_table_dimension ,w, k);
@@ -28,9 +28,10 @@ Curve_Grid_hypercube::Curve_Grid_hypercube(int L, int hash_table_dimension, int 
         delete random_vector;
     }
 
-    this->L = L;
+  this->max_coord=max_coord;
+  this->L = L;
 	this->table_size = table_size;
-    this->hash_table_dimension = hash_table_dimension;
+  this->hash_table_dimension = hash_table_dimension;
 	this->curve_dimension = curve_dimension;
 	this->w = w;
 	this->k = k;
@@ -78,7 +79,7 @@ void Curve_Grid_hypercube::insert_curve(Curve *curve, list<Curve*> *grid_curves)
         //cout << endl;
 
         convert_2d_curve_to_vector(curve, grids[i], delta, hash_table_dimension, curve_dimension,
-			&grid_curve, &item);
+			&grid_curve, &item,max_coord);
         //cout << "\n input"<<endl;
 		grid_curves->push_back(grid_curve);
 		P_value = hash_tables[i]->p(*item->get_coordinates(), hash_table_dimension, table_size, w, k,bits_of_each_hash,  M, m_powers);
@@ -109,7 +110,7 @@ void Curve_Grid_hypercube::ANN(Curve *query_curve, unsigned probes, Query_Result
             break;
         }
         convert_2d_curve_to_vector(query_curve, grids[i], delta, hash_table_dimension,
-		curve_dimension, &query_grid_curve, &query_item);
+		curve_dimension, &query_grid_curve, &query_item,max_coord);
         //cout <<"grid curve: "<<endl;
 		//query_grid_curve->print();
 		//cout <<"item: "<<endl;

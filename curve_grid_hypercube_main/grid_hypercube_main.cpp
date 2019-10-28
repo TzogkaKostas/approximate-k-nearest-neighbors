@@ -13,7 +13,7 @@
 using namespace std;
 #define M_DEFAULT 500
 #define K_DEFAULT 2
-#define W_DEFAULT 4000
+#define W_DEFAULT 20
 #define PROBES_DEFAULT 14
 #define L_DEFAULT 4
 #define CHECK_FOR_IDENTICAL_GRID_FLAG_DEFAULT false
@@ -27,10 +27,11 @@ int main(int argc, char *argv[]) {
     int M = M_DEFAULT;
     int probes = PROBES_DEFAULT;
     int L=L_DEFAULT;
-    float delta = -1;
+    double delta = -1;
     bool check_for_identical_grid_flag = CHECK_FOR_IDENTICAL_GRID_FLAG_DEFAULT;
     int curve_dimension = CURVE_DIMENSION_DEFAULT;
     int PRINT_ON_SCREAN=0;
+    double max_coord;
 
     //READ COMMAND LINE ARGUMENTS
     string input_file, query_file, output_file;
@@ -44,7 +45,7 @@ int main(int argc, char *argv[]) {
     list<Curve*> input_curves;
     int max_curve_length;
     int table_size=k;//initilized after insert items
-    read_2d_curves_from_file(input_file, input_curves, max_curve_length);
+    read_2d_curves_from_file(input_file, input_curves, max_curve_length,max_coord);
     //cout << "input_curves : "<<input_curves.size()<<endl;
     int hash_table_dimension = curve_dimension*max_curve_length;
     if (flag_defult==-1){
@@ -62,7 +63,7 @@ int main(int argc, char *argv[]) {
     cout << "delta " << delta<<endl;
 
     //CREATE THE HYPERCUBE STRUCTURE
-    Curve_Grid_hypercube h_curve_grid(L,hash_table_dimension,w,k_s_g,delta,curve_dimension,m,M,table_size,probes);
+    Curve_Grid_hypercube h_curve_grid(L,hash_table_dimension,w,k_s_g,delta,curve_dimension,m,M,table_size,probes,max_coord);
     //cout << "ARGS " << input_file << " " << query_file << " " << output_file ;
 
     //INSERT INPUT DATA
@@ -80,7 +81,7 @@ int main(int argc, char *argv[]) {
 
 	//READ QUERY CURVES FROM THE INPUT FILE
 	list<Curve*> queries;
-	read_2d_curves_from_file(query_file, queries, max_curve_length);
+	read_2d_curves_from_file(query_file, queries, max_curve_length,max_coord);
 
     //HANDLE QUERIES
 	Query_Result ann_query_result, exhaustive_query_result;
