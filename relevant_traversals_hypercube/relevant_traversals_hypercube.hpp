@@ -26,7 +26,6 @@ public:
 
 private:
 	list<vector<Tuple*>*> relevant_traversals;
-	//vector<Hash_Table_Hypercube*>  hash_tables_R;
 	Hash_Table_Hypercube** hash_tables;
 	vector<vector<unsigned>*> m_powers_array;
 

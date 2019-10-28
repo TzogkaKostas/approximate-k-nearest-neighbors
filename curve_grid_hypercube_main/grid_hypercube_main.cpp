@@ -98,9 +98,6 @@ int main(int argc, char *argv[]) {
         else
             print_results_to_file(query->get_name(),ann_query_result,"Grid","Cube",out ,exhaustive_query_result);
 
-		//cout <<"-------------------------------------------------------"<<endl;
-		//cout<<endl;
-
 		//statistics info for searches that succeeded
 		if (ann_query_result.get_time() != -1) {
 			sum_query_time += ann_query_result.get_time();

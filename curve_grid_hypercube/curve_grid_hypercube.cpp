@@ -4,7 +4,6 @@ using namespace std;
 
 Curve_Grid_hypercube::Curve_Grid_hypercube(int L, int hash_table_dimension, int w, int k, double delta,
         int curve_dimension, unsigned m,unsigned M ,int table_size,int probes, double max_coord){
-    //printf("\n %d %d %d %d %d %d %ld %d \n", L,hash_table_size,  curve_dimension, w, k, delta,m,M);
     for (int i = 0; i < L; i++) {
         Hash_Table_Hypercube *hash_table = new Hash_Table_Hypercube(table_size,hash_table_dimension ,w, k);
         hash_tables.push_back(hash_table);
@@ -23,8 +22,6 @@ Curve_Grid_hypercube::Curve_Grid_hypercube(int L, int hash_table_dimension, int 
             //cout << "boom \n";
         }
         grids.push_back(grid);
-        //grid->print_coordinates();
-        //cout <<endl;
         delete random_vector;
     }
 
@@ -45,17 +42,9 @@ Curve_Grid_hypercube::Curve_Grid_hypercube(int L, int hash_table_dimension, int 
 		this->M = pow(2, bits_of_each_hash);
 	}
 	this->m = m;
-    //cout << ":table_size "<<endl;
 	for (size_t i = 0; i < table_size; i++) {
-		//cout <<"m: "<<m<<endl;
-		//cout <<"i: "<<i<<endl;
-		//cout <<"M: "<<M<<endl;
 		m_powers.push_back( pow_mod(m, i, M) );
-		//cout << pow(m, i)<<endl;
-		//cout << m_powers[i]<<endl;
-		//getchar();
-        //cout << "boom \n";
-        //cout << "boom \n";
+
 	}
 
 }
@@ -73,18 +62,11 @@ void Curve_Grid_hypercube::insert_curve(Curve *curve, list<Curve*> *grid_curves)
 	unsigned P_value;
 
     for (size_t i = 0; i < L; i++) {
-        //curve->print();
-        //grids[i]->print_coordinates();
-        //cout <<endl <<delta <<endl<< table_size<<endl<<curve_dimension<<endl;
-        //cout << endl;
-
         convert_2d_curve_to_vector(curve, grids[i], delta, hash_table_dimension, curve_dimension,
 			&grid_curve, &item,max_coord);
-        //cout << "\n input"<<endl;
 		grid_curves->push_back(grid_curve);
 		P_value = hash_tables[i]->p(*item->get_coordinates(), hash_table_dimension, table_size, w, k,bits_of_each_hash,  M, m_powers);
 		hash_tables[i]->insert(grid_curve, P_value);
-		//cout <<"P_value: "<<P_value<<endl;
 		delete item;
 	}
 }
@@ -103,18 +85,12 @@ void Curve_Grid_hypercube::ANN(Curve *query_curve, unsigned probes, Query_Result
     unsigned bucket_value;
     time = clock();
     for (size_t i = 0; i < L; i++) {
-        //cout <<"curve: "<<endl;
-		//query_curve->print();
-
         if(flag == 1){
             break;
         }
         convert_2d_curve_to_vector(query_curve, grids[i], delta, hash_table_dimension,
 		curve_dimension, &query_grid_curve, &query_item,max_coord);
-        //cout <<"grid curve: "<<endl;
-		//query_grid_curve->print();
-		//cout <<"item: "<<endl;
-		//query_item->print();
+
         P_value = hash_tables[i]->p(*(query_item->get_coordinates()),hash_table_dimension, table_size, w, k, bits_of_each_hash, M,  m_powers);
         int bucketes_checked=0;
 
@@ -146,7 +122,6 @@ void Curve_Grid_hypercube::ANN(Curve *query_curve, unsigned probes, Query_Result
 				break;
 			}
             for (auto it = hash_tables[i]->get_f_values_map()->begin(y);it!= hash_tables[i]->get_f_values_map()->end(y);it++){
-	        	//std::cout << "[" << hash_table->get_f_values_map()->begin(i)->first << ":" << it->second->get_name() << "] ";
 				bucket_value=hash_tables[i]->get_f_values_map()->begin(y)->first;
 				break;
 	    	}
@@ -230,11 +205,7 @@ unsigned Hash_Table_Hypercube::p(vector<Type> x , int dimension, int table_size,
 	int bits_of_each_hash, unsigned M, vector<unsigned>& m_powers) {
 	int result=0;
 	int p=0;
-	//cout <<"total s_array size:"<<s_array.size()<<endl;
-	//cout <<"table size"<<table_size<<endl;
-	//getchar();
 	for (int i = 0; i < table_size; i++) {
-		//cout <<" p sa_ray size: "<<s_array[i]->size()<<endl;
 		p = f_hash_function(x,dimension,w,k,bits_of_each_hash,M,m_powers,*s_array[i],g_value,i);
 		result |= p << (table_size -i -1);
 	}

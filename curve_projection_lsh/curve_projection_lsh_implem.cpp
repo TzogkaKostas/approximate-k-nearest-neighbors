@@ -40,7 +40,6 @@ Curve_Projection_LSH::Curve_Projection_LSH(int L, int w, int k,
 	for(int i = 0; i < table_size; ++i) {
 	    table[i] = new Relevant_Traversals*[table_size];
 	    for(int j = 0; j < table_size; ++j) {
-	        //table[i][j] = new Relevant_Traversals(i, j, L, K_matrix, w, k, m, M);
 	        table[i][j] = NULL;
 	    }
 	}

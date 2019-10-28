@@ -6,7 +6,6 @@ using namespace std;
 Relevant_Traversals_hypercube::Relevant_Traversals_hypercube(int i, int j, int table_size_hypercube, int K_matrix, int w, int k,int m,int M){
 
     find_relevant_traversals(i + 1, j + 1, relevant_traversals);
-    //cout <<"rela _size: ("<<i<<", "<<j<<"): "<<relevant_traversals.size()<<endl;
 
     int hash_table_dimension;
 	hash_tables = new Hash_Table_Hypercube*[relevant_traversals.size()];
@@ -27,9 +26,6 @@ Relevant_Traversals_hypercube::Relevant_Traversals_hypercube(int i, int j, int t
     this->length_i = i;
     this->length_j = j;
     this->table_size_hypercube = table_size_hypercube;
-
-    //cout <<"rela _size: ("<<i<<", "<<j<<"): "<<relevant_traversals.size()<<endl;
-
 }
 
 Relevant_Traversals_hypercube::~Relevant_Traversals_hypercube() {
@@ -52,23 +48,12 @@ void Relevant_Traversals_hypercube::insert(Curve *curve, int w,
 
 	Item *item = NULL;
 	unsigned P_value;
-    //cout<< "boom \n";
-    //cout <<"\n rel size:\n"<<relevant_traversals.size()<<endl;
-    //cout << "\n BOOM \n";
 	int rel_indx = 0;
 	for (vector<Tuple*> *relevant_traversal : relevant_traversals) {
 		convert_2d_curve_to_vector_by_projection(*relevant_traversal, 0, G_matrix,
 		curve, K_matrix, curve_dimension, &item);
 
-		//cout <<"w: "<<w<<endl;
-		//cout <<"k: "<<k<<endl;
-		//cout <<"bits_of: "<<bits_of_each_hash<<endl;
-		//cout <<"M: "<<M<<endl;
-		//getchar();
-
 		P_value = hash_tables[rel_indx]->p(*(item->get_coordinates()),hash_tables[rel_indx]->get_dimension(), table_size_hypercube, w,  k, bits_of_each_hash,  M, *m_powers_array[rel_indx]);
-		//cout <<"p: "<<P_value<<endl;
-		//getchar();
 		hash_tables[rel_indx]->insert(curve, P_value);
 		delete item;
 		rel_indx++;
