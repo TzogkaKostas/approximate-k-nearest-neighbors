@@ -1,0 +1,964 @@
+k 2
+M 500
+probes 14
+ W_DEFAULT 4000
+Data insertion total time: 3.22102
+
+Radious: 1000
+NOT FOUND
+Query: 2
+Nearest neighbor: 3999
+True Nearest neighbor: 2782
+distanceCube: 2309.000000
+distanceTrue: 2045.000000
+tCube: 0.001157
+tTrue: 0.021133
+
+
+Query: 3
+Nearest neighbor: 9939
+True Nearest neighbor: 9973
+distanceCube: 1661.000000
+distanceTrue: 1619.000000
+tCube: 0.001241
+tTrue: 0.021104
+
+
+Query: 4
+Nearest neighbor: 9067
+True Nearest neighbor: 9844
+distanceCube: 2082.000000
+distanceTrue: 1593.000000
+tCube: 0.001388
+tTrue: 0.020429
+
+
+Query: 5
+Nearest neighbor: 4720
+True Nearest neighbor: 5165
+distanceCube: 1877.000000
+distanceTrue: 1680.000000
+tCube: 0.003737
+tTrue: 0.020047
+
+
+Query: 6
+Nearest neighbor: 9585
+True Nearest neighbor: 1240
+distanceCube: 2732.000000
+distanceTrue: 2180.000000
+tCube: 0.001132
+tTrue: 0.021427
+
+
+Query: 7
+Nearest neighbor: 3531
+True Nearest neighbor: 2775
+distanceCube: 1983.000000
+distanceTrue: 1946.000000
+tCube: 0.001539
+tTrue: 0.020920
+
+
+Query: 8
+Nearest neighbor: 5661
+True Nearest neighbor: 5869
+distanceCube: 1890.000000
+distanceTrue: 1149.000000
+tCube: 0.002552
+tTrue: 0.020412
+
+
+Query: 9
+Nearest neighbor: 9629
+True Nearest neighbor: 9629
+distanceCube: 1791.000000
+distanceTrue: 1791.000000
+tCube: 0.003810
+tTrue: 0.019863
+
+
+Query: 10
+Nearest neighbor: 5610
+True Nearest neighbor: 4720
+distanceCube: 1884.000000
+distanceTrue: 1834.000000
+tCube: 0.002905
+tTrue: 0.020483
+
+
+Query: 11
+Nearest neighbor: 7900
+True Nearest neighbor: 694
+distanceCube: 2547.000000
+distanceTrue: 2067.000000
+tCube: 0.002276
+tTrue: 0.020775
+
+
+Query: 12
+Nearest neighbor: 5633
+True Nearest neighbor: 4698
+distanceCube: 2078.000000
+distanceTrue: 1280.000000
+tCube: 0.001996
+tTrue: 0.021049
+
+
+Query: 13
+Nearest neighbor: 129
+True Nearest neighbor: 507
+distanceCube: 1878.000000
+distanceTrue: 1811.000000
+tCube: 0.001665
+tTrue: 0.020425
+
+
+Query: 14
+Nearest neighbor: 1565
+True Nearest neighbor: 9816
+distanceCube: 2024.000000
+distanceTrue: 1829.000000
+tCube: 0.002595
+tTrue: 0.021231
+
+
+Query: 15
+Nearest neighbor: 70
+True Nearest neighbor: 798
+distanceCube: 2202.000000
+distanceTrue: 2136.000000
+tCube: 0.002587
+tTrue: 0.020590
+
+
+Query: 16
+Nearest neighbor: 3326
+True Nearest neighbor: 410
+distanceCube: 2009.000000
+distanceTrue: 1973.000000
+tCube: 0.001385
+tTrue: 0.020620
+
+
+Query: 17
+Nearest neighbor: 1045
+True Nearest neighbor: 471
+distanceCube: 2026.000000
+distanceTrue: 1963.000000
+tCube: 0.002596
+tTrue: 0.020821
+
+
+Query: 18
+Nearest neighbor: 134
+True Nearest neighbor: 4097
+distanceCube: 2019.000000
+distanceTrue: 1987.000000
+tCube: 0.000976
+tTrue: 0.020715
+
+
+Query: 19
+Nearest neighbor: 1380
+True Nearest neighbor: 904
+distanceCube: 2310.000000
+distanceTrue: 1964.000000
+tCube: 0.002482
+tTrue: 0.020046
+
+
+Query: 20
+Nearest neighbor: 122
+True Nearest neighbor: 9807
+distanceCube: 2104.000000
+distanceTrue: 1754.000000
+tCube: 0.002039
+tTrue: 0.020655
+
+
+Query: 21
+Nearest neighbor: 5558
+True Nearest neighbor: 7028
+distanceCube: 1254.000000
+distanceTrue: 1239.000000
+tCube: 0.001898
+tTrue: 0.020261
+
+
+Query: 22
+Nearest neighbor: 4491
+True Nearest neighbor: 4491
+distanceCube: 486.000000
+distanceTrue: 486.000000
+tCube: 0.003353
+tTrue: 0.020439
+
+
+Query: 23
+Nearest neighbor: 4730
+True Nearest neighbor: 4958
+distanceCube: 1505.000000
+distanceTrue: 1159.000000
+tCube: 0.000778
+tTrue: 0.020685
+
+
+Query: 24
+Nearest neighbor: 5294
+True Nearest neighbor: 4673
+distanceCube: 1595.000000
+distanceTrue: 1520.000000
+tCube: 0.002921
+tTrue: 0.019733
+
+
+Query: 25
+Nearest neighbor: 4631
+True Nearest neighbor: 4631
+distanceCube: 1068.000000
+distanceTrue: 1068.000000
+tCube: 0.002599
+tTrue: 0.020506
+
+
+Query: 26
+Nearest neighbor: 4091
+True Nearest neighbor: 6423
+distanceCube: 2337.000000
+distanceTrue: 1919.000000
+tCube: 0.002806
+tTrue: 0.020507
+
+
+Query: 27
+Nearest neighbor: 9900
+True Nearest neighbor: 6828
+distanceCube: 1359.000000
+distanceTrue: 1251.000000
+tCube: 0.003082
+tTrue: 0.020421
+
+
+Query: 28
+Nearest neighbor: 4745
+True Nearest neighbor: 5964
+distanceCube: 2012.000000
+distanceTrue: 1166.000000
+tCube: 0.001898
+tTrue: 0.019942
+
+
+Query: 29
+Nearest neighbor: 5731
+True Nearest neighbor: 6828
+distanceCube: 1529.000000
+distanceTrue: 1504.000000
+tCube: 0.002688
+tTrue: 0.020899
+
+
+Query: 30
+Nearest neighbor: 5454
+True Nearest neighbor: 5454
+distanceCube: 734.000000
+distanceTrue: 734.000000
+tCube: 0.002179
+tTrue: 0.020772
+
+
+Query: 31
+Nearest neighbor: 9086
+True Nearest neighbor: 4778
+distanceCube: 2295.000000
+distanceTrue: 1819.000000
+tCube: 0.002586
+tTrue: 0.021000
+
+
+Query: 32
+Nearest neighbor: 5560
+True Nearest neighbor: 5560
+distanceCube: 741.000000
+distanceTrue: 741.000000
+tCube: 0.001312
+tTrue: 0.020863
+
+
+Query: 33
+Nearest neighbor: 5301
+True Nearest neighbor: 5301
+distanceCube: 1210.000000
+distanceTrue: 1210.000000
+tCube: 0.002548
+tTrue: 0.020588
+
+
+Query: 34
+Nearest neighbor: 5802
+True Nearest neighbor: 8151
+distanceCube: 3249.000000
+distanceTrue: 2368.000000
+tCube: 0.001513
+tTrue: 0.021005
+
+
+Query: 35
+Nearest neighbor: 6521
+True Nearest neighbor: 7059
+distanceCube: 2296.000000
+distanceTrue: 1951.000000
+tCube: 0.002438
+tTrue: 0.021234
+
+
+Query: 36
+Nearest neighbor: 3693
+True Nearest neighbor: 5842
+distanceCube: 2694.000000
+distanceTrue: 969.000000
+tCube: 0.002534
+tTrue: 0.020295
+
+
+Query: 37
+Nearest neighbor: 5843
+True Nearest neighbor: 5843
+distanceCube: 865.000000
+distanceTrue: 865.000000
+tCube: 0.001794
+tTrue: 0.020369
+
+
+Query: 38
+Nearest neighbor: 6624
+True Nearest neighbor: 5185
+distanceCube: 2999.000000
+distanceTrue: 1241.000000
+tCube: 0.001579
+tTrue: 0.020988
+
+
+Query: 39
+Nearest neighbor: 5342
+True Nearest neighbor: 5501
+distanceCube: 1356.000000
+distanceTrue: 995.000000
+tCube: 0.002574
+tTrue: 0.020839
+
+
+Query: 40
+Nearest neighbor: 683
+True Nearest neighbor: 5075
+distanceCube: 1467.000000
+distanceTrue: 1200.000000
+tCube: 0.001668
+tTrue: 0.019975
+
+
+Query: 41
+Nearest neighbor: 6298
+True Nearest neighbor: 8308
+distanceCube: 2393.000000
+distanceTrue: 1106.000000
+tCube: 0.001930
+tTrue: 0.020588
+
+
+Query: 42
+Nearest neighbor: 3513
+True Nearest neighbor: 4644
+distanceCube: 1851.000000
+distanceTrue: 1442.000000
+tCube: 0.001752
+tTrue: 0.021363
+
+
+Query: 43
+Nearest neighbor: 4669
+True Nearest neighbor: 5225
+distanceCube: 2085.000000
+distanceTrue: 1629.000000
+tCube: 0.002763
+tTrue: 0.021138
+
+
+Query: 44
+Nearest neighbor: 5030
+True Nearest neighbor: 6303
+distanceCube: 2241.000000
+distanceTrue: 1275.000000
+tCube: 0.001362
+tTrue: 0.019718
+
+
+Query: 45
+Nearest neighbor: 7892
+True Nearest neighbor: 8616
+distanceCube: 1561.000000
+distanceTrue: 1483.000000
+tCube: 0.002958
+tTrue: 0.020356
+
+
+Query: 46
+Nearest neighbor: 5561
+True Nearest neighbor: 7877
+distanceCube: 1719.000000
+distanceTrue: 1628.000000
+tCube: 0.003465
+tTrue: 0.020717
+
+
+Query: 47
+Nearest neighbor: 5881
+True Nearest neighbor: 5881
+distanceCube: 646.000000
+distanceTrue: 646.000000
+tCube: 0.002435
+tTrue: 0.021099
+
+
+Query: 48
+Nearest neighbor: 2899
+True Nearest neighbor: 5642
+distanceCube: 3124.000000
+distanceTrue: 2446.000000
+tCube: 0.002358
+tTrue: 0.019526
+
+
+Query: 49
+Nearest neighbor: 5751
+True Nearest neighbor: 5214
+distanceCube: 1312.000000
+distanceTrue: 968.000000
+tCube: 0.003085
+tTrue: 0.020635
+
+
+Query: 50
+Nearest neighbor: 5085
+True Nearest neighbor: 5085
+distanceCube: 849.000000
+distanceTrue: 849.000000
+tCube: 0.002615
+tTrue: 0.020554
+
+
+Query: 51
+Nearest neighbor: 6063
+True Nearest neighbor: 5013
+distanceCube: 2206.000000
+distanceTrue: 1130.000000
+tCube: 0.000714
+tTrue: 0.020820
+
+
+Query: 52
+Nearest neighbor: 9842
+True Nearest neighbor: 6124
+distanceCube: 1610.000000
+distanceTrue: 848.000000
+tCube: 0.000671
+tTrue: 0.020275
+
+
+Query: 53
+Nearest neighbor: 5294
+True Nearest neighbor: 5674
+distanceCube: 1590.000000
+distanceTrue: 1188.000000
+tCube: 0.003320
+tTrue: 0.020491
+
+
+Query: 54
+Nearest neighbor: 2641
+True Nearest neighbor: 8613
+distanceCube: 1540.000000
+distanceTrue: 1219.000000
+tCube: 0.003302
+tTrue: 0.022108
+
+
+Query: 55
+Nearest neighbor: 4799
+True Nearest neighbor: 6159
+distanceCube: 992.000000
+distanceTrue: 979.000000
+tCube: 0.001887
+tTrue: 0.020170
+
+
+Query: 56
+Nearest neighbor: 5831
+True Nearest neighbor: 5831
+distanceCube: 1042.000000
+distanceTrue: 1042.000000
+tCube: 0.001377
+tTrue: 0.020723
+
+
+Query: 57
+Nearest neighbor: 4605
+True Nearest neighbor: 4904
+distanceCube: 1559.000000
+distanceTrue: 1436.000000
+tCube: 0.003650
+tTrue: 0.020418
+
+
+Query: 58
+Nearest neighbor: 9915
+True Nearest neighbor: 5212
+distanceCube: 1982.000000
+distanceTrue: 1176.000000
+tCube: 0.001739
+tTrue: 0.021384
+
+
+Query: 59
+Nearest neighbor: 7238
+True Nearest neighbor: 7238
+distanceCube: 460.000000
+distanceTrue: 460.000000
+tCube: 0.002543
+tTrue: 0.020517
+
+
+Query: 60
+Nearest neighbor: 6835
+True Nearest neighbor: 6835
+distanceCube: 619.000000
+distanceTrue: 619.000000
+tCube: 0.002697
+tTrue: 0.020506
+
+
+Query: 61
+Nearest neighbor: 5279
+True Nearest neighbor: 5279
+distanceCube: 1209.000000
+distanceTrue: 1209.000000
+tCube: 0.003788
+tTrue: 0.020681
+
+
+Query: 62
+Nearest neighbor: 8565
+True Nearest neighbor: 8403
+distanceCube: 744.000000
+distanceTrue: 732.000000
+tCube: 0.001173
+tTrue: 0.020706
+
+
+Query: 63
+Nearest neighbor: 6249
+True Nearest neighbor: 6561
+distanceCube: 1503.000000
+distanceTrue: 832.000000
+tCube: 0.001296
+tTrue: 0.020218
+
+
+Query: 64
+Nearest neighbor: 9749
+True Nearest neighbor: 6322
+distanceCube: 1593.000000
+distanceTrue: 627.000000
+tCube: 0.002464
+tTrue: 0.020531
+
+
+Query: 65
+Nearest neighbor: 5636
+True Nearest neighbor: 5636
+distanceCube: 980.000000
+distanceTrue: 980.000000
+tCube: 0.003068
+tTrue: 0.020550
+
+
+Query: 66
+Nearest neighbor: 6406
+True Nearest neighbor: 6406
+distanceCube: 1085.000000
+distanceTrue: 1085.000000
+tCube: 0.001843
+tTrue: 0.020260
+
+
+Query: 67
+Nearest neighbor: 5391
+True Nearest neighbor: 5391
+distanceCube: 1189.000000
+distanceTrue: 1189.000000
+tCube: 0.002859
+tTrue: 0.020723
+
+
+Query: 68
+Nearest neighbor: 6751
+True Nearest neighbor: 6858
+distanceCube: 1940.000000
+distanceTrue: 1205.000000
+tCube: 0.001835
+tTrue: 0.020537
+
+
+Query: 69
+Nearest neighbor: 6883
+True Nearest neighbor: 7218
+distanceCube: 1327.000000
+distanceTrue: 1251.000000
+tCube: 0.002104
+tTrue: 0.021290
+
+
+Query: 70
+Nearest neighbor: 3824
+True Nearest neighbor: 5878
+distanceCube: 2578.000000
+distanceTrue: 1943.000000
+tCube: 0.000987
+tTrue: 0.021116
+
+
+Query: 71
+Nearest neighbor: 6125
+True Nearest neighbor: 6125
+distanceCube: 280.000000
+distanceTrue: 280.000000
+tCube: 0.001004
+tTrue: 0.020540
+
+
+Query: 72
+Nearest neighbor: 2818
+True Nearest neighbor: 5827
+distanceCube: 3077.000000
+distanceTrue: 1254.000000
+tCube: 0.002382
+tTrue: 0.020820
+
+
+Query: 73
+Nearest neighbor: 461
+True Nearest neighbor: 934
+distanceCube: 3245.000000
+distanceTrue: 2210.000000
+tCube: 0.000672
+tTrue: 0.021384
+
+
+Query: 74
+Nearest neighbor: 6925
+True Nearest neighbor: 6854
+distanceCube: 2512.000000
+distanceTrue: 1573.000000
+tCube: 0.001663
+tTrue: 0.020740
+
+
+Query: 75
+Nearest neighbor: 7049
+True Nearest neighbor: 7365
+distanceCube: 1881.000000
+distanceTrue: 986.000000
+tCube: 0.002448
+tTrue: 0.019955
+
+
+Query: 76
+Nearest neighbor: 6737
+True Nearest neighbor: 6554
+distanceCube: 2336.000000
+distanceTrue: 1416.000000
+tCube: 0.002466
+tTrue: 0.020385
+
+
+Query: 77
+Nearest neighbor: 7368
+True Nearest neighbor: 7904
+distanceCube: 1664.000000
+distanceTrue: 1648.000000
+tCube: 0.002464
+tTrue: 0.020860
+
+
+Query: 78
+Nearest neighbor: 1791
+True Nearest neighbor: 8579
+distanceCube: 2956.000000
+distanceTrue: 2177.000000
+tCube: 0.002424
+tTrue: 0.021879
+
+
+Query: 79
+Nearest neighbor: 9421
+True Nearest neighbor: 9209
+distanceCube: 1719.000000
+distanceTrue: 1551.000000
+tCube: 0.002646
+tTrue: 0.020753
+
+
+Query: 80
+Nearest neighbor: 8070
+True Nearest neighbor: 8070
+distanceCube: 743.000000
+distanceTrue: 743.000000
+tCube: 0.002653
+tTrue: 0.019911
+
+
+Query: 81
+Nearest neighbor: 7588
+True Nearest neighbor: 7452
+distanceCube: 1921.000000
+distanceTrue: 987.000000
+tCube: 0.002821
+tTrue: 0.020514
+
+
+Query: 82
+Nearest neighbor: 1793
+True Nearest neighbor: 3087
+distanceCube: 2220.000000
+distanceTrue: 1969.000000
+tCube: 0.001967
+tTrue: 0.021056
+
+
+Query: 83
+Nearest neighbor: 380
+True Nearest neighbor: 91
+distanceCube: 2503.000000
+distanceTrue: 2001.000000
+tCube: 0.002727
+tTrue: 0.020897
+
+
+Query: 84
+Nearest neighbor: 5052
+True Nearest neighbor: 6006
+distanceCube: 1571.000000
+distanceTrue: 1161.000000
+tCube: 0.000961
+tTrue: 0.020110
+
+
+Query: 85
+Nearest neighbor: 8895
+True Nearest neighbor: 8895
+distanceCube: 1359.000000
+distanceTrue: 1359.000000
+tCube: 0.002594
+tTrue: 0.020908
+
+
+Query: 86
+Nearest neighbor: 6997
+True Nearest neighbor: 8726
+distanceCube: 3175.000000
+distanceTrue: 1753.000000
+tCube: 0.000642
+tTrue: 0.021079
+
+
+Query: 87
+Nearest neighbor: 9152
+True Nearest neighbor: 9152
+distanceCube: 1673.000000
+distanceTrue: 1673.000000
+tCube: 0.002599
+tTrue: 0.021571
+
+
+Query: 88
+Nearest neighbor: 7708
+True Nearest neighbor: 7723
+distanceCube: 1850.000000
+distanceTrue: 683.000000
+tCube: 0.001693
+tTrue: 0.020063
+
+
+Query: 89
+Nearest neighbor: 7099
+True Nearest neighbor: 7099
+distanceCube: 399.000000
+distanceTrue: 399.000000
+tCube: 0.001749
+tTrue: 0.020894
+
+
+Query: 90
+Nearest neighbor: 6859
+True Nearest neighbor: 7628
+distanceCube: 2077.000000
+distanceTrue: 690.000000
+tCube: 0.002348
+tTrue: 0.021095
+
+
+Query: 91
+Nearest neighbor: 9259
+True Nearest neighbor: 9259
+distanceCube: 310.000000
+distanceTrue: 310.000000
+tCube: 0.001190
+tTrue: 0.020621
+
+
+Query: 92
+Nearest neighbor: 6270
+True Nearest neighbor: 8897
+distanceCube: 2085.000000
+distanceTrue: 1916.000000
+tCube: 0.003186
+tTrue: 0.019843
+
+
+Query: 93
+Nearest neighbor: 4409
+True Nearest neighbor: 8357
+distanceCube: 2705.000000
+distanceTrue: 954.000000
+tCube: 0.002315
+tTrue: 0.021210
+
+
+Query: 94
+Nearest neighbor: 932
+True Nearest neighbor: 8979
+distanceCube: 2067.000000
+distanceTrue: 1433.000000
+tCube: 0.002441
+tTrue: 0.021084
+
+
+Query: 95
+Nearest neighbor: 8874
+True Nearest neighbor: 8420
+distanceCube: 1687.000000
+distanceTrue: 977.000000
+tCube: 0.002531
+tTrue: 0.021153
+
+
+Query: 96
+Nearest neighbor: 9683
+True Nearest neighbor: 1186
+distanceCube: 2318.000000
+distanceTrue: 2188.000000
+tCube: 0.001773
+tTrue: 0.019421
+
+
+Query: 97
+Nearest neighbor: 3973
+True Nearest neighbor: 7513
+distanceCube: 2552.000000
+distanceTrue: 2146.000000
+tCube: 0.001347
+tTrue: 0.020934
+
+
+Query: 98
+Nearest neighbor: 8112
+True Nearest neighbor: 8826
+distanceCube: 2201.000000
+distanceTrue: 1515.000000
+tCube: 0.002743
+tTrue: 0.020282
+
+
+Query: 99
+Nearest neighbor: 5811
+True Nearest neighbor: 5811
+distanceCube: 787.000000
+distanceTrue: 787.000000
+tCube: 0.002119
+tTrue: 0.019978
+
+
+Query: 100
+Nearest neighbor: 9525
+True Nearest neighbor: 8083
+distanceCube: 2843.000000
+distanceTrue: 1246.000000
+tCube: 0.000709
+tTrue: 0.021024
+
+
+R-near neighbors :1000
+4458
+4491
+5454
+5560
+5560
+4996
+5843
+5881
+5085
+4799
+7238
+6799
+6835
+7635
+7179
+6721
+4800
+6649
+8565
+5636
+6908
+6431
+6381
+6125
+5173
+7964
+7416
+6489
+6430
+6328
+6164
+6030
+5951
+5812
+5775
+5488
+6289
+8070
+7099
+8900
+8900
+9418
+9259
+8152
+7415
+6048
+5174
+5925
+5811
+5774
+5532
+5489
+6746
+6633
+5712
+5440
+Handling of queries(ann and enn) total time: 2.47163
+Average query time: 0.00216286
+Max rate: 3.01014
+Average rate: 1.35005
+Found 99/100 approximate nearest neighbors
+Found 23/100 exact nearest neighbors
+Average distance: 1767
+------------------------------

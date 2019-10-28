@@ -1,5 +1,3 @@
-// g++ hypercube.cpp hypercube_main.cpp ../helping_functions/helping_functions.cpp ../item/item_implem.cpp ../curve/curve_implem.cpp ../point/point_implem.cpp -g3
-//./a.out -d trajectories_dataset -q query -o output
 #include <bits/stdc++.h>
 #include <iostream>
 #include <fstream>
@@ -19,7 +17,7 @@ typedef double Type;
 #include "../query_result/query_result.hpp"
 #include "../item/item.hpp"
 #define M_DEFAULT 500
-#define K_DEFAULT 2
+#define K_DEFAULT 4
 #define W_DEFAULT 4000
 #define PROBES_DEFAULT 14
 
@@ -30,7 +28,7 @@ int main(int argc, char *argv[]) {
 		int w = W_DEFAULT;
 		int M = M_DEFAULT;
 		int probes = PROBES_DEFAULT;
-		float radious = -1000;
+		float radious = 1000;
 		int PRINT_ON_SCREAN=0;
 
 	    //READ COMMAND LINE ARGUMENTS
@@ -45,44 +43,25 @@ int main(int argc, char *argv[]) {
 	  list<Item*> input_items;
 	  read_vectors_from_file(input_file, input_items);
 		int table_size=k;//initilized after insert items
-		//w = calculate_w(input_items);
 
 	  int dimension = input_items.front()->get_coordinates()->size();
-		//	table_size=log(input_items.size());
 		if (flag_defult==-1){
 			table_size=log2(input_items.size());
 		}
     unsigned m = numeric_limits<unsigned>::max() + 1 - 5;
-    //print_parameters(0, table_size, w, probes, dimension);
 		cout << "k " << k_s_g<<endl;
 		cout << "M " << M<<endl;
 		cout << "probes " << probes << endl;
 		//CREATE THE HYPERCUBE STRUCTURE
 
 		Hypercube hypercube (table_size,dimension,w,k_s_g,m,M);
-		//cout << "ARGS " << input_file << " " << query_file << " " << output_file ;
+
 
 		//INSERT INPUT DATA
 		time_t time = clock();
 		for(Item *item: input_items) {
 			hypercube.insert_item(item);
 		}
-		// unordered_multimap<unsigned, Item*>* print;
-		// print =hypercube.hash_table->get_f_values_map();
-		// unordered_multimap<unsigned, Item*>::iterator it = print->begin();
-		// for (; it != print->end(); it++)
-	  //       cout << "<" << it->first << ", " << it->second->get_name()
-	  //            << ">  ";
-	  // unsigned nbuckets = hypercube.hash_table->get_f_values_map()->bucket_count();
-		// std::cout << "myumm has " << nbuckets << " buckets:\n";
-		//
-	  // for (unsigned i=0; i<nbuckets; i++) {
-		//   for (auto it = hypercube.hash_table->get_f_values_map()->begin(i);it!= hypercube.hash_table->get_f_values_map()->end(i);it++){
-	  //     	std::cout << "[" << hypercube.hash_table->get_f_values_map()->begin(i)->first << ":" << it->second->get_name() << "] ";
-		//   	break;
-	  // 		}
-	  // }
-		// cout << endl;
 
 		time = clock() - time;
 		cout <<"Data insertion total time: "<< ((double)time) / CLOCKS_PER_SEC <<endl<<endl;
@@ -106,7 +85,6 @@ int main(int argc, char *argv[]) {
 		FILE *out;
 		out= fopen(output_file.c_str(), "w");
 		for(Item *query: queries) {
-			//cout <<"Query:"<<query->get_name()<<endl;
 			//approximate nearest neighbor
 			hypercube.ANN(query, probes, ann_query_result);
 			//print_ann_results(ann_query_result);
@@ -120,11 +98,7 @@ int main(int argc, char *argv[]) {
 					print_results_to_file(query->get_name(),ann_query_result,"Cube",out ,exhaustive_query_result);
 
 			//cout<<endl;
-			if (radious > 0) {
-				hypercube.range_search(query, probes, radious, range_items, range_query_result);
-				print_range_results(range_items, radious);
-				range_items.clear();
-			}
+
 
 			//cout <<"--------------------------------------------------------"<<endl;
 			//statistics info
@@ -140,6 +114,21 @@ int main(int argc, char *argv[]) {
 			}
 			//cout <<"\nEND \n";
 
+		}
+		if(PRINT_ON_SCREAN ==1)
+				cout <<"R-near neighbors :"<<radious<<endl;
+		else
+				fprintf(out,"R-near neighbors : %lf\n", radious);
+
+		for(Item *query: queries) {
+			if (radious > 0) {
+				hypercube.range_search(query, probes, radious, range_items, range_query_result);
+				if(PRINT_ON_SCREAN ==1)
+						print_range_results(range_items, radious);
+				else
+						print_range_results_to_file(range_items, out,radious);
+				range_items.clear();
+			}
 		}
 		time = clock() - time;
 		cout <<"Handling of queries(ann and enn) total time: "<< ((double)time) / CLOCKS_PER_SEC<<endl;

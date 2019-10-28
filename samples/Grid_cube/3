@@ -1,0 +1,965 @@
+L 2
+k 2
+Probes 14
+delta 0.00222221
+
+
+Query: 7401
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 4039
+True Nearest neighbor: 7398
+distanceFound: 1.106306
+distanceTrue: 0.120662
+tGrid: 0.565970
+tTrue: 12.629030
+
+
+Query: 7402
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 6846
+True Nearest neighbor: 966
+distanceFound: 0.001524
+distanceTrue: 0.000050
+tGrid: 0.004621
+tTrue: 0.126258
+
+
+Query: 7403
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 4039
+True Nearest neighbor: 7398
+distanceFound: 0.697345
+distanceTrue: 0.114633
+tGrid: 0.240605
+tTrue: 10.627379
+
+
+Query: 7404
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 4036
+True Nearest neighbor: 7398
+distanceFound: 1.083160
+distanceTrue: 0.229850
+tGrid: 0.249254
+tTrue: 12.704495
+
+
+Query: 7405
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 7395
+True Nearest neighbor: 7397
+distanceFound: 0.248954
+distanceTrue: 0.160084
+tGrid: 0.368706
+tTrue: 8.991727
+
+
+Query: 7406
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 979
+True Nearest neighbor: 7398
+distanceFound: 1.131625
+distanceTrue: 0.204944
+tGrid: 0.355517
+tTrue: 8.986640
+
+
+Query: 7407
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 7394
+True Nearest neighbor: 4015
+distanceFound: 0.000269
+distanceTrue: 0.000112
+tGrid: 0.004057
+tTrue: 0.123352
+
+
+Query: 7408
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 671
+True Nearest neighbor: 7398
+distanceFound: 2.180816
+distanceTrue: 0.138686
+tGrid: 0.321306
+tTrue: 14.130817
+
+
+Query: 7409
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 7395
+True Nearest neighbor: 7398
+distanceFound: 0.231767
+distanceTrue: 0.155314
+tGrid: 0.497993
+tTrue: 10.027382
+
+
+Query: 7410
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 879
+True Nearest neighbor: 5618
+distanceFound: 1.473453
+distanceTrue: 1.109991
+tGrid: 0.044287
+tTrue: 2.953415
+
+
+Query: 7411
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 6846
+True Nearest neighbor: 2545
+distanceFound: 0.000197
+distanceTrue: 0.000180
+tGrid: 0.004411
+tTrue: 0.054633
+
+
+Query: 7412
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 112
+True Nearest neighbor: 7393
+distanceFound: 3.387094
+distanceTrue: 0.170772
+tGrid: 0.337514
+tTrue: 9.146504
+
+
+Query: 7413
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 1735
+True Nearest neighbor: 1706
+distanceFound: 3.226604
+distanceTrue: 1.618475
+tGrid: 0.112278
+tTrue: 5.426342
+
+
+Query: 7414
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 2913
+True Nearest neighbor: 6156
+distanceFound: 2.888040
+distanceTrue: 0.717941
+tGrid: 0.077283
+tTrue: 4.044604
+
+
+Query: 7415
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 6198
+True Nearest neighbor: 5227
+distanceFound: 1.962751
+distanceTrue: 1.187905
+tGrid: 0.199936
+tTrue: 3.779478
+
+
+Query: 7416
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 6501
+True Nearest neighbor: 2766
+distanceFound: 0.013692
+distanceTrue: 0.013508
+tGrid: 0.003978
+tTrue: 0.128586
+
+
+Query: 7417
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 4847
+True Nearest neighbor: 4847
+distanceFound: 1.238096
+distanceTrue: 1.238096
+tGrid: 0.196294
+tTrue: 4.486116
+
+
+Query: 7418
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 6873
+True Nearest neighbor: 2770
+distanceFound: 0.052757
+distanceTrue: 0.000000
+tGrid: 0.003991
+tTrue: 0.122643
+
+
+Query: 7419
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 5215
+True Nearest neighbor: 5227
+distanceFound: 3.643511
+distanceTrue: 1.726310
+tGrid: 0.351456
+tTrue: 7.452042
+
+
+Query: 7420
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 6873
+True Nearest neighbor: 4863
+distanceFound: 0.264328
+distanceTrue: 0.000624
+tGrid: 0.006131
+tTrue: 0.705064
+
+
+Query: 7421
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 6392
+True Nearest neighbor: 5227
+distanceFound: 3.459084
+distanceTrue: 1.692378
+tGrid: 0.488387
+tTrue: 7.796298
+
+
+Query: 7422
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 5227
+True Nearest neighbor: 5227
+distanceFound: 1.567232
+distanceTrue: 1.567232
+tGrid: 0.238774
+tTrue: 7.309351
+
+
+Query: 7423
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 5215
+True Nearest neighbor: 5227
+distanceFound: 3.192630
+distanceTrue: 1.268863
+tGrid: 0.247712
+tTrue: 5.585158
+
+
+Query: 7424
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 6873
+True Nearest neighbor: 6873
+distanceFound: 0.015688
+distanceTrue: 0.015688
+tGrid: 0.005153
+tTrue: 0.424737
+
+
+Query: 7425
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 6392
+True Nearest neighbor: 5227
+distanceFound: 2.567673
+distanceTrue: 1.526638
+tGrid: 0.438946
+tTrue: 7.039380
+
+
+Query: 7426
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 5215
+True Nearest neighbor: 5227
+distanceFound: 3.906696
+distanceTrue: 1.941249
+tGrid: 0.383405
+tTrue: 9.478636
+
+
+Query: 7427
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 7153
+True Nearest neighbor: 5227
+distanceFound: 4.569036
+distanceTrue: 1.760786
+tGrid: 0.303604
+tTrue: 9.975848
+
+
+Query: 7428
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 5215
+True Nearest neighbor: 5227
+distanceFound: 3.426006
+distanceTrue: 1.525036
+tGrid: 0.285580
+tTrue: 6.351562
+
+
+Query: 7429
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 2595
+True Nearest neighbor: 1717
+distanceFound: 4.290775
+distanceTrue: 2.300473
+tGrid: 0.284763
+tTrue: 14.540721
+
+
+Query: 7430
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 1894
+True Nearest neighbor: 3730
+distanceFound: 2.096303
+distanceTrue: 1.695809
+tGrid: 0.269164
+tTrue: 11.712047
+
+
+Query: 7431
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 1891
+True Nearest neighbor: 3731
+distanceFound: 3.869921
+distanceTrue: 1.555923
+tGrid: 0.508278
+tTrue: 12.308708
+
+
+Query: 7432
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 3716
+True Nearest neighbor: 3721
+distanceFound: 2.116850
+distanceTrue: 1.657664
+tGrid: 0.985756
+tTrue: 11.589033
+
+
+Query: 7433
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 3364
+True Nearest neighbor: 1717
+distanceFound: 3.065087
+distanceTrue: 1.904019
+tGrid: 0.232858
+tTrue: 8.899093
+
+
+Query: 7434
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 1717
+True Nearest neighbor: 1717
+distanceFound: 1.675890
+distanceTrue: 1.675890
+tGrid: 0.448504
+tTrue: 11.608073
+
+
+Query: 7435
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 6344
+True Nearest neighbor: 3723
+distanceFound: 0.058879
+distanceTrue: 0.041101
+tGrid: 0.004330
+tTrue: 0.203389
+
+
+Query: 7436
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 5842
+True Nearest neighbor: 4806
+distanceFound: 0.013766
+distanceTrue: 0.007943
+tGrid: 0.003850
+tTrue: 0.052063
+
+
+Query: 7437
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 3730
+True Nearest neighbor: 3730
+distanceFound: 2.260661
+distanceTrue: 2.260661
+tGrid: 0.330314
+tTrue: 14.506679
+
+
+Query: 7438
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 6871
+True Nearest neighbor: 4970
+distanceFound: 0.001496
+distanceTrue: 0.000308
+tGrid: 0.003741
+tTrue: 0.050662
+
+
+Query: 7439
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 1921
+True Nearest neighbor: 3741
+distanceFound: 2.787592
+distanceTrue: 1.821188
+tGrid: 0.829343
+tTrue: 15.995105
+
+
+Query: 7440
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 6871
+True Nearest neighbor: 6871
+distanceFound: 0.000010
+distanceTrue: 0.000010
+tGrid: 0.003777
+tTrue: 0.050639
+
+
+Query: 7441
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 1878
+True Nearest neighbor: 1894
+distanceFound: 3.150605
+distanceTrue: 2.354129
+tGrid: 0.590437
+tTrue: 16.328505
+
+
+Query: 7442
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 175
+True Nearest neighbor: 3730
+distanceFound: 4.411359
+distanceTrue: 2.054659
+tGrid: 0.473682
+tTrue: 14.580820
+
+
+Query: 7443
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 6877
+True Nearest neighbor: 353
+distanceFound: 0.012064
+distanceTrue: 0.008057
+tGrid: 0.006785
+tTrue: 0.256281
+
+
+Query: 7444
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 6344
+True Nearest neighbor: 1310
+distanceFound: 0.001812
+distanceTrue: 0.000224
+tGrid: 0.004200
+tTrue: 0.066583
+
+
+Query: 7445
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 1878
+True Nearest neighbor: 3731
+distanceFound: 2.177491
+distanceTrue: 0.987684
+tGrid: 0.365006
+tTrue: 6.124011
+
+
+Query: 7446
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 6879
+True Nearest neighbor: 2912
+distanceFound: 0.000200
+distanceTrue: 0.000020
+tGrid: 0.006320
+tTrue: 0.168373
+
+
+Query: 7447
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 6834
+True Nearest neighbor: 1345
+distanceFound: 0.004931
+distanceTrue: 0.003489
+tGrid: 0.007895
+tTrue: 0.075625
+
+
+Query: 7448
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 6834
+True Nearest neighbor: 281
+distanceFound: 0.001070
+distanceTrue: 0.000949
+tGrid: 0.003980
+tTrue: 0.061853
+
+
+Query: 7449
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 1734
+True Nearest neighbor: 1894
+distanceFound: 3.639827
+distanceTrue: 2.568092
+tGrid: 0.574472
+tTrue: 17.285741
+
+
+Query: 7450
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 6879
+True Nearest neighbor: 4973
+distanceFound: 0.000020
+distanceTrue: 0.000020
+tGrid: 0.004051
+tTrue: 0.054881
+
+
+Query: 7451
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 1894
+True Nearest neighbor: 1894
+distanceFound: 2.182417
+distanceTrue: 2.182417
+tGrid: 0.319316
+tTrue: 17.129610
+
+
+Query: 7452
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 3835
+True Nearest neighbor: 3730
+distanceFound: 3.656747
+distanceTrue: 1.753588
+tGrid: 0.403093
+tTrue: 14.937713
+
+
+Query: 7453
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 1894
+True Nearest neighbor: 1894
+distanceFound: 2.764394
+distanceTrue: 2.764394
+tGrid: 0.327886
+tTrue: 15.935091
+
+
+Query: 7454
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 6871
+True Nearest neighbor: 4954
+distanceFound: 0.000519
+distanceTrue: 0.000108
+tGrid: 0.003729
+tTrue: 0.050797
+
+
+Query: 7455
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 1891
+True Nearest neighbor: 2902
+distanceFound: 3.048456
+distanceTrue: 1.506164
+tGrid: 0.432219
+tTrue: 9.803569
+
+
+Query: 7456
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 1894
+True Nearest neighbor: 3730
+distanceFound: 2.478977
+distanceTrue: 2.414510
+tGrid: 0.273474
+tTrue: 15.319005
+
+
+Query: 7457
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 6871
+True Nearest neighbor: 5004
+distanceFound: 0.000269
+distanceTrue: 0.000156
+tGrid: 0.004588
+tTrue: 0.063227
+
+
+Query: 7458
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 1921
+True Nearest neighbor: 3730
+distanceFound: 2.918395
+distanceTrue: 2.354634
+tGrid: 0.805598
+tTrue: 15.226723
+
+
+Query: 7459
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 6879
+True Nearest neighbor: 4902
+distanceFound: 0.000100
+distanceTrue: 0.000010
+tGrid: 0.003800
+tTrue: 0.053197
+
+
+Query: 7460
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 3717
+True Nearest neighbor: 1717
+distanceFound: 2.150608
+distanceTrue: 1.777889
+tGrid: 0.291770
+tTrue: 12.334101
+
+
+Query: 7461
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 5842
+True Nearest neighbor: 4806
+distanceFound: 0.017178
+distanceTrue: 0.011214
+tGrid: 0.003932
+tTrue: 0.054694
+
+
+Query: 7462
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 4523
+True Nearest neighbor: 1741
+distanceFound: 0.597958
+distanceTrue: 0.176680
+tGrid: 0.043059
+tTrue: 1.961002
+
+
+Query: 7463
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 3716
+True Nearest neighbor: 3742
+distanceFound: 1.062208
+distanceTrue: 0.771320
+tGrid: 0.436627
+tTrue: 6.409901
+
+
+Query: 7464
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 6877
+True Nearest neighbor: 2866
+distanceFound: 0.000592
+distanceTrue: 0.000513
+tGrid: 0.004266
+tTrue: 0.197091
+
+
+Query: 7465
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 6871
+True Nearest neighbor: 4918
+distanceFound: 0.003586
+distanceTrue: 0.000427
+tGrid: 0.003759
+tTrue: 0.051656
+
+
+Query: 7466
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 1878
+True Nearest neighbor: 3732
+distanceFound: 3.134304
+distanceTrue: 2.546847
+tGrid: 0.802217
+tTrue: 14.393870
+
+
+Query: 7467
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 6871
+True Nearest neighbor: 4970
+distanceFound: 0.001110
+distanceTrue: 0.000102
+tGrid: 0.003760
+tTrue: 0.055008
+
+
+Query: 7468
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 6871
+True Nearest neighbor: 4914
+distanceFound: 0.003985
+distanceTrue: 0.000000
+tGrid: 0.003905
+tTrue: 0.052144
+
+
+Query: 7469
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 2144
+True Nearest neighbor: 1717
+distanceFound: 3.215125
+distanceTrue: 2.012149
+tGrid: 0.401247
+tTrue: 10.327282
+
+
+Query: 7470
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 7394
+True Nearest neighbor: 4821
+distanceFound: 0.012926
+distanceTrue: 0.003875
+tGrid: 0.006086
+tTrue: 0.138371
+
+
+Query: 7471
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 1878
+True Nearest neighbor: 3730
+distanceFound: 3.065385
+distanceTrue: 2.284597
+tGrid: 1.476503
+tTrue: 16.458343
+
+
+Query: 7472
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 6871
+True Nearest neighbor: 4986
+distanceFound: 0.002509
+distanceTrue: 0.000010
+tGrid: 0.003711
+tTrue: 0.051416
+
+
+Query: 7473
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 1894
+True Nearest neighbor: 1894
+distanceFound: 2.731466
+distanceTrue: 2.731466
+tGrid: 0.635375
+tTrue: 15.119855
+
+
+Query: 7474
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 6865
+True Nearest neighbor: 6865
+distanceFound: 0.000100
+distanceTrue: 0.000100
+tGrid: 0.003828
+tTrue: 0.051622
+
+
+Query: 7475
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 1716
+True Nearest neighbor: 1894
+distanceFound: 5.126537
+distanceTrue: 2.509622
+tGrid: 0.643487
+tTrue: 14.540061
+
+
+Query: 7476
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 6865
+True Nearest neighbor: 6865
+distanceFound: 0.000050
+distanceTrue: 0.000050
+tGrid: 0.003833
+tTrue: 0.051041
+
+
+Query: 7477
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 1717
+True Nearest neighbor: 3730
+distanceFound: 2.355684
+distanceTrue: 1.849990
+tGrid: 0.400532
+tTrue: 11.697598
+
+
+Query: 7478
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 6809
+True Nearest neighbor: 473
+distanceFound: 1.090888
+distanceTrue: 0.002256
+tGrid: 0.010878
+tTrue: 2.062484
+
+
+Query: 7479
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 6017
+True Nearest neighbor: 2084
+distanceFound: 0.001689
+distanceTrue: 0.001616
+tGrid: 0.007372
+tTrue: 1.065054
+
+
+Query: 7480
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 5762
+True Nearest neighbor: 5783
+distanceFound: 0.775886
+distanceTrue: 0.684096
+tGrid: 0.317869
+tTrue: 11.157376
+
+
+Query: 7481
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 5311
+True Nearest neighbor: 5764
+distanceFound: 6.152628
+distanceTrue: 0.693190
+tGrid: 0.274395
+tTrue: 13.757766
+
+
+Query: 7482
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 2088
+True Nearest neighbor: 2088
+distanceFound: 0.027742
+distanceTrue: 0.027742
+tGrid: 0.044555
+tTrue: 0.692924
+
+
+Query: 7483
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 5760
+True Nearest neighbor: 5760
+distanceFound: 0.474025
+distanceTrue: 0.474025
+tGrid: 0.109654
+tTrue: 6.008697
+
+
+Query: 7484
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 5787
+True Nearest neighbor: 5764
+distanceFound: 0.425730
+distanceTrue: 0.379709
+tGrid: 0.184255
+tTrue: 10.573016
+
+
+Query: 7485
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 3607
+True Nearest neighbor: 5766
+distanceFound: 8.578968
+distanceTrue: 3.343755
+tGrid: 0.124359
+tTrue: 14.366571
+
+
+Query: 7486
+Method: Grid
+HashFunction: Cube
+Found Nearest neighbor: 5787
+True Nearest neighbor: 5764
+distanceFound: 0.429392
+distanceTrue: 0.386047
+tGrid: 0.142773
+tTrue: 9.415335
+
+L 2
+k 2
+Probes 14
+delta 0.00222221
+Data insertion time: 46.4894
+
+
+Handling of queries time: 609.934
+Average query time: 0.246934
+Max rate: 483.561
+Average rate: 16.5102
+Found 86/86 approximate nearest neighbors
+Found 13/86 exact nearest neighbors
+Average distance: 1
