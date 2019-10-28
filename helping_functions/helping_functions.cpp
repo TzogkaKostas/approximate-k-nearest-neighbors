@@ -38,23 +38,6 @@ void matrix_multiplication(vector<Tuple*>& traversal, int U_or_V, double **G_mat
 	int position_of_curve;
 	vector<double> *results_points;
 
-	//cout <<"Grows: "<<G_rows<<endl;
-	//cout <<"G_cols: "<<G_cols<<endl;
-	//cout <<"u.size: "<<U.size()<<endl;
-	//curve->print();
-	//for(Tuple *t : U) {
-	//	cout <<"("<<t->get_x()<<", "<<t->get_y()<<") ";
-	//}
-	//cout <<endl;
-
-	//for (size_t i = 0; i < G_rows; i++) {
-	//	for (size_t j = 0; j < G_cols; j++) {
-	//		G_matrix[i][j] = 0.5;
-	//		cout <<G_matrix[i][j]<<" ";
-	//	}
-	//	cout << endl;
-	//}
-
 	vector<Point*>points = curve->get_points();
 	results_points = new vector<double>;
 	for (size_t U_i = 0; U_i < traversal.size(); U_i++) {
@@ -70,20 +53,12 @@ void matrix_multiplication(vector<Tuple*>& traversal, int U_or_V, double **G_mat
 		}
 	}
 
-	//for (Type p : *results_points) {
-	//	cout <<p<<" ";
-	//}
-	//cout <<endl;
-	//cout <<"done"<<endl;
-
 	*item = new Item(results_points);
 }
 
 void convert_2d_curve_to_vector(Curve *curve, Point *t, double delta, int dimension,
 		int curve_dimension, Curve **grid_curve, Item **item, double max_coord) {
 	snap_curve(curve, t, grid_curve, delta);
-	//cout <<"length gridc*2 = "<<(*grid_curve)->get_length()*2<<endl;
-	//fill_curve(*grid_curve, dimension/curve_dimension - (*grid_curve)->get_length()); //padding
 	zip_points2(*grid_curve, item, dimension/curve_dimension - (*grid_curve)->get_length(),
 		max_coord);
 	(*grid_curve)->set_corresponding_curve(curve);
@@ -157,6 +132,7 @@ void read_command_line_arguments_hypercube_grid(char *argv[], int& argc,string& 
   }
 
 }
+
 void read_command_line_arguments_hypercube_projection(char* argv[],int &argc,string &input_file,string &query_file,int& k, int& M,int & probes,double &e,string &output_file,int &flag ){
 	int opt;
 	while((opt = getopt(argc, argv, "d:q:o:k:M:p:e:")) != -1)
@@ -217,14 +193,6 @@ void snap_curve(Curve *curve, Point *t, Curve **grid_curve, float delta) {
 	vector<Point*> *snapped_points = new vector<Point*>;
 	for(Point *point : curve->get_points() ) {
 		get_snapped_point(point, delta, t, &snapped_point);
-		//cout <<"point:"<<endl;
-		//point->print_coordinates();
-		//cout <<endl;
-		//cout <<"snapped point:"<<endl;
-		//snapped_point->print_coordinates();
-		//cout <<endl;
-		//getchar();
-
 		//consecutive duplicate
 		if (snapped_points->size() > 0) {
 			if (snapped_points->back()->equals(snapped_point) == true) {
@@ -498,7 +466,6 @@ int read_2d_curves_from_file(string file_name, list<Curve*>& curves, int& max_le
 			}
 			curve = new Curve(name, points);
 			curves.push_back(curve);
-			//cout << "READING \n";
 		}
 		inputfile.close();
 	}
@@ -538,7 +505,6 @@ int read_2d_curves_from_file(string file_name, list<Curve*>& curves, int& max_le
 			}
 			curve = new Curve(name, points);
 			curves.push_back(curve);
-			//cout << "READING \n";
 		}
 		inputfile.close();
 	}
@@ -650,7 +616,7 @@ void print_results(string query,Query_Result ann_result,string type,Query_Result
 		return;
 	}
 	printf("Query: %s \nNearest neighbor: %s\nTrue Nearest neighbor: %s \ndistance%s: %lf \ndistanceTrue: %lf \n"
-		"t%s: %f\n tTrue: %f\n\n\n",query.c_str(),ann_result.get_name().c_str(),exhaustive_result.get_name().c_str(),
+		"t%s: %f\ntTrue: %f\n\n\n",query.c_str(),ann_result.get_name().c_str(),exhaustive_result.get_name().c_str(),
 		type.c_str(),ann_result.get_best_distance(),exhaustive_result.get_best_distance(),
 		type.c_str(),ann_result.get_time(),exhaustive_result.get_time());
 }

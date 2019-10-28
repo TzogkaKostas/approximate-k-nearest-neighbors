@@ -11,7 +11,6 @@ class Point {
 public:
 	Point() {}
 	Point(Type x, Type y);
-	//Point(const Point &p);
 
 	void insert_coordinate(Type coordinate);
 	vector<Type>& get_coordinates();

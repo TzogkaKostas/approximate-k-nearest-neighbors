@@ -125,10 +125,6 @@ void LSH::range_search(Item *query, unsigned threshhold, float radious,
 		ret = hash_tables[i]->get_map()->equal_range(g_value);
 		searched_items = 0;
 		for (it = ret.first; it != ret.second; ++it) {
-			//if (searched_items >= threshhold) {
-			//	goto exit;
-			//}
-
 			unsigned cur_distance = lsh_distance(query, it->second);
 			if (cur_distance < radious) {
 				range_items.push_back(it->second);

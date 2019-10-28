@@ -41,16 +41,8 @@ Curve_Projection_LSH::Curve_Projection_LSH(int L, int w, int k,
 	    table[i] = new Relevant_Traversals*[table_size];
 	    for(int j = 0; j < table_size; ++j) {
 	        table[i][j] = new Relevant_Traversals(i, j, L, K_matrix, w, k, m, M);
-
-			//if ( abs(i - j) < 4) {
-	        //	table[i][j] = new Relevant_Traversals(i, j, L, K_matrix, w, k, m, M);
-			//}
-			//else {
-			//	table[i][j] = NULL;
-			//}
 	    }
 	}
-
 
 	//CREATE RANDOM G MATRIX ~N(0, 1)
 	G_matrix = new double*[K_matrix];
@@ -82,9 +74,7 @@ void Curve_Projection_LSH::insert_curve(Curve *curve) {
 	unsigned g_value;
 
 	int table_row = curve->get_length() - 1;
-	//cout <<"table_row: "<<table_row<<endl;
 	for (size_t j = 0; j < table_size; j++) {
-		//cout <<":-"<<table[table_row][j]->get_num_of_traversals() <<endl;
 		table[table_row][j]->insert(curve, L, w, k,
 			bits_of_each_hash, M, G_matrix, K_matrix, curve_dimension);
 	}

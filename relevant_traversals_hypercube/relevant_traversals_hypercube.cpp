@@ -8,6 +8,11 @@ Relevant_Traversals_hypercube::Relevant_Traversals_hypercube(int i, int j, int t
     find_relevant_traversals(i + 1, j + 1, relevant_traversals);
     //cout <<"rela _size: ("<<i<<", "<<j<<"): "<<relevant_traversals.size()<<endl;
     int hash_table_dimension;
+<<<<<<< HEAD
+=======
+	hash_tables = new Hash_Table_Hypercube*[relevant_traversals.size()];
+	int rel_indx = 0;
+>>>>>>> 2022c92c52802d5f2a86f7a3970611d844362c73
     for (vector<Tuple*>* rel_trav : relevant_traversals ) {
         hash_table_dimension = rel_trav->size()*K_matrix;
 

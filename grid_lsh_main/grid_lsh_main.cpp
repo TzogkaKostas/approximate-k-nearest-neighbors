@@ -55,9 +55,6 @@ int main(int argc, char *argv[]) {
 	if (delta == - 1) {
 		delta = calculate_delta(input_curves);
 	}
-	if (w == -1) {
-		w = calculate_curve_w(input_curves);
-	}
 	
 	unsigned m = numeric_limits<unsigned>::max() + 1 - 5;
 	search_threshold = max((int)input_curves.size()/10, search_threshold);
@@ -76,8 +73,6 @@ int main(int argc, char *argv[]) {
 	}
 	time = clock() - time;
 	cout <<"Data insertion time: "<< ((double)time) / CLOCKS_PER_SEC <<endl<<endl;
-
-	//grid_projection.print_hash_tables_names();
 
 	//READ QUERY CURVES FROM THE INPUT FILE
 	list<Curve*> queries;
