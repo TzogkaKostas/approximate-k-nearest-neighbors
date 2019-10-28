@@ -101,7 +101,6 @@ int main(int argc, char *argv[]) {
 		else {
 			print_results(query->get_name(), ann_query_result, "LSH",
 				exhaustive_query_result);
-			cout <<"--------------------------------------------------------"<<endl<<endl;
 		}
 
 		//statistics info
