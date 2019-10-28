@@ -91,7 +91,7 @@ void Curve_Projection_hypercube::ANN(Curve *query_curve, unsigned probes, Query_
             list<vector<Tuple*>*> relevant_traversals =
     			table[start_row][table_column]->get_relevant_traversals();
 
-    		Hash_Table_Hypercube** hash_tables =
+    		vector<Hash_Table_Hypercube*> hash_tables =
 				table[start_row][table_column]->get_hash_tables();
 
     		vector<vector<unsigned>*> m_powers_array =

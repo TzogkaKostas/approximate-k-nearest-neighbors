@@ -12,7 +12,7 @@
 
 using namespace std;
 #define M_DEFAULT 500
-#define K_DEFAULT 2
+#define K_DEFAULT 4
 #define W_DEFAULT 20
 #define PROBES_DEFAULT 14
 #define L_DEFAULT 4
@@ -59,7 +59,7 @@ int main(int argc, char *argv[]) {
 
     cout << "L "<< L<<endl;
     cout << "k "<< k_s_g<<endl;
-    cout << "Probe "<< probes<<endl;
+    cout << "Probes "<< probes<<endl;
     cout << "delta " << delta<<endl;
 
     //CREATE THE HYPERCUBE STRUCTURE
