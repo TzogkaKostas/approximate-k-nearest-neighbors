@@ -61,7 +61,7 @@ void snap_curve(Curve *curve, Point *t, Curve **snapped_curve, float delta);
 void get_snapped_point(Point *point, float delta, Point *t, Point **snapped_point);
 void zip_points(Curve *snapped_curve, Item **item);
 void fill_curve(Curve *curve, int pad_length);
-void convert_2d_curve_to_vector(Curve *curve, Point *t, float delta, int hash_table_dimesion,
+void convert_2d_curve_to_vector(Curve *curve, Point *t, double delta, int hash_table_dimesion,
 	int curve_dimension, Curve **snapped_curve, Item **item, double max_coord);
 void random_matrix(int K, int d, double **G, float mean, float deviation);
 void print_range_results(list<Item*> items, float range);
@@ -77,8 +77,8 @@ unsigned f_hash_function(vector<Type> x , int dimension,int w, int k,
 		int bits_of_each_hash, unsigned M, vector<unsigned>& m_powers,vector<vector<float>*>& s_array,vector< unordered_map<unsigned,int> *>&g_value,int f);
 int hammingDistance(unsigned n1, unsigned n2);
 void read_command_line_arguments_hypercube_grid(char *argv[], int& argc,string& input_file, string& query_file,
-	string& output_file, int& k, int& M,int& probes,int &L,float &delta ,int &flag );
-void read_command_line_arguments_hypercube_projection(char* argv[],int &argc,string &input_file,string &query_file,int& k, int& M,int & probes,float &e,string &output_file,int &flag);
+	string& output_file, int& k, int& M,int& probes,int &L,double &delta ,int &flag );
+void read_command_line_arguments_hypercube_projection(char* argv[],int &argc,string &input_file,string &query_file,int& k, int& M,int & probes,double &e,string &output_file,int &flag);
 double calculate_delta(list<Curve*> curves);
 int calculate_w(list<Item*> items);
 void print_results(string query,Query_Result ann_result,string type,Query_Result exhaustive_result);

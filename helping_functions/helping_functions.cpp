@@ -79,7 +79,7 @@ void matrix_multiplication(vector<Tuple*>& traversal, int U_or_V, double **G_mat
 	*item = new Item(results_points);
 }
 
-void convert_2d_curve_to_vector(Curve *curve, Point *t, float delta, int dimension,
+void convert_2d_curve_to_vector(Curve *curve, Point *t, double delta, int dimension,
 		int curve_dimension, Curve **grid_curve, Item **item, double max_coord) {
 	snap_curve(curve, t, grid_curve, delta);
 	//cout <<"length gridc*2 = "<<(*grid_curve)->get_length()*2<<endl;
@@ -121,7 +121,7 @@ void read_command_line_arguments_hypercube(char *argv[], int& argc,string& input
 }
 
 void read_command_line_arguments_hypercube_grid(char *argv[], int& argc,string& input_file, string& query_file,
-	string& output_file, int& k, int& M,int& probes,int &L,float &delta,int &flag ){
+	string& output_file, int& k, int& M,int& probes,int &L,double &delta,int &flag ){
 	int opt;
 	while((opt = getopt(argc, argv, "d:q:o:k:M:p:L:D:")) != -1)
     {
@@ -157,7 +157,7 @@ void read_command_line_arguments_hypercube_grid(char *argv[], int& argc,string& 
   }
 
 }
-void read_command_line_arguments_hypercube_projection(char* argv[],int &argc,string &input_file,string &query_file,int& k, int& M,int & probes,float &e,string &output_file,int &flag ){
+void read_command_line_arguments_hypercube_projection(char* argv[],int &argc,string &input_file,string &query_file,int& k, int& M,int & probes,double &e,string &output_file,int &flag ){
 	int opt;
 	while((opt = getopt(argc, argv, "d:q:o:k:M:p:e:")) != -1)
     {
@@ -592,10 +592,6 @@ double DTW(vector<Point*>& p, vector<Point*>& q) {
 				min({dtw_array[i - 1][j - 1], dtw_array[i][j - 1], dtw_array[i - 1][j]});
 		}
 	}
-<<<<<<< HEAD
-=======
-
->>>>>>> 1bfdff7ddf73c82d6c21d7b449fc81cb8f09fada
 	return dtw_array[m1 - 1][m2 - 1];
 }
 
