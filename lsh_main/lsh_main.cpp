@@ -19,7 +19,7 @@ using namespace std;
 
 #define L_DEFAULT 5
 #define K_DEFAULT 4
-#define W_DEFAULT 4000
+#define W_DEFAULT 4300
 #define SEARCH_THRESHOLD (L_DEFAULT*100)
 
 int main(int argc, char *argv[]) {

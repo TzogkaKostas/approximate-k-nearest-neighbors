@@ -1209,3 +1209,21 @@ void zip_points2(Curve *grid_curve, Item **item, int pad_length, double max_coor
 
 	*item = new Item(coordinates);
 }
+
+int calculate_curve_w(list<Curve*> curves) {
+	double cur_distance;
+	double best_distance = numeric_limits<double>::max();
+
+	double sum = 0;
+	for(Curve *curve1 : curves) {
+
+		for(Curve *curve2 : curves) {
+			cur_distance = DTW(curve1->get_points(), curve2->get_points());
+			if (cur_distance < best_distance) {
+				best_distance = cur_distance;
+			}
+		}
+		sum += cur_distance;
+	}
+	return sum/curves.size();
+}

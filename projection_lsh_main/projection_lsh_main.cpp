@@ -20,7 +20,7 @@ using namespace std;
 
 #define L_DEFAULT 5
 #define K_DEFAULT 4
-#define W_DEFAULT 40
+#define W_DEFAULT 1
 #define SEARCH_THRESHOLD (L_DEFAULT*100)
 #define CURVE_DIMENSION_DEFAULT 2
 #define EPS_DEFAULT 0.5
