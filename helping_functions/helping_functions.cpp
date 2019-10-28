@@ -620,7 +620,6 @@ unsigned hash_function(vector<Type> x, int dimension, int w, unsigned M,
 	vector<float>& s, vector<unsigned>& m_powers) {
 
 	vector<int> a;
-
 	for (size_t i = 0; i < dimension; i++) {
 		a.push_back( floor( (x[i] - s[i]) / w) );
 	}
@@ -667,8 +666,9 @@ void print_results_to_file(string query,Query_Result ann_result,string type,FILE
 		fprintf(stderr, "Error opening file '%s'\n", optarg);
 	}
 	//printf("Query: %s \nNearest neighbor: %s \ndistance%s: %ld\ndistanceTrue: %ld\nt%s: %ld \n\n\n",ann_result.get_name().c_str(),exhaustive_result.get_name().c_str(),type.c_str(),ann_result.get_best_distance(),exhaustive_result.get_best_distance(),type.c_str(),ann_result.get_time());
-	fprintf(out,"Query: %s \nNearest neighbor: %s\nTrue Nearest neighbor: %s\ndistance%s: %lf\ndistanceTrue: %lf \n"
-		"t%s: %f\n tTrue: %f\n\n\n",query.c_str(),ann_result.get_name().c_str(),exhaustive_result.get_name().c_str(),
+	fprintf(out,"Query: %s \nNearest neighbor: %s\nTrue Nearest neighbor: %s\n"
+		"distance%s: %lf\ndistanceTrue: %lf \nt%s: %f\ntTrue: %f\n\n\n",
+		query.c_str(),ann_result.get_name().c_str(),exhaustive_result.get_name().c_str(),
 		type.c_str(),ann_result.get_best_distance(),exhaustive_result.get_best_distance(),
 		type.c_str(),ann_result.get_time(),exhaustive_result.get_time());
 }
@@ -678,8 +678,11 @@ void print_results_to_file(string query,Query_Result ann_result,string type,stri
 		fprintf(stderr, "Error opening file '%s'\n", optarg);
 	}
 
-	fprintf(out,"Query: %s \nMethod: %s \nHashFunction: %s\nFound Nearest neighbor: %s\nTrue Nearest neighbor: %s\ndistanceFound: %lf \ndistanceTrue: %lf\nt%s: %lf\n tTrue: %lf\n\n\n",
-		query.c_str(), type.c_str(), hashing.c_str(),ann_result.get_name().c_str(),exhaustive_result.get_name().c_str(),ann_result.get_best_distance(),exhaustive_result.get_best_distance(),type.c_str(),ann_result.get_time(),exhaustive_result.get_time());
+	fprintf(out,"Query: %s \nMethod: %s \nHashFunction: %s\nFound Nearest neighbor: %s\n"
+		"True Nearest neighbor: %s\ndistanceFound: %lf \ndistanceTrue: %lf\n"
+		"t%s: %lf\ntTrue: %lf\n\n\n", query.c_str(), type.c_str(),
+		hashing.c_str(),ann_result.get_name().c_str(),
+		exhaustive_result.get_name().c_str(),ann_result.get_best_distance(),exhaustive_result.get_best_distance(),type.c_str(),ann_result.get_time(),exhaustive_result.get_time());
 
 }
 
@@ -1205,4 +1208,22 @@ void zip_points2(Curve *grid_curve, Item **item, int pad_length, double max_coor
 	}
 
 	*item = new Item(coordinates);
+}
+
+int calculate_curve_w(list<Curve*> curves) {
+	double cur_distance;
+	double best_distance = numeric_limits<double>::max();
+
+	double sum = 0;
+	for(Curve *curve1 : curves) {
+
+		for(Curve *curve2 : curves) {
+			cur_distance = DTW(curve1->get_points(), curve2->get_points());
+			if (cur_distance < best_distance) {
+				best_distance = cur_distance;
+			}
+		}
+		sum += cur_distance;
+	}
+	return sum/curves.size();
 }

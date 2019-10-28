@@ -19,14 +19,16 @@ public:
 	void print_hash_tables();
 
 	list<vector<Tuple*>*>& get_relevant_traversals() {return relevant_traversals;}
-	vector<Hash_Table*>& get_hash_tables() {return hash_tables;}
+	//vector<Hash_Table*>& get_hash_tables() {return hash_tables;}
+	Hash_Table** get_hash_tables() {return hash_tables;}
 	vector<vector<unsigned>*>& get_m_powers_array() {return m_powers_array;}
 	int get_num_of_traversals() {return relevant_traversals.size();}
 
 
 private:
     list<vector<Tuple*>*> relevant_traversals;
-    vector<Hash_Table*> hash_tables;
+    //vector<Hash_Table*> hash_tables;
+	Hash_Table** hash_tables;
 	vector<vector<unsigned>*> m_powers_array;
 	int length_i;
 	int length_j;

@@ -12,11 +12,15 @@ Relevant_Traversals::Relevant_Traversals(int i, int j, int L, int K_matrix, int 
 	//cout <<"rela _size: ("<<i<<", "<<j<<"): "<<relevant_traversals.size()<<endl;
 
 	int hash_table_dimension;
+	hash_tables = new Hash_Table*[L*relevant_traversals.size()];
+	int rel_indx = 0;
 	for (vector<Tuple*>* rel_trav : relevant_traversals ) {
 		hash_table_dimension = rel_trav->size()*K_matrix;
 		for (size_t i = 0; i < L; i++) {
-			Hash_Table *hash_table = new Hash_Table(hash_table_dimension, w, k);
-			hash_tables.push_back(hash_table);
+			hash_tables[rel_indx] = NULL;
+			rel_indx++;
+			//Hash_Table *hash_table = new Hash_Table(hash_table_dimension, w, k);
+			//hash_tables.push_back(hash_table);
 		}
 		vector<unsigned> *m_powers = new vector<unsigned>;
 		for (size_t i = 0; i < hash_table_dimension; i++) {
@@ -43,6 +47,7 @@ Relevant_Traversals::~Relevant_Traversals() {
 		delete m_powers_array[i];
 		i++;
 	}
+	delete[] hash_tables;
 }
 
 void Relevant_Traversals::insert(Curve *curve, int L, int w,
@@ -58,7 +63,14 @@ void Relevant_Traversals::insert(Curve *curve, int L, int w,
 	for (vector<Tuple*> *relevant_traversal : relevant_traversals) {
 		convert_2d_curve_to_vector_by_projection(*relevant_traversal, 0, G_matrix,
 			curve, K_matrix, curve_dimension, &item);
+
+		int hash_table_dimension = relevant_traversal->size()*K_matrix;		
 		for (size_t i = 0; i < L; i++) {
+			if (hash_tables[rel_indx] == NULL) {
+				hash_tables[rel_indx] = new Hash_Table(hash_table_dimension, w, k);
+			}
+
+
 			g_value = g_hash_function(*(item->get_coordinates()),
 				hash_tables[rel_indx]->get_dimension(), w, k, bits_of_each_hash,
 				M, hash_tables[rel_indx]->get_s_array(), *(m_powers_array[rel_indx/L]));

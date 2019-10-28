@@ -55,6 +55,9 @@ int main(int argc, char *argv[]) {
 	if (delta == - 1) {
 		delta = calculate_delta(input_curves);
 	}
+	if (w == -1) {
+		w = calculate_curve_w(input_curves);
+	}
 	
 	unsigned m = numeric_limits<unsigned>::max() + 1 - 5;
 	search_threshold = max((int)input_curves.size()/10, search_threshold);

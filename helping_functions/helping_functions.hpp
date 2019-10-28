@@ -87,4 +87,5 @@ void print_results(string query,Query_Result ann_result,string type,string hashi
 void print_results_to_file(string query,Query_Result ann_result,string type,string hashing,FILE *out,Query_Result exhaustive_result);
 void print_vector(vector<double> my_list);
 void zip_points2(Curve *grid_curve, Item **item, int pad_length, double max_coord);
+int calculate_curve_w(list<Curve*> curves);
 #endif

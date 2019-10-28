@@ -20,7 +20,7 @@ using namespace std;
 
 #define L_DEFAULT 5
 #define K_DEFAULT 4
-#define W_DEFAULT 40
+#define W_DEFAULT 1
 #define SEARCH_THRESHOLD (L_DEFAULT*100)
 #define CURVE_DIMENSION_DEFAULT 2
 #define EPS_DEFAULT 0.5
@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
 	int M_table = M_TABLE_DEFAULT;
 
 	if (argc < 5 ) {
-		cout <<"usage: ./lsh –d <input file> –q <query file> –k <int> -L <int> -ο <output file>"<<endl;
+		cout <<"usage: ./projection_lsh_main –d <input file> –q <query file> –k <int> -L <int> -ο <output file>"<<endl;
 		return 1;
 	}
 
